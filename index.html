@@ -92,55 +92,72 @@
     <h1>Mis Recuerdos con Dulce</h1>
 
     <div class="estanteria-fotos">
-        <div class="estante">
-            <!-- Portafotos 1 -->
-            <div class="portafotos">
-                <img src="Fotos-Dulce/Dulce-caminando.jpg" alt="Dulce caminando">
-                <p class="caption">Un paseo especial</p>
-            </div>
-
-            <!-- Portafotos 2 - CAMBIA LA IMAGEN -->
-            <div class="portafotos">
-                <img src="Fotos-Dulce/foto2.jpg" alt="Descripción de la foto 2">
-                <p class="caption">Momento feliz</p>
-            </div>
-
-            <!-- Portafotos 3 - CAMBIA LA IMAGEN -->
-            <div class="portafotos">
-                <img src="Fotos-Dulce/foto3.jpg" alt="Descripción de la foto 3">
-                <p class="caption">Aventuras</p>
-            </div>
-
-            <!-- Portafotos 4 - CAMBIA LA IMAGEN -->
-            <div class="portafotos">
-                <img src="Fotos-Dulce/foto4.jpg" alt="Descripción de la foto 4">
-                <p class="caption">Sonrisas</p>
-            </div>
-
-            <!-- Portafotos 5 - CAMBIA LA IMAGEN -->
-            <div class="portafotos">
-                <img src="Fotos-Dulce/foto5.jpg" alt="Descripción de la foto 5">
-                <p class="caption">Recuerdo inolvidable</p>
-            </div>
+        <div class="estante" id="estante-fotos">
+            <!-- Los portafotos se generarán aquí dinámicamente -->
         </div>
     </div>
 
     <script>
-        // Este script es opcional, pero puede agregar interactividad en el futuro.
-        // Por ahora, solo confirma que la página se ha cargado.
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('La galería de fotos está lista.');
+            // --- ¡AQUÍ ESTÁ LA MAGIA! ---
+            // 1. Genera tu archivo lista-de-fotos.txt con los pasos anteriores.
+            // 2. Copia el contenido de ese archivo y pégalo aquí adentro de las comillas invertidas (`).
+            const nombresDeFotosComoTexto = `Dulce-caminando.jpg
+Dulce-chavo.png
+Dulce-colorado.png
+Dulce-corazones.jpg
+Dulce-gif.gif
+Dulce-gorrito.jpg
+Dulce-gorro.jpg
+Dulce-linda.jpg
+Dulce-linda.png
+Dulce-mala.jpeg
+Dulce-mundo.jpg
+Dulce-paraiso.png
+Dulce-Psicodelica.jpg
+Dulce-reina-2.jpg
+Dulce-reina.jpg
+Dulce-reina.png
+Dulce-sprite-Sheet.png
+Dulcetransparente.png
+Dulce-conduce.png
+Hector-fuma.jpg
+Hector-luna.jpg
+Hector-malo.jpg
+Luna-mala.jpg`;
 
-            const portafotos = document.querySelectorAll('.portafotos');
-            portafotos.forEach(portafoto => {
-                portafoto.addEventListener('click', () => {
-                    // Aquí podrías agregar una función para ver la foto en grande, por ejemplo.
-                    console.log('Has hecho clic en una foto.');
-                });
+            const estante = document.getElementById('estante-fotos');
+            
+            // El código procesa el texto, elimina líneas vacías y crea la lista final.
+            const listaDeFotos = nombresDeFotosComoTexto.trim().split('\n').filter(nombre => nombre.trim() !== '');
+
+
+            // Recorremos la lista y creamos un portafotos por cada imagen
+            listaDeFotos.forEach(nombreFoto => {
+                // 1. Crear el contenedor del portafotos
+                const portafotosDiv = document.createElement('div');
+                portafotosDiv.className = 'portafotos';
+
+                // 2. Crear la imagen
+                const img = document.createElement('img');
+                img.src = `Fotos-Dulce/${nombreFoto}`; // Construimos la ruta a la imagen
+                img.alt = `Foto de Dulce: ${nombreFoto}`; // Texto alternativo descriptivo
+
+                // 3. Crear el texto (caption)
+                const captionP = document.createElement('p');
+                captionP.className = 'caption';
+                // Quitamos la extensión (.jpg, .png) para un título más limpio
+                captionP.textContent = nombreFoto.split('.').slice(0, -1).join('.');
+
+                // 4. Juntar todo y añadirlo al estante
+                portafotosDiv.appendChild(img);
+                portafotosDiv.appendChild(captionP);
+                estante.appendChild(portafotosDiv);
             });
+
+            console.log(`Se han cargado ${listaDeFotos.length} fotos dinámicamente.`);
         });
     </script>
 
 </body>
 </html>
-
