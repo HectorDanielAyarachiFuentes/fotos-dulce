@@ -130,6 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- NUEVA FUNCIONALIDAD: Pantalla completa con doble clic ---
+    lightboxImg.addEventListener('dblclick', () => {
+        toggleFullScreen(lightbox); // Ponemos en pantalla completa todo el lightbox
+    });
+
     // --- NUEVA FUNCIONALIDAD: Navegación con teclado ---
     document.addEventListener('keydown', (e) => {
         // Si el lightbox no está visible, no hacemos nada
@@ -165,6 +170,21 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation(); // Evita que el clic se propague al fondo y cierre el lightbox
         mostrarFotoAnterior();
     });
+
+    // --- NUEVA FUNCIÓN AUXILIAR: Para gestionar la pantalla completa ---
+    function toggleFullScreen(element) {
+        if (!document.fullscreenElement) {
+            // Si no estamos en pantalla completa, la activamos
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            }
+        } else {
+            // Si ya estamos en pantalla completa, la desactivamos
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
 
     // --- NUEVA FUNCIONALIDAD: Precarga de imágenes para una navegación más rápida ---
     function precargarImagenesAdyacentes(index) {
