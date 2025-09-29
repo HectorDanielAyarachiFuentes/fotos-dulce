@@ -72,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxImg = document.getElementById('lightbox-img');
     const btnCerrar = document.getElementById('btn-cerrar-lightbox');
     const lightboxCaption = document.getElementById('lightbox-caption'); // <-- NUEVO: Referencia al título
+    const lightboxCounter = document.getElementById('lightbox-counter'); // <-- NUEVO: Referencia al contador
+    const btnDescargar = document.getElementById('btn-descargar'); // <-- NUEVO: Referencia al botón de descarga
     // --- NUEVO: Referencias a los botones de navegación ---
     const btnAnterior = document.getElementById('btn-anterior');
     const btnSiguiente = document.getElementById('btn-siguiente');
@@ -102,7 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
         indiceActual = index; // Actualizamos el índice global
         const nombreFoto = listaDeFotosGlobal[indiceActual];
         lightboxImg.src = `Fotos-Dulce/${nombreFoto}`;
+        // --- NUEVO: Actualizar el botón de descarga ---
+        btnDescargar.href = `Fotos-Dulce/${nombreFoto}`;
+        btnDescargar.download = nombreFoto; // Sugiere el nombre de archivo original
+        // --- NUEVO: Actualizar el contador ---
+        lightboxCounter.textContent = `${indiceActual + 1} / ${listaDeFotosGlobal.length}`;
         lightboxCaption.textContent = nombreFoto.split('.').slice(0, -1).join('.'); // Actualizamos el título
+        // --- NUEVO: Precargar imágenes adyacentes ---
+        precargarImagenesAdyacentes(index);
     }
 
     function cerrarLightbox() {
@@ -156,6 +165,49 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation(); // Evita que el clic se propague al fondo y cierre el lightbox
         mostrarFotoAnterior();
     });
+
+    // --- NUEVA FUNCIONALIDAD: Precarga de imágenes para una navegación más rápida ---
+    function precargarImagenesAdyacentes(index) {
+        // Precargar la siguiente imagen
+        const siguienteIndice = (index + 1) % listaDeFotosGlobal.length;
+        const imgSiguiente = new Image();
+        imgSiguiente.src = `Fotos-Dulce/${listaDeFotosGlobal[siguienteIndice]}`;
+
+        // Precargar la imagen anterior
+        const anteriorIndice = (index - 1 + listaDeFotosGlobal.length) % listaDeFotosGlobal.length;
+        const imgAnterior = new Image();
+        imgAnterior.src = `Fotos-Dulce/${listaDeFotosGlobal[anteriorIndice]}`;
+    }
+
+
+    // --- NUEVA FUNCIONALIDAD: Navegación con gestos táctiles (swipe) ---
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeThreshold = 50; // Mínimo de píxeles para considerar un swipe
+
+    lightbox.addEventListener('touchstart', (e) => {
+        // Solo nos interesa el swipe sobre la imagen, no sobre los botones
+        if (e.target !== lightboxImg) return;
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    lightbox.addEventListener('touchend', (e) => {
+        if (e.target !== lightboxImg) return;
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const swipeDistance = touchEndX - touchStartX;
+
+        if (swipeDistance < -swipeThreshold) {
+            // Swipe hacia la izquierda (dedo se mueve de derecha a izquierda) -> Siguiente foto
+            mostrarSiguienteFoto();
+        } else if (swipeDistance > swipeThreshold) {
+            // Swipe hacia la derecha (dedo se mueve de izquierda a derecha) -> Foto anterior
+            mostrarFotoAnterior();
+        }
+    }
 
     // Iniciar todo el proceso
     cargarYMostrarFotos();
