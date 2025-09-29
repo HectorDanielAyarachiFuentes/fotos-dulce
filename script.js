@@ -40,6 +40,7 @@ Luna-mala.jpg`;
 
                 // 2. Crear la imagen
                 const img = document.createElement('img');
+                img.loading = 'lazy'; // <-- ¡AQUÍ ESTÁ LA CARGA PEREZOSA!
                 img.src = `Fotos-Dulce/${nombreFoto}`; // Construimos la ruta a la imagen
                 img.alt = `Foto de Dulce: ${nombreFoto}`; // Texto alternativo descriptivo
 
@@ -68,7 +69,7 @@ Luna-mala.jpg`;
             const btnCerrar = document.getElementById('btn-cerrar-lightbox');
 
             function mostrarFotoEnGrande(rutaImagen) {
-                lightboxImg.src = rutaImagen;
+                lightboxImg.src = rutaImagen; // Actualizamos la imagen
                 lightbox.classList.add('visible');
             }
 
