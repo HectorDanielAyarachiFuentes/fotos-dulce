@@ -1,39 +1,34 @@
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- ¡AQUÍ ESTÁ LA MAGIA! ---
-            // 1. Genera tu archivo lista-de-fotos.txt con los pasos anteriores.
-            // 2. Copia el contenido de ese archivo y pégalo aquí adentro de las comillas invertidas (`).
-            const nombresDeFotosComoTexto = `Dulce-caminando.jpg
-Dulce-chavo.png
-Dulce-colorado.png
-Dulce-corazones.jpg
-Dulce-gif.gif
-Dulce-gorrito.jpg
-Dulce-gorro.jpg
-Dulce-linda.jpg
-Dulce-linda.png
-Dulce-mala.jpeg
-Dulce-mundo.jpg
-Dulce-paraiso.png
-Dulce-Psicodelica.jpg
-Dulce-reina-2.jpg
-Dulce-reina.jpg
-Dulce-reina.png
-Dulce-sprite-Sheet.png
-Dulcetransparente.png
-Dulce-conduce.png
-Hector-fuma.jpg
-Hector-luna.jpg
-Hector-malo.jpg
-Luna-mala.jpg`;
+document.addEventListener('DOMContentLoaded', () => {
+    const estante = document.getElementById('estante-fotos');
 
-            const estante = document.getElementById('estante-fotos');
-            
-            // El código procesa el texto, elimina líneas vacías y crea la lista final.
-            const listaDeFotos = nombresDeFotosComoTexto.trim().split('\n').filter(nombre => nombre.trim() !== '' && !nombre.startsWith('lista-de-fotos'));
+    // --- NUEVA FUNCIONALIDAD: Cargar fotos desde un JSON externo ---
+    async function cargarYMostrarFotos() {
+        try {
+            // 1. Hacemos la petición para obtener el archivo JSON
+            const respuesta = await fetch('fotos.json');
+            if (!respuesta.ok) {
+                throw new Error(`Error al cargar el archivo: ${respuesta.statusText}`);
+            }
+            // 2. Convertimos la respuesta a un objeto JavaScript
+            const data = await respuesta.json();
+            const listaDeFotos = data.fotos;
 
+            // 3. Una vez que tenemos la lista, generamos la galería
+            generarGaleria(listaDeFotos);
 
+        } catch (error) {
+            console.error("No se pudieron cargar las fotos:", error);
+            estante.innerHTML = '<p>Lo sentimos, no se pudieron cargar las fotos en este momento.</p>';
+        }
+    }
+
+    function generarGaleria(listaDeFotos) {
+        // Limpiamos el estante por si acaso
+        estante.innerHTML = '';
+        
+        // El resto del código es el mismo que ya tenías
+        listaDeFotos.forEach((nombreFoto, index) => {
             // Recorremos la lista y creamos un portafotos por cada imagen
-            listaDeFotos.forEach((nombreFoto, index) => {
                 // 1. Crear el contenedor del portafotos
                 const portafotosDiv = document.createElement('div');
                 portafotosDiv.className = 'portafotos';
@@ -63,31 +58,35 @@ Luna-mala.jpg`;
                 portafotosDiv.addEventListener('click', () => {
                     mostrarFotoEnGrande(img.src);
                 });
-            });
-
-            console.log(`Se han cargado ${listaDeFotos.length} fotos dinámicamente.`);
-
-            // --- Lógica para el Lightbox (vista en grande) ---
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            const btnCerrar = document.getElementById('btn-cerrar-lightbox');
-
-            function mostrarFotoEnGrande(rutaImagen) {
-                lightboxImg.src = rutaImagen; // Actualizamos la imagen
-                lightbox.classList.add('visible');
-            }
-
-            function cerrarLightbox() {
-                lightbox.classList.remove('visible');
-            }
-
-            // Cerrar al hacer clic en el botón "Volver"
-            btnCerrar.addEventListener('click', cerrarLightbox);
-
-            // Opcional: Cerrar también al hacer clic en el fondo oscuro
-            lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) { // Si el clic fue en el fondo y no en la imagen o el botón
-                    cerrarLightbox();
-                }
-            });
         });
+
+        console.log(`Se han cargado ${listaDeFotos.length} fotos dinámicamente desde fotos.json.`);
+    }
+
+    // --- Lógica para el Lightbox (vista en grande) ---
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const btnCerrar = document.getElementById('btn-cerrar-lightbox');
+
+    function mostrarFotoEnGrande(rutaImagen) {
+        lightboxImg.src = rutaImagen; // Actualizamos la imagen
+        lightbox.classList.add('visible');
+    }
+
+    function cerrarLightbox() {
+        lightbox.classList.remove('visible');
+    }
+
+    // Cerrar al hacer clic en el botón "Volver"
+    btnCerrar.addEventListener('click', cerrarLightbox);
+
+    // Opcional: Cerrar también al hacer clic en el fondo oscuro
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) { // Si el clic fue en el fondo y no en la imagen o el botón
+            cerrarLightbox();
+        }
+    });
+
+    // Iniciar todo el proceso
+    cargarYMostrarFotos();
+});
