@@ -33,10 +33,14 @@ Luna-mala.jpg`;
 
 
             // Recorremos la lista y creamos un portafotos por cada imagen
-            listaDeFotos.forEach(nombreFoto => {
+            listaDeFotos.forEach((nombreFoto, index) => {
                 // 1. Crear el contenedor del portafotos
                 const portafotosDiv = document.createElement('div');
                 portafotosDiv.className = 'portafotos';
+
+                // --- NUEVA FUNCIONALIDAD: Añadir retraso escalonado a la animación ---
+                // Cada foto esperará 100ms más que la anterior para empezar su animación.
+                portafotosDiv.style.animationDelay = `${index * 100}ms`;
 
                 // 2. Crear la imagen
                 const img = document.createElement('img');
