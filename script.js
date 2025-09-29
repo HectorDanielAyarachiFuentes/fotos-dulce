@@ -71,18 +71,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const btnCerrar = document.getElementById('btn-cerrar-lightbox');
+    const lightboxCaption = document.getElementById('lightbox-caption'); // <-- NUEVO: Referencia al título
     // --- NUEVO: Referencias a los botones de navegación ---
     const btnAnterior = document.getElementById('btn-anterior');
     const btnSiguiente = document.getElementById('btn-siguiente');
 
 
     function mostrarFotoEnGrande(index) {
-        if (index < 0 || index >= listaDeFotosGlobal.length) return; // Seguridad
+        // Si el lightbox ya está visible, aplicamos la transición de fade
+        if (lightbox.classList.contains('visible')) {
+            lightboxImg.style.opacity = 0; // 1. Desvanecer la imagen actual
+
+            setTimeout(() => {
+                actualizarContenidoLightbox(index); // 2. Cambiar contenido
+                lightboxImg.style.opacity = 1;      // 3. Mostrar la nueva imagen
+            }, 300); // Debe coincidir con la duración de la transición en CSS
+
+        } else {
+            // Si es la primera vez que se abre, simplemente mostramos el contenido
+            actualizarContenidoLightbox(index);
+            lightbox.classList.add('visible');
+            document.body.style.overflow = 'hidden'; // Evita el scroll del fondo
+        }
+    }
+
+    // --- NUEVA FUNCIÓN AUXILIAR para no repetir código ---
+    function actualizarContenidoLightbox(index) {
+        if (index < 0 || index >= listaDeFotosGlobal.length) return;
 
         indiceActual = index; // Actualizamos el índice global
-        lightboxImg.src = `Fotos-Dulce/${listaDeFotosGlobal[indiceActual]}`; // Actualizamos la imagen
-        lightbox.classList.add('visible');
-        document.body.style.overflow = 'hidden'; // Evita el scroll del fondo
+        const nombreFoto = listaDeFotosGlobal[indiceActual];
+        lightboxImg.src = `Fotos-Dulce/${nombreFoto}`;
+        lightboxCaption.textContent = nombreFoto.split('.').slice(0, -1).join('.'); // Actualizamos el título
     }
 
     function cerrarLightbox() {

@@ -166,6 +166,8 @@ h1 {
     max-height: 80vh;
     box-shadow: 0 0 30px var(--color-sombra-lightbox);
     border-radius: var(--radio-borde-sm);
+    /* --- NUEVO: Transición para el efecto de fade --- */
+    transition: opacity var(--transicion-rapida);
 }
 
 .lightbox-overlay .btn-volver {
@@ -182,6 +184,16 @@ h1 {
 
 .lightbox-overlay .btn-volver:hover {
     background-color: #ddd;
+}
+
+/* --- NUEVO: Estilos para el título de la foto en el Lightbox --- */
+.lightbox-caption {
+    color: var(--color-blanco);
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+    max-width: 80vw;
+    text-align: center;
 }
 
 /* --- NUEVO: Estilos para los botones de navegación del Lightbox --- */
