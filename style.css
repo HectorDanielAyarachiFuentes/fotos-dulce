@@ -160,3 +160,48 @@ h1 {
 .lightbox-overlay .btn-volver:hover {
     background-color: #ddd;
 }
+
+/* --- Media Queries para Diseño Responsivo --- */
+
+/* Para tablets y móviles grandes (hasta 768px) */
+@media (max-width: 768px) {
+    body {
+        padding: 1.5rem 1rem;
+    }
+
+    h1 {
+        display: block; /* Ocupa el ancho disponible */
+        width: 95%;
+        font-size: 1.5rem;
+    }
+
+    .estanteria-fotos {
+        width: 100%;
+        margin-top: 2rem;
+        perspective: none; /* Desactivamos el efecto 3D en móvil */
+    }
+
+    .estante {
+        transform: none; /* Quitamos la rotación del estante */
+        padding: 1rem;
+        gap: 1rem;
+        border-bottom-width: 0.75rem;
+    }
+
+    .portafotos {
+        /* Calculamos el ancho para que quepan 2 por fila, considerando el gap */
+        width: calc(50% - 0.5rem);
+        border-width: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    /* Reseteamos las rotaciones individuales en móvil */
+    .portafotos:nth-child(n) {
+        --rotate: 0deg;
+        transform: none;
+    }
+
+    .portafotos:hover {
+        transform: translateY(-5px) scale(1.03); /* Efecto hover más sutil */
+    }
+}
