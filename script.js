@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const estante = document.getElementById('estante-fotos');
+    let pollingIntervalId = null; // Para controlar el intervalo de actualización automática
 
     // --- NUEVAS VARIABLES PARA NAVEGACIÓN ---
     let listaDeFotosGlobal = []; // Guardaremos la lista de fotos aquí para accederla globalmente
@@ -19,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 3. Una vez que tenemos la lista, generamos la galería
             generarGaleria(listaDeFotosGlobal);
+
+            // 4. Iniciar la vigilancia de cambios en el archivo JSON
+            iniciarPollingDeFotos();
 
         } catch (error) {
             console.error("No se pudieron cargar las fotos:", error);
@@ -74,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxCaption = document.getElementById('lightbox-caption'); // <-- NUEVO: Referencia al título
     const lightboxCounter = document.getElementById('lightbox-counter'); // <-- NUEVO: Referencia al contador
     const btnDescargar = document.getElementById('btn-descargar'); // <-- NUEVO: Referencia al botón de descarga
+    const btnCompartir = document.getElementById('btn-compartir'); // <-- NUEVO: Referencia al botón de compartir
     // --- NUEVO: Referencias a los botones de navegación ---
     const btnAnterior = document.getElementById('btn-anterior');
     const btnSiguiente = document.getElementById('btn-siguiente');
@@ -116,6 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function cerrarLightbox() {
         lightbox.classList.remove('visible');
+        // Al cerrar, reactivamos la vigilancia por si estaba pausada
+        if (!pollingIntervalId) iniciarPollingDeFotos();
         document.body.style.overflow = 'auto'; // Restaura el scroll
     }
 
@@ -132,6 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- NUEVA FUNCIONALIDAD: Pantalla completa con doble clic ---
     lightboxImg.addEventListener('dblclick', () => {
+        // Detenemos la propagación para evitar que el doble clic en la imagen
+        // también active el clic en el fondo y cierre el lightbox.
+        event.stopPropagation();
         toggleFullScreen(lightbox); // Ponemos en pantalla completa todo el lightbox
     });
 
@@ -169,6 +179,37 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAnterior.addEventListener('click', (e) => {
         e.stopPropagation(); // Evita que el clic se propague al fondo y cierre el lightbox
         mostrarFotoAnterior();
+    });
+
+    // --- NUEVA FUNCIONALIDAD: Compartir imagen ---
+    btnCompartir.addEventListener('click', async (e) => {
+        e.stopPropagation(); // Evitar que el clic cierre el lightbox
+        const nombreFoto = listaDeFotosGlobal[indiceActual];
+        const titulo = nombreFoto.split('.').slice(0, -1).join('.');
+
+        // La Web Share API es la forma moderna de compartir
+        if (navigator.share) {
+            try {
+                // 1. Obtenemos la imagen como un "blob" (un objeto de datos binarios)
+                const response = await fetch(`Fotos-Dulce/${nombreFoto}`);
+                const blob = await response.blob();
+                // 2. Creamos un archivo virtual a partir del blob
+                const file = new File([blob], nombreFoto, { type: blob.type });
+
+                // 3. Usamos la API para compartir el archivo
+                await navigator.share({
+                    title: titulo,
+                    text: `¡Mira esta foto de la galería de Dulce!`,
+                    files: [file],
+                });
+                console.log('Foto compartida con éxito.');
+            } catch (error) {
+                console.error('Error al compartir:', error);
+            }
+        } else {
+            // Fallback para navegadores que no soportan la Web Share API (ej. Chrome/Firefox en escritorio)
+            alert('La función de compartir está disponible principalmente en dispositivos móviles o navegadores compatibles.');
+        }
     });
 
     // --- NUEVA FUNCIÓN AUXILIAR: Para gestionar la pantalla completa ---
@@ -227,6 +268,32 @@ document.addEventListener('DOMContentLoaded', () => {
             // Swipe hacia la derecha (dedo se mueve de izquierda a derecha) -> Foto anterior
             mostrarFotoAnterior();
         }
+    }
+
+    // --- NUEVA FUNCIONALIDAD: Actualización automática de la galería ---
+    function iniciarPollingDeFotos() {
+        // Si ya hay un intervalo, no creamos otro
+        if (pollingIntervalId) return;
+
+        pollingIntervalId = setInterval(async () => {
+            // Pausamos la comprobación si el lightbox está abierto para no interrumpir al usuario
+            if (lightbox.classList.contains('visible')) {
+                return;
+            }
+
+            try {
+                const respuesta = await fetch('fotos.json');
+                const data = await respuesta.json();
+                // Comparamos la nueva lista con la antigua (convirtiéndolas a texto)
+                if (JSON.stringify(data.fotos) !== JSON.stringify(listaDeFotosGlobal)) {
+                    console.log('Se detectaron cambios en fotos.json. Actualizando galería...');
+                    listaDeFotosGlobal = data.fotos;
+                    generarGaleria(listaDeFotosGlobal);
+                }
+            } catch (error) {
+                console.error('Error durante el polling de fotos:', error);
+            }
+        }, 5000); // Comprueba cada 5 segundos
     }
 
     // Iniciar todo el proceso
