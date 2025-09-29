@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Fotos de Dulce</title>
+    <style>
+        /* Estilos generales del cuerpo */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0e8d8; /* Un color de fondo cálido, como una pared */
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #5d4037;
+            text-shadow: 1px 1px 2px #fff;
+        }
+
+        /* El contenedor de la estantería */
+        .estanteria-fotos {
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 30px;
+            perspective: 800px; /* Añade profundidad a la escena */
+        }
+
+        /* La tabla de madera que es la estantería */
+        .estante {
+            background: linear-gradient(to bottom, #8c5a3e, #6b4a32); /* Gradiente para efecto madera */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; /* Alinea los portafotos en la base */
+            gap: 30px; /* Espacio entre los portafotos */
+            flex-wrap: wrap; /* Permite que los portafotos se ajusten en pantallas pequeñas */
+            transform: rotateX(10deg); /* Ladea un poco el estante para dar efecto 3D */
+            border-bottom: 15px solid #5d4037;
+        }
+
+        /* Estilo para cada portafotos */
+        .portafotos {
+            background-color: #fff;
+            border: 15px solid #d3c4a8; /* Borde grueso como un marco */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), inset 0 0 5px rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 4px;
+            width: 180px; /* Ancho fijo para cada portafotos */
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .portafotos:hover {
+            transform: scale(1.05) translateY(-10px); /* Se agranda y levanta al pasar el mouse */
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(0,0,0,0.2);
+        }
+
+        /* Rotación ligera para dar un toque más natural */
+        .portafotos:nth-child(1) { transform: rotate(-2deg); }
+        .portafotos:nth-child(2) { transform: rotate(1deg); }
+        .portafotos:nth-child(3) { transform: rotate(-1.5deg); }
+        .portafotos:nth-child(4) { transform: rotate(2.5deg); }
+        .portafotos:nth-child(5) { transform: rotate(-1deg); }
+
+
+        /* La imagen dentro del portafotos */
+        .portafotos img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid #eee;
+        }
+
+        /* El texto debajo de la foto */
+        .portafotos .caption {
+            font-size: 14px;
+            color: #555;
+            margin-top: 8px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Mis Recuerdos con Dulce</h1>
+
+    <div class="estanteria-fotos">
+        <div class="estante">
+            <!-- Portafotos 1 -->
+            <div class="portafotos">
+                <img src="Fotos-Dulce/Dulce-caminando.jpg" alt="Dulce caminando">
+                <p class="caption">Un paseo especial</p>
+            </div>
+
+            <!-- Portafotos 2 - CAMBIA LA IMAGEN -->
+            <div class="portafotos">
+                <img src="Fotos-Dulce/foto2.jpg" alt="Descripción de la foto 2">
+                <p class="caption">Momento feliz</p>
+            </div>
+
+            <!-- Portafotos 3 - CAMBIA LA IMAGEN -->
+            <div class="portafotos">
+                <img src="Fotos-Dulce/foto3.jpg" alt="Descripción de la foto 3">
+                <p class="caption">Aventuras</p>
+            </div>
+
+            <!-- Portafotos 4 - CAMBIA LA IMAGEN -->
+            <div class="portafotos">
+                <img src="Fotos-Dulce/foto4.jpg" alt="Descripción de la foto 4">
+                <p class="caption">Sonrisas</p>
+            </div>
+
+            <!-- Portafotos 5 - CAMBIA LA IMAGEN -->
+            <div class="portafotos">
+                <img src="Fotos-Dulce/foto5.jpg" alt="Descripción de la foto 5">
+                <p class="caption">Recuerdo inolvidable</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Este script es opcional, pero puede agregar interactividad en el futuro.
+        // Por ahora, solo confirma que la página se ha cargado.
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('La galería de fotos está lista.');
+
+            const portafotos = document.querySelectorAll('.portafotos');
+            portafotos.forEach(portafoto => {
+                portafoto.addEventListener('click', () => {
+                    // Aquí podrías agregar una función para ver la foto en grande, por ejemplo.
+                    console.log('Has hecho clic en una foto.');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
+
