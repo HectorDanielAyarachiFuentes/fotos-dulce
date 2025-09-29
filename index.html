@@ -85,6 +85,58 @@
             margin-top: 8px;
             font-style: italic;
         }
+
+        /* --- Estilos para la vista de foto en grande (Lightbox) --- */
+
+        /* El fondo oscuro que cubre todo */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+            /* Oculto por defecto, con una transición suave */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        /* Clase que se añade con JS para mostrar el lightbox */
+        .lightbox-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* La imagen ampliada */
+        .lightbox-overlay img {
+            max-width: 90%;
+            max-height: 80vh; /* Ocupa máximo el 80% de la altura de la pantalla */
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        /* El botón para volver */
+        .lightbox-overlay .btn-volver {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #fff;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .lightbox-overlay .btn-volver:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
@@ -95,6 +147,12 @@
         <div class="estante" id="estante-fotos">
             <!-- Los portafotos se generarán aquí dinámicamente -->
         </div>
+    </div>
+
+    <!-- Contenedor para la vista de foto en grande (oculto por defecto) -->
+    <div class="lightbox-overlay" id="lightbox">
+        <img src="" alt="Foto ampliada" id="lightbox-img">
+        <button class="btn-volver" id="btn-cerrar-lightbox">Volver</button>
     </div>
 
     <script>
@@ -129,7 +187,7 @@ Luna-mala.jpg`;
             const estante = document.getElementById('estante-fotos');
             
             // El código procesa el texto, elimina líneas vacías y crea la lista final.
-            const listaDeFotos = nombresDeFotosComoTexto.trim().split('\n').filter(nombre => nombre.trim() !== '');
+            const listaDeFotos = nombresDeFotosComoTexto.trim().split('\n').filter(nombre => nombre.trim() !== '' && !nombre.startsWith('lista-de-fotos'));
 
 
             // Recorremos la lista y creamos un portafotos por cada imagen
@@ -153,9 +211,38 @@ Luna-mala.jpg`;
                 portafotosDiv.appendChild(img);
                 portafotosDiv.appendChild(captionP);
                 estante.appendChild(portafotosDiv);
+
+                // --- NUEVA FUNCIONALIDAD: Añadir evento de clic ---
+                portafotosDiv.addEventListener('click', () => {
+                    mostrarFotoEnGrande(img.src);
+                });
             });
 
             console.log(`Se han cargado ${listaDeFotos.length} fotos dinámicamente.`);
+
+            // --- Lógica para el Lightbox (vista en grande) ---
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const btnCerrar = document.getElementById('btn-cerrar-lightbox');
+
+            function mostrarFotoEnGrande(rutaImagen) {
+                lightboxImg.src = rutaImagen;
+                lightbox.classList.add('visible');
+            }
+
+            function cerrarLightbox() {
+                lightbox.classList.remove('visible');
+            }
+
+            // Cerrar al hacer clic en el botón "Volver"
+            btnCerrar.addEventListener('click', cerrarLightbox);
+
+            // Opcional: Cerrar también al hacer clic en el fondo oscuro
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) { // Si el clic fue en el fondo y no en la imagen o el botón
+                    cerrarLightbox();
+                }
+            });
         });
     </script>
 
