@@ -146,15 +146,23 @@ h1 {
     visibility: hidden;
     transition: opacity var(--transicion-media), visibility var(--transicion-media);
     padding: 1rem;
+    /* Hacemos que los botones de navegación se posicionen relativos a este contenedor */
+    position: fixed;
 }
 
 .lightbox-overlay.visible {
     opacity: 1;
     visibility: visible;
 }
+/* Nuevo contenedor para la imagen y el botón de volver */
+.lightbox-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .lightbox-overlay img {
-    max-width: 90%;
+    max-width: 85vw; /* Dejamos espacio para los botones de navegación */
     max-height: 80vh;
     box-shadow: 0 0 30px var(--color-sombra-lightbox);
     border-radius: var(--radio-borde-sm);
@@ -175,6 +183,33 @@ h1 {
 .lightbox-overlay .btn-volver:hover {
     background-color: #ddd;
 }
+
+/* --- NUEVO: Estilos para los botones de navegación del Lightbox --- */
+.btn-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--color-sombra-interna);
+    color: var(--color-blanco);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color var(--transicion-rapida);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001; /* Aseguramos que estén por encima de la imagen */
+}
+
+.btn-nav:hover {
+    background-color: var(--color-sombra-suave);
+}
+.btn-anterior { left: 1rem; }
+.btn-siguiente { right: 1rem; }
 
 /* --- Media Queries para Diseño Responsivo --- */
 
@@ -218,5 +253,15 @@ h1 {
 
     .portafotos:hover {
         transform: translateY(-5px) scale(1.03); /* Efecto hover más sutil */
+    }
+
+    .lightbox-overlay img {
+        max-width: 80vw; /* Un poco más de espacio en móviles */
+    }
+
+    .btn-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
     }
 }

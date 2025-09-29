@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const estante = document.getElementById('estante-fotos');
 
+    // --- NUEVAS VARIABLES PARA NAVEGACIÓN ---
+    let listaDeFotosGlobal = []; // Guardaremos la lista de fotos aquí para accederla globalmente
+    let indiceActual = -1;       // Para saber qué foto se está mostrando en el lightbox
+
     // --- NUEVA FUNCIONALIDAD: Cargar fotos desde un JSON externo ---
     async function cargarYMostrarFotos() {
         try {
@@ -11,10 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // 2. Convertimos la respuesta a un objeto JavaScript
             const data = await respuesta.json();
-            const listaDeFotos = data.fotos;
+            listaDeFotosGlobal = data.fotos; // Guardamos la lista en la variable global
 
             // 3. Una vez que tenemos la lista, generamos la galería
-            generarGaleria(listaDeFotos);
+            generarGaleria(listaDeFotosGlobal);
 
         } catch (error) {
             console.error("No se pudieron cargar las fotos:", error);
@@ -56,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // --- NUEVA FUNCIONALIDAD: Añadir evento de clic ---
                 portafotosDiv.addEventListener('click', () => {
-                    mostrarFotoEnGrande(img.src);
+                    mostrarFotoEnGrande(index); // Pasamos el índice en lugar de la ruta
                 });
         });
 
@@ -67,14 +71,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const btnCerrar = document.getElementById('btn-cerrar-lightbox');
+    // --- NUEVO: Referencias a los botones de navegación ---
+    const btnAnterior = document.getElementById('btn-anterior');
+    const btnSiguiente = document.getElementById('btn-siguiente');
 
-    function mostrarFotoEnGrande(rutaImagen) {
-        lightboxImg.src = rutaImagen; // Actualizamos la imagen
+
+    function mostrarFotoEnGrande(index) {
+        if (index < 0 || index >= listaDeFotosGlobal.length) return; // Seguridad
+
+        indiceActual = index; // Actualizamos el índice global
+        lightboxImg.src = `Fotos-Dulce/${listaDeFotosGlobal[indiceActual]}`; // Actualizamos la imagen
         lightbox.classList.add('visible');
+        document.body.style.overflow = 'hidden'; // Evita el scroll del fondo
     }
 
     function cerrarLightbox() {
         lightbox.classList.remove('visible');
+        document.body.style.overflow = 'auto'; // Restaura el scroll
     }
 
     // Cerrar al hacer clic en el botón "Volver"
@@ -82,9 +95,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Opcional: Cerrar también al hacer clic en el fondo oscuro
     lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) { // Si el clic fue en el fondo y no en la imagen o el botón
+        // Si el clic fue en el overlay y no en el contenido (imagen, botones)
+        if (e.target === lightbox) {
             cerrarLightbox();
         }
+    });
+
+    // --- NUEVA FUNCIONALIDAD: Navegación con teclado ---
+    document.addEventListener('keydown', (e) => {
+        // Si el lightbox no está visible, no hacemos nada
+        if (!lightbox.classList.contains('visible')) return;
+
+        if (e.key === 'Escape') {
+            cerrarLightbox();
+        }
+
+        if (e.key === 'ArrowRight') { mostrarSiguienteFoto(); }
+        if (e.key === 'ArrowLeft') { mostrarFotoAnterior(); }
+    });
+
+    // --- NUEVO: Lógica de navegación con botones ---
+    function mostrarSiguienteFoto() {
+        // Calculamos el siguiente índice, volviendo al inicio si llegamos al final
+        const siguienteIndice = (indiceActual + 1) % listaDeFotosGlobal.length;
+        mostrarFotoEnGrande(siguienteIndice);
+    }
+
+    function mostrarFotoAnterior() {
+        // Calculamos el índice anterior, yendo al final si estamos en el inicio
+        const anteriorIndice = (indiceActual - 1 + listaDeFotosGlobal.length) % listaDeFotosGlobal.length;
+        mostrarFotoEnGrande(anteriorIndice);
+    }
+
+    // Asignamos los eventos a los botones
+    btnSiguiente.addEventListener('click', (e) => {
+        e.stopPropagation(); // Evita que el clic se propague al fondo y cierre el lightbox
+        mostrarSiguienteFoto();
+    });
+    btnAnterior.addEventListener('click', (e) => {
+        e.stopPropagation(); // Evita que el clic se propague al fondo y cierre el lightbox
+        mostrarFotoAnterior();
     });
 
     // Iniciar todo el proceso
