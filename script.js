@@ -37,10 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // 3. Una vez que tenemos la lista, generamos la galería
             generarGaleria(listaDeFotosGlobal);
 
-            // --- NUEVO: Añadir un botón para resetear el orden ---
-            // (Esto es opcional pero muy útil para el usuario)
-            crearBotonReset();
-
             // 4. Iniciar la vigilancia de cambios en el archivo JSON
             iniciarPollingDeFotos();
 
@@ -349,6 +345,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Actualizamos la lista global para que la navegación del lightbox funcione correctamente
                     listaDeFotosGlobal = nuevoOrden;
                     console.log('Nuevo orden de fotos guardado.');
+                    // --- NUEVO: Creamos el botón de reset JUSTO después de guardar un nuevo orden ---
+                    crearBotonReset();
+
                     iniciarPollingDeFotos(); // Reanudamos la vigilancia de cambios
                 }
             });
@@ -439,15 +438,24 @@ document.addEventListener('DOMContentLoaded', () => {
         // Solo creamos el botón si hay un orden guardado
         if (!localStorage.getItem('photoOrder')) return;
 
-        let botonReset = document.getElementById('btn-reset-order');
-        if (!botonReset) {
-            botonReset = document.createElement('button');
+        let container = document.getElementById('reset-container');
+        if (!container) {
+            // 1. Creamos un contenedor para centrar el botón y darle espacio
+            container = document.createElement('div');
+            container.id = 'reset-container';
+            Object.assign(container.style, {
+                width: '100%',
+                textAlign: 'center',
+                marginTop: '1rem', // Espacio respecto al álbum
+                marginBottom: '2rem' // Espacio respecto al final de la página
+            });
+
+            // 2. Creamos el botón como antes
+            const botonReset = document.createElement('button');
             botonReset.id = 'btn-reset-order';
             botonReset.textContent = 'Restablecer Orden';
             botonReset.className = 'btn-lightbox'; // Reutilizamos el estilo de los botones
             botonReset.setAttribute('data-tooltip', 'Vuelve al orden original del álbum');
-            botonReset.style.marginTop = '2rem';
-            document.body.insertBefore(botonReset, document.querySelector('script[src*="sortable"]'));
 
             botonReset.addEventListener('click', () => {
                 // 1. ¡Lanzamos el confeti para una experiencia más gratificante!
@@ -471,8 +479,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 generarGaleria(listaDeFotosGlobal);
 
                 // 5. Eliminar el propio botón, ya que no es necesario hasta el próximo cambio
-                botonReset.remove();
+                container.remove();
             });
+
+            // 3. Añadimos el botón al contenedor y el contenedor al body
+            container.appendChild(botonReset);
+            document.body.insertBefore(container, document.querySelector('script[src*="sortable"]'));
         }
     }
 

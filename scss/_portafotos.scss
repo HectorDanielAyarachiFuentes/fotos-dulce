@@ -11,7 +11,7 @@
     border-radius: $radio-borde-md; // Bordes más suaves
     width: 180px;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; // Transición más rápida
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     transform-style: preserve-3d; // Habilita el espacio 3D para los hijos
 
@@ -20,6 +20,12 @@
     // La rotación inicial se combina con la animación
     transform: translateY(20px) rotate(var(--rotate, 0deg));
     animation: fadeIn 0.6s ease-out forwards; // Aplicamos la animación
+
+    // Cuando un elemento se está reordenando (pero no es el que se arrastra),
+    // queremos que su movimiento sea muy rápido para que se sienta instantáneo.
+    &:not(.portafotos-drag) {
+        transition: transform 0.15s ease, box-shadow 0.3s ease;
+    }
     
     // Aplicamos el hover solo cuando no se está arrastrando un elemento
     // SortableJS añade la clase 'sortable-active' al body durante el drag.
@@ -67,7 +73,7 @@
         width: 100%;
         height: auto;
         display: block;
-        transition: transform 0.3s ease; // Transición más rápida
+        transition: transform 0.3s ease;
     }
 
     &__caption {
