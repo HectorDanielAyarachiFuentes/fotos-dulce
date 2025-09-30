@@ -1,10 +1,11 @@
 // --- Componente: Portafotos ---
 @use 'variables' as *;
+@use 'sass:color';
 @use 'mixins' as *;
 
 .portafotos {
     // 1. Rediseño del marco: ahora es de "madera" con un gradiente
-    background: linear-gradient(145deg, lighten($borde-portafotos, 5%), darken($borde-portafotos, 8%));
+    background: linear-gradient(145deg, color.adjust($borde-portafotos, $lightness: 5%), color.adjust($borde-portafotos, $lightness: -8%));
     box-shadow: 0 8px 16px $color-sombra-suave, 0 4px 8px rgba(0,0,0,0.1), inset 0 0 10px rgba(0,0,0,0.3);
     padding: 0.75rem;
     border-radius: $radio-borde-md; // Bordes más suaves
@@ -70,8 +71,8 @@
     &__caption {
         position: relative; // Para posicionar los "tornillos"
         // 1. Apariencia de placa de latón
-        background: linear-gradient(145deg, lighten($borde-portafotos, 15%), darken($borde-portafotos, 15%));
-        color: darken($color-titulo, 15%); // Un marrón más oscuro para el texto
+        background: linear-gradient(145deg, color.adjust($borde-portafotos, $lightness: 15%), color.adjust($borde-portafotos, $lightness: -15%));
+        color: color.adjust($color-titulo, $lightness: -15%); // Un marrón más oscuro para el texto
         font-family: 'Times New Roman', Times, serif; // Una fuente más clásica y elegante
         font-size: 0.75rem; // Un poco más pequeño, más delicado
         font-style: normal; // Quitamos la cursiva para un look más formal
@@ -94,7 +95,7 @@
             transform: translateY(-50%);
             width: 4px;
             height: 4px;
-            background-color: darken($color-titulo, 20%);
+            background-color: color.adjust($color-titulo, $lightness: -20%);
             border-radius: 50%;
             box-shadow: inset 0 0 1px rgba(255,255,255,0.3);
         }
@@ -144,7 +145,7 @@
 // Estilo para el "fantasma" o marcador de posición
 .portafotos-ghost {
     opacity: 0.4;
-    background: darken($borde-portafotos, 10%);
+    background: color.adjust($borde-portafotos, $lightness: -10%);
     border-radius: $radio-borde-md;
     // Hacemos que el contenido del fantasma sea invisible
     * { visibility: hidden; }

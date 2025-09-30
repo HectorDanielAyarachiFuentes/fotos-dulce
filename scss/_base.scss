@@ -2,6 +2,7 @@
 // ESTILOS BASE Y GENERALES
 // ==========================================================================
 @use 'variables' as *;
+@use 'sass:color';
 @use 'mixins' as *;
 
 *, *::before, *::after {
@@ -73,7 +74,7 @@ h1 {
         left: 50%;
         transform: translateX(-50%);
         
-        background-color: darken($color-titulo, 10%);
+        background-color: color.adjust($color-titulo, $lightness: -10%);
         color: $color-blanco;
         font-family: $fuente-principal;
         font-size: 0.8rem;

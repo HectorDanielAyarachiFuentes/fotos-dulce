@@ -1,5 +1,6 @@
 // --- Componente: Botones ---
 @use 'variables' as *;
+@use 'sass:color';
 @use 'mixins' as *;
 
 // Clase genérica para los botones de acción (Volver, Descargar)
@@ -46,11 +47,11 @@
 
     // --- Modificador para el botón de acción principal ---
     &--primary {
-        background: linear-gradient(to bottom, lighten($borde-portafotos, 5%), darken($borde-portafotos, 5%));
+        background: linear-gradient(to bottom, color.adjust($borde-portafotos, $lightness: 5%), color.adjust($borde-portafotos, $lightness: -5%));
         color: $color-titulo;
 
         &:hover {
-            background: linear-gradient(to bottom, lighten($borde-portafotos, 8%), darken($borde-portafotos, 2%));
+            background: linear-gradient(to bottom, color.adjust($borde-portafotos, $lightness: 8%), color.adjust($borde-portafotos, $lightness: -2%));
         }
     }
 

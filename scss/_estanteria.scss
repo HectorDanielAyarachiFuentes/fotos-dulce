@@ -1,5 +1,6 @@
 // --- Componente: Estantería ---
 @use 'variables' as *;
+@use 'sass:color';
 @use 'mixins' as *;
 .estanteria-fotos {
     width: 90%;
@@ -30,7 +31,7 @@
     gap: 2rem;
     flex-wrap: wrap;
     transform: rotateX(10deg);
-    border-bottom: 1rem solid darken($borde-estante, 5%); // La parte de abajo es más oscura
+    border-bottom: 1rem solid color.adjust($borde-estante, $lightness: -5%); // La parte de abajo es más oscura
 
     // 3. ¡Borde frontal 3D! Creamos la cara frontal de la balda
     &::before {
@@ -40,7 +41,7 @@
         left: 0;
         right: 0;
         height: 1rem; // Debe coincidir con el border-bottom
-        background: linear-gradient(to top, darken($borde-estante, 8%), $borde-estante);
+        background: linear-gradient(to top, color.adjust($borde-estante, $lightness: -8%), $borde-estante);
         border-bottom-left-radius: $radio-borde-md;
         border-bottom-right-radius: $radio-borde-md;
         transform: translateZ(-1px); // Lo empujamos un poco hacia atrás
