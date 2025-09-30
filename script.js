@@ -124,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnAnterior = document.getElementById('btn-anterior');
     const btnSiguiente = document.getElementById('btn-siguiente');
 
+    const lightboxBottomBar = document.querySelector('.lightbox-bottom-bar');
 
     function mostrarFotoEnGrande(index) {
         // Si el lightbox ya está visible, aplicamos la transición de fade
@@ -192,7 +193,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // también active el clic en el fondo y cierre el lightbox.
         event.stopPropagation();
         toggleFullScreen(lightbox); // Ponemos en pantalla completa todo el lightbox
+
+        // En móvil, ocultamos/mostramos la barra de acciones para una vista inmersiva
+        if (window.innerWidth <= 768) {
+            lightboxBottomBar.style.transform = document.fullscreenElement ? 'translateY(100%)' : 'translateY(0)';
+        }
     });
+
+    lightboxImg.addEventListener('click', (e) => {
+        e.stopPropagation();
+        lightboxBottomBar.style.transform = 'translateY(0)';
+    })
 
     // --- NUEVA FUNCIONALIDAD: Navegación con teclado ---
     document.addEventListener('keydown', (e) => {

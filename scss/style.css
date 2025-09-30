@@ -264,7 +264,12 @@ h1 {
   max-height: 80vh;
   box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
   border-radius: 4px;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+@media (max-width: 768px) and (orientation: portrait) {
+  .lightbox-overlay img {
+    max-height: calc(100vh - 150px);
+  }
 }
 @media (max-width: 768px) {
   .lightbox-overlay img {
@@ -281,22 +286,61 @@ h1 {
 
 .lightbox-actions {
   display: flex;
+  align-items: center;
   gap: 1rem;
+}
+
+.lightbox-bottom-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+@media (max-width: 768px) {
+  .lightbox-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    background: rgba(10, 10, 10, 0.5);
+    -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1002;
+    transition: transform 0.3s ease;
+  }
+}
+
+.lightbox-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+@media (max-width: 768px) {
+  .lightbox-info {
+    align-items: flex-start;
+  }
 }
 
 .lightbox-caption {
   color: #fff;
-  margin-top: 0.75rem;
-  margin-bottom: 0.5rem;
-  font-style: italic;
+  margin: 0;
+  font-weight: 600;
   max-width: 80vw;
   text-align: center;
+  font-size: 1rem;
 }
 
 .lightbox-counter {
   color: #ccc;
   font-size: 0.9rem;
-  margin-bottom: 1rem;
+  margin: 0;
 }
 
 .btn-lightbox {
@@ -343,6 +387,11 @@ h1 {
 .btn-lightbox--primary:hover {
   background: linear-gradient(to bottom, rgb(224.7038167939, 214.3755725191, 195.0961832061), rgb(207.5740458015, 191.4061068702, 161.2259541985));
 }
+.btn-lightbox.btn-icon {
+  padding: 0.6rem;
+  width: 48px;
+  height: 48px;
+}
 
 .btn-nav {
   position: absolute;
@@ -385,8 +434,14 @@ h1 {
 }
 @media (max-width: 768px) {
   .btn-nav {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     font-size: 1.2rem;
+  }
+  .btn-nav.btn-anterior {
+    left: 0.5rem;
+  }
+  .btn-nav.btn-siguiente {
+    right: 0.5rem;
   }
 }/*# sourceMappingURL=style.css.map */

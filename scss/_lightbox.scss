@@ -22,7 +22,12 @@
         max-height: 80vh;
         box-shadow: 0 0 30px $color-sombra-lightbox;
         border-radius: $radio-borde-sm;
-        transition: opacity $transicion-rapida; // Transición para el efecto de fade
+        transition: opacity $transicion-rapida, transform 0.3s ease; // Transición para el efecto de fade
+
+        @media (max-width: $breakpoint-tablet) and (orientation: portrait) {
+            // En móvil vertical, dejamos espacio para la barra inferior
+            max-height: calc(100vh - 150px);
+        }
 
         @media (max-width: $breakpoint-tablet) {
             max-width: 80vw; // Un poco más de espacio en móviles
@@ -36,23 +41,59 @@
 
 .lightbox-actions {
     display: flex;
+    align-items: center;
     gap: 1rem;
-    // El margen superior ahora lo da el contador
+}
+
+// --- Barra inferior optimizada para móvil ---
+.lightbox-bottom-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+
+    @media (max-width: $breakpoint-tablet) {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        margin: 0;
+        background: rgba(10, 10, 10, 0.5);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 1002;
+        transition: transform 0.3s ease;
+    }
+}
+
+.lightbox-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+
+    @media (max-width: $breakpoint-tablet) {
+        align-items: flex-start;
+    }
 }
 
 // Estilos para el título de la foto en el Lightbox
 .lightbox-caption {
     color: $color-blanco;
-    margin-top: 0.75rem;
-    margin-bottom: 0.5rem;
-    font-style: italic;
+    margin: 0;
+    font-weight: 600;
     max-width: 80vw;
     text-align: center;
+    font-size: 1rem;
 }
 
 // Estilos para el contador de fotos
 .lightbox-counter {
     color: #ccc; // Un color más sutil
     font-size: 0.9rem;
-    margin-bottom: 1rem; // Espacio antes de los botones de acción
+    margin: 0;
 }
