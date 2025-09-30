@@ -67,6 +67,13 @@
         border-top: 1px solid rgba(255, 255, 255, 0.1);
         z-index: 1002;
         transition: transform 0.3s ease;
+
+        // --- Corrección para Tooltips en la barra inferior ---
+        // Hacemos que el tooltip aparezca por encima de la barra, no del botón.
+        .lightbox-actions [data-tooltip]::after {
+            bottom: calc(100% + 0.5rem); // Se posiciona encima del botón y añade un margen de 0.5rem
+            transform: translateX(-50%) translateY(-100%); // Centra y lo sube por encima de la barra
+        }
     }
 }
 
