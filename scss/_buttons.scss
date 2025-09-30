@@ -4,20 +4,54 @@
 
 // Clase genérica para los botones de acción (Volver, Descargar)
 .btn-lightbox {
-    display: inline-block; // Para que el <a> se comporte como botón
+    position: relative; // Necesario para el pseudo-elemento del hover
+    display: inline-flex; // Usamos flex para alinear iconos si se añaden en el futuro
+    align-items: center;
+    justify-content: center;
     padding: 0.75rem 1.5rem;
-    background-color: $color-blanco;
-    color: #333;
+    background: linear-gradient(to bottom, #ffffff, #f2f2f2); // Gradiente sutil
+    color: $color-titulo; // Usamos el color del título para cohesión
     border: none;
-    border-radius: $radio-borde-sm;
+    border-top: 1px solid rgba(255, 255, 255, 0.8); // Borde superior para efecto 3D
+    border-radius: $radio-borde-md; // Bordes más suaves
     font-size: 1rem;
+    font-weight: 600; // Un poco más de peso
     font-family: $fuente-principal;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color $transicion-rapida;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden; // Oculta el brillo que se sale del botón
 
-    &:hover {
-        background-color: #ddd;
+    // Efecto de brillo al pasar el ratón
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: left 0.4s ease;
+    }
+
+    &:hover::before {
+        left: 100%;
+    }
+
+    &:active {
+        transform: translateY(1px); // Efecto de "presionado"
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08);
+    }
+
+    // --- Modificador para el botón de acción principal ---
+    &--primary {
+        background: linear-gradient(to bottom, lighten($borde-portafotos, 5%), darken($borde-portafotos, 5%));
+        color: $color-titulo;
+
+        &:hover {
+            background: linear-gradient(to bottom, lighten($borde-portafotos, 8%), darken($borde-portafotos, 2%));
+        }
     }
 }
 
@@ -26,21 +60,32 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: $color-sombra-interna;
+    // Efecto "Glassmorphism"
+    background-color: rgba(30, 30, 30, 0.3);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: $color-blanco;
-    border: none;
     border-radius: 50%;
     width: 45px;
     height: 45px;
     font-size: 1.5rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color $transicion-rapida;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     @include flex-center;
     z-index: 1001; // Aseguramos que estén por encima de la imagen
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3); // Sombra para el icono de flecha
 
     &:hover {
-        background-color: $color-sombra-suave;
+        background-color: rgba(30, 30, 30, 0.5);
+        transform: translateY(-50%) scale(1.05); // Ligero zoom al pasar el ratón
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); // Añadimos un sutil resplandor
+    }
+
+    &:active {
+        transform: translateY(-50%) scale(0.98); // Efecto de click
+        background-color: rgba(30, 30, 30, 0.6);
+        box-shadow: none; // Quitamos el resplandor al hacer click
     }
 
     &.btn-anterior { left: 1rem; }
