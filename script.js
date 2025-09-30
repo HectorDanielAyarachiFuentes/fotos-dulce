@@ -496,6 +496,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- NUEVA FUNCIONALIDAD: Animación del título principal ---
+    function animarTitulo() {
+        const tituloH1 = document.querySelector('.animated-title');
+        if (tituloH1) {
+            const textoOriginal = tituloH1.textContent;
+            tituloH1.innerHTML = ''; // Limpiamos el contenido original
+
+            // Creamos un span para cada letra y lo añadimos al h1
+            textoOriginal.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                // Si el carácter es un espacio, usamos un "espacio sin ruptura" (&nbsp;)
+                // para asegurar que el navegador lo renderice y ocupe su lugar.
+                if (char === ' ') {
+                    span.innerHTML = '&nbsp;';
+                } else {
+                    span.textContent = char;
+                }
+                // Aplicamos un retraso escalonado para el efecto de "escritura" a cada letra
+                span.style.animationDelay = `${index * 0.05}s`; // 50ms por letra
+                tituloH1.appendChild(span);
+            });
+        }
+    }
+
     // Iniciar todo el proceso
     cargarYMostrarFotos();
+    animarTitulo(); // Llamamos a la función para animar el título
 });

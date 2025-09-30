@@ -43,6 +43,22 @@ h1 {
         width: 95%;
         font-size: 1.5rem;
     }
+
+    // Estilos para el título animado
+    &.animated-title {
+        display: flex; // Para que los spans se alineen
+        justify-content: center;
+        flex-wrap: wrap; // Permite que el texto se ajuste en pantallas pequeñas
+        
+        span {
+            display: inline-block; // Cada letra es un bloque para la animación
+            opacity: 0;
+            transform: translateY(20px);
+            // La animación se aplicará con JS para controlar el delay
+            animation: textFadeInUp 0.8s ease-out forwards;
+            // El animation-delay se establecerá dinámicamente con JavaScript
+        }
+    }
 }
 
 // --- Keyframes para la animación de entrada ---
@@ -51,6 +67,14 @@ h1 {
         opacity: 1;
         // La rotación se mantiene gracias a la variable CSS
         transform: translateY(0) rotate(var(--rotate, 0deg));
+    }
+}
+
+// --- Keyframes para la animación de texto ---
+@keyframes textFadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
