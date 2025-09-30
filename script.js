@@ -16,10 +16,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // 2. Convertimos la respuesta a un objeto JavaScript
             const data = await respuesta.json();
-            listaDeFotosGlobal = data.fotos; // Guardamos la lista en la variable global
+            const fotosDesdeJson = data.fotos;
+
+            // --- NUEVO: Comprobar si hay un orden guardado en localStorage ---
+            const ordenGuardado = localStorage.getItem('photoOrder');
+            if (ordenGuardado) {
+                const listaGuardada = JSON.parse(ordenGuardado);
+                // Sincronizamos la lista guardada con la del JSON para manejar fotos nuevas o eliminadas
+                const fotosValidas = listaGuardada.filter(foto => fotosDesdeJson.includes(foto));
+                const fotosNuevas = fotosDesdeJson.filter(foto => !fotosValidas.includes(foto));
+                listaDeFotosGlobal = [...fotosValidas, ...fotosNuevas];
+                console.log('Se ha cargado el orden de fotos guardado.');
+            } else {
+                // Si no hay orden guardado, usamos el del archivo JSON
+                listaDeFotosGlobal = fotosDesdeJson;
+            }
 
             // 3. Una vez que tenemos la lista, generamos la galería
             generarGaleria(listaDeFotosGlobal);
+
+            // --- NUEVO: Añadir un botón para resetear el orden ---
+            // (Esto es opcional pero muy útil para el usuario)
+            crearBotonReset();
 
             // 4. Iniciar la vigilancia de cambios en el archivo JSON
             iniciarPollingDeFotos();
@@ -243,12 +261,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 animation: 250, // Velocidad de la animación al mover elementos
                 ghostClass: 'portafotos-ghost', // Clase para el espacio fantasma donde se soltará
                 dragClass: 'portafotos-drag',   // Clase para el elemento que se está arrastrando
-                onStart: function () {
+                onStart: () => {
                     // Pausamos la actualización automática para evitar que la galería se recargue mientras movemos algo
                     if (pollingIntervalId) {
                         clearInterval(pollingIntervalId);
                         pollingIntervalId = null;
                     }
+                },
+                onEnd: (evt) => {
+                    // --- NUEVO: Guardar el nuevo orden cuando el usuario termina de arrastrar ---
+                    const portafotosActualizados = Array.from(evt.to.children);
+                    const nuevoOrden = portafotosActualizados.map(portafotos => {
+                        const img = portafotos.querySelector('.portafotos__imagen');
+                        // Extraemos el nombre del archivo desde la URL de la imagen
+                        return img.src.split('/').pop();
+                    });
+
+                    // Guardamos el nuevo orden en localStorage
+                    localStorage.setItem('photoOrder', JSON.stringify(nuevoOrden));
+                    // Actualizamos la lista global para que la navegación del lightbox funcione correctamente
+                    listaDeFotosGlobal = nuevoOrden;
+                    console.log('Nuevo orden de fotos guardado.');
+                    iniciarPollingDeFotos(); // Reanudamos la vigilancia de cambios
                 }
             });
         }
@@ -321,6 +355,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error durante el polling de fotos:', error);
             }
         }, 5000); // Comprueba cada 5 segundos
+    }
+
+    // --- NUEVA FUNCIÓN: Crear un botón para resetear el orden ---
+    function crearBotonReset() {
+        // Solo creamos el botón si hay un orden guardado
+        if (!localStorage.getItem('photoOrder')) return;
+
+        let botonReset = document.getElementById('btn-reset-order');
+        if (!botonReset) {
+            botonReset = document.createElement('button');
+            botonReset.id = 'btn-reset-order';
+            botonReset.textContent = 'Restablecer Orden';
+            botonReset.className = 'btn-lightbox'; // Reutilizamos el estilo de los botones
+            botonReset.style.marginTop = '2rem';
+            document.body.insertBefore(botonReset, document.querySelector('script[src*="sortable"]'));
+
+            botonReset.addEventListener('click', () => {
+                localStorage.removeItem('photoOrder');
+                alert('El orden ha sido restablecido. La página se recargará.');
+                window.location.reload();
+            });
+        }
     }
 
     // Iniciar todo el proceso
