@@ -325,6 +325,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 animation: 250, // Velocidad de la animación al mover elementos
                 ghostClass: 'portafotos-ghost', // Clase para el espacio fantasma donde se soltará
                 dragClass: 'portafotos-drag',   // Clase para el elemento que se está arrastrando
+                // --- NUEVO: Mejoras para la experiencia táctil ---
+                delay: 200, // El usuario debe mantener presionado 200ms para iniciar el arrastre
+                delayOnTouchOnly: true, // Este retraso solo se aplica en dispositivos táctiles
                 onStart: () => {
                     // Pausamos la actualización automática para evitar que la galería se recargue mientras movemos algo
                     if (pollingIntervalId) {
