@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const estanteElement = document.getElementById('estante-fotos');
         if (estanteElement) {
             new Sortable(estanteElement, {
-                animation: 250, // Velocidad de la animación al mover elementos
+                animation: 150, // Animación más rápida para una sensación más instantánea
                 ghostClass: 'portafotos-ghost', // Clase para el espacio fantasma donde se soltará
                 dragClass: 'portafotos-drag',   // Clase para el elemento que se está arrastrando
                 // --- NUEVO: Mejoras para la experiencia táctil ---
@@ -413,13 +413,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 const respuesta = await fetch('fotos.json');
                 const data = await respuesta.json();
                 const fotosNuevasDelJson = data.fotos;
-                // Comparamos la nueva lista con la antigua (convirtiéndolas a texto)
-                if (JSON.stringify(fotosNuevasDelJson) !== JSON.stringify(fotosOriginalesDelJson)) {
+
+                // Comparamos si las fotos en el JSON son diferentes a las que cargamos originalmente.
+                // Usamos Sets para una comparación eficiente que ignora el orden.
+                const setOriginal = new Set(fotosOriginalesDelJson);
+                const setNuevo = new Set(fotosNuevasDelJson);
+
+                const sonIguales = setOriginal.size === setNuevo.size && [...setOriginal].every(foto => setNuevo.has(foto));
+
+                if (!sonIguales) {
                     console.log('Se detectaron cambios en fotos.json. Actualizando galería...');
                     // Forzamos una recarga completa para aplicar el nuevo orden desde el JSON
                     // y limpiar cualquier orden guardado que ya no sea válido.
                     localStorage.removeItem('photoOrder');
-                    generarGaleria(listaDeFotosGlobal);
+                    window.location.reload(); // Recargamos para obtener un estado limpio
                 }
             } catch (error) {
                 console.error('Error durante el polling de fotos:', error);
@@ -443,9 +450,28 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.insertBefore(botonReset, document.querySelector('script[src*="sortable"]'));
 
             botonReset.addEventListener('click', () => {
+                // 1. ¡Lanzamos el confeti para una experiencia más gratificante!
+                // Esta configuración crea una explosión amplia y festiva.
+                const coloresDeLaWeb = ['#5d4037', '#7c513a', '#d3c4a8', '#ffffff', '#ab8e79'];
+
+                confetti({
+                    particleCount: 150, // Más partículas para un efecto más denso
+                    spread: 180,        // Se esparcen por toda la pantalla
+                    origin: { y: 0.6 }, // Empiezan un poco por debajo de la parte superior
+                    colors: coloresDeLaWeb // ¡Usamos nuestra paleta de colores personalizada!
+                });
+
+                // 2. Eliminar el orden guardado en localStorage
                 localStorage.removeItem('photoOrder');
-                alert('El orden ha sido restablecido. La página se recargará.');
-                window.location.reload();
+
+                // 3. Actualizar la lista global de fotos al orden original del JSON
+                listaDeFotosGlobal = [...fotosOriginalesDelJson];
+
+                // 4. Regenerar la galería con el orden original
+                generarGaleria(listaDeFotosGlobal);
+
+                // 5. Eliminar el propio botón, ya que no es necesario hasta el próximo cambio
+                botonReset.remove();
             });
         }
     }

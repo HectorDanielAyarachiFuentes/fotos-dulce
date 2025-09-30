@@ -140,19 +140,19 @@ h1 {
   border-radius: 8px;
   width: 180px;
   text-align: center;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   transform-style: preserve-3d;
   opacity: 0;
   transform: translateY(20px) rotate(var(--rotate, 0deg));
   animation: fadeIn 0.6s ease-out forwards;
 }
-.portafotos:hover {
+body:not(.sortable-active) .portafotos:hover {
   transform: translateY(-12px) scale(1.08) rotateY(10deg) rotate(var(--rotate, 0deg));
   box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4), 0 8px 12px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(0, 0, 0, 0.3);
   z-index: 10;
 }
-.portafotos:hover .portafotos__imagen {
+body:not(.sortable-active) .portafotos:hover .portafotos__imagen {
   transform: scale(1.05);
 }
 .portafotos:nth-child(1) {
@@ -195,7 +195,7 @@ h1 {
   width: 100%;
   height: auto;
   display: block;
-  transition: transform 0.4s ease;
+  transition: transform 0.3s ease;
 }
 .portafotos__caption {
   position: relative;
