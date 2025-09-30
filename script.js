@@ -25,9 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (ordenGuardado) {
                 const listaGuardada = JSON.parse(ordenGuardado);
                 // Sincronizamos la lista guardada con la del JSON para manejar fotos nuevas o eliminadas
-                const fotosValidas = listaGuardada.filter(foto => fotosOriginalesDelJson.includes(foto));
-                const fotosNuevas = fotosOriginalesDelJson.filter(foto => !fotosValidas.includes(foto));
+                const mapaFotosOriginales = new Map(fotosOriginalesDelJson.map(foto => [foto.archivo, foto]));
+
+                const fotosValidas = listaGuardada
+                    .map(nombreArchivo => mapaFotosOriginales.get(nombreArchivo))
+                    .filter(Boolean); // Filtramos por si alguna foto guardada ya no existe en el JSON
+
+                const archivosEnListaValida = new Set(fotosValidas.map(foto => foto.archivo));
+                const fotosNuevas = fotosOriginalesDelJson.filter(foto => !archivosEnListaValida.has(foto.archivo));
+
                 listaDeFotosGlobal = [...fotosValidas, ...fotosNuevas];
+
                 console.log('Se ha cargado el orden de fotos guardado.');
             } else {
                 // Si no hay orden guardado, usamos el del archivo JSON
@@ -51,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         estante.innerHTML = '';
         
         // El resto del código es el mismo que ya tenías
-        listaDeFotos.forEach((nombreFoto, index) => {
+        listaDeFotos.forEach((fotoData, index) => {
             // Recorremos la lista y creamos un portafotos por cada imagen
                 // 1. Crear el contenedor del portafotos
                 const portafotosDiv = document.createElement('div');
@@ -73,15 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const img = document.createElement('img');
                 img.className = 'portafotos__imagen'; // Nueva clase para la imagen
                 img.loading = 'lazy'; // <-- ¡AQUÍ ESTÁ LA CARGA PEREZOSA!
-                img.src = `Fotos-Dulce/${nombreFoto}`; // Construimos la ruta a la imagen
+                img.src = `Fotos-Dulce/${fotoData.archivo}`; // Construimos la ruta a la imagen
                 // --- Accesibilidad: Mejorar el texto alternativo ---
-                img.alt = nombreFoto.split('.').slice(0, -1).join('.');
+                img.alt = fotoData.descripcion;
 
                 // 3. Crear el texto (caption)
                 const captionP = document.createElement('p');
                 captionP.className = 'portafotos__caption'; // Nueva clase para el caption
                 // Quitamos la extensión (.jpg, .png) para un título más limpio
-                captionP.textContent = nombreFoto.split('.').slice(0, -1).join('.');
+                captionP.textContent = fotoData.descripcion;
 
                 // 4. Juntar todo y añadirlo al estante
                 imgContainer.appendChild(img);
@@ -148,16 +156,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (index < 0 || index >= listaDeFotosGlobal.length) return;
 
         indiceActual = index; // Actualizamos el índice global
-        const nombreFoto = listaDeFotosGlobal[indiceActual];
-        lightboxImg.src = `Fotos-Dulce/${nombreFoto}`;
+        const fotoData = listaDeFotosGlobal[indiceActual];
+        lightboxImg.src = `Fotos-Dulce/${fotoData.archivo}`;
         // --- NUEVO: Actualizar el botón de descarga ---
         // --- Accesibilidad: Mejorar alt de la imagen del lightbox ---
-        lightboxImg.alt = nombreFoto.split('.').slice(0, -1).join('.');
-        btnDescargar.href = `Fotos-Dulce/${nombreFoto}`;
-        btnDescargar.download = nombreFoto; // Sugiere el nombre de archivo original
+        lightboxImg.alt = fotoData.descripcion;
+        btnDescargar.href = `Fotos-Dulce/${fotoData.archivo}`;
+        btnDescargar.download = fotoData.archivo; // Sugiere el nombre de archivo original
         // --- NUEVO: Actualizar el contador ---
         lightboxCounter.textContent = `${indiceActual + 1} / ${listaDeFotosGlobal.length}`;
-        lightboxCaption.textContent = nombreFoto.split('.').slice(0, -1).join('.'); // Actualizamos el título
+        lightboxCaption.textContent = fotoData.descripcion; // Actualizamos el título
         // --- NUEVO: Precargar imágenes adyacentes ---
         precargarImagenesAdyacentes(index);
     }
@@ -245,17 +253,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- NUEVA FUNCIONALIDAD: Compartir imagen ---
     btnCompartir.addEventListener('click', async (e) => {
         e.stopPropagation(); // Evitar que el clic cierre el lightbox
-        const nombreFoto = listaDeFotosGlobal[indiceActual];
-        const titulo = nombreFoto.split('.').slice(0, -1).join('.');
+        const fotoData = listaDeFotosGlobal[indiceActual];
+        const { archivo, descripcion } = fotoData;
 
         // La Web Share API es la forma moderna de compartir
         if (navigator.share) {
             try {
                 // 1. Obtenemos la imagen como un "blob" (un objeto de datos binarios)
-                const response = await fetch(`Fotos-Dulce/${nombreFoto}`);
+                const response = await fetch(`Fotos-Dulce/${archivo}`);
                 const blob = await response.blob();
                 // 2. Creamos un archivo virtual a partir del blob
-                const file = new File([blob], nombreFoto, { type: blob.type });
+                const file = new File([blob], archivo, { type: blob.type });
 
                 // 3. Usamos la API para compartir el archivo
                 await navigator.share({
@@ -359,12 +367,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Precargar la siguiente imagen
         const siguienteIndice = (index + 1) % listaDeFotosGlobal.length;
         const imgSiguiente = new Image();
-        imgSiguiente.src = `Fotos-Dulce/${listaDeFotosGlobal[siguienteIndice]}`;
+        imgSiguiente.src = `Fotos-Dulce/${listaDeFotosGlobal[siguienteIndice].archivo}`;
 
         // Precargar la imagen anterior
         const anteriorIndice = (index - 1 + listaDeFotosGlobal.length) % listaDeFotosGlobal.length;
         const imgAnterior = new Image();
-        imgAnterior.src = `Fotos-Dulce/${listaDeFotosGlobal[anteriorIndice]}`;
+        imgAnterior.src = `Fotos-Dulce/${listaDeFotosGlobal[anteriorIndice].archivo}`;
     }
 
 
@@ -411,12 +419,12 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const respuesta = await fetch('fotos.json');
                 const data = await respuesta.json();
-                const fotosNuevasDelJson = data.fotos;
+                const nuevasFotosData = data.fotos;
 
                 // Comparamos si las fotos en el JSON son diferentes a las que cargamos originalmente.
                 // Usamos Sets para una comparación eficiente que ignora el orden.
-                const setOriginal = new Set(fotosOriginalesDelJson);
-                const setNuevo = new Set(fotosNuevasDelJson);
+                const setOriginal = new Set(fotosOriginalesDelJson.map(f => f.archivo));
+                const setNuevo = new Set(nuevasFotosData.map(f => f.archivo));
 
                 const sonIguales = setOriginal.size === setNuevo.size && [...setOriginal].every(foto => setNuevo.has(foto));
 
