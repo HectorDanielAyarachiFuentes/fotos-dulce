@@ -48,6 +48,12 @@ h1 {
     transform: translateY(0) rotate(var(--rotate, 0deg));
   }
 }
+:focus-visible {
+  outline: 3px solid #5d4037;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 .estanteria-fotos {
   width: 90%;
   max-width: 1300px;
@@ -205,6 +211,17 @@ h1 {
   }
   .portafotos:hover {
     transform: translateY(-5px) scale(1.03);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portafotos {
+    transition: none;
+    animation: none;
+    opacity: 1;
+    transform: rotate(var(--rotate, 0deg));
+  }
+  .portafotos:hover {
+    transform: scale(1.03) rotate(var(--rotate, 0deg));
   }
 }
 

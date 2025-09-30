@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- NUEVAS VARIABLES PARA NAVEGACIÓN ---
     let listaDeFotosGlobal = []; // Guardaremos la lista de fotos aquí para accederla globalmente
     let indiceActual = -1;       // Para saber qué foto se está mostrando en el lightbox
+    let ultimoElementoActivo = null; // Para devolver el foco al cerrar el lightbox
 
     // --- NUEVA FUNCIONALIDAD: Cargar fotos desde un JSON externo ---
     async function cargarYMostrarFotos() {
@@ -59,6 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 1. Crear el contenedor del portafotos
                 const portafotosDiv = document.createElement('div');
                 portafotosDiv.className = 'portafotos';
+                // --- Accesibilidad: Hacer que el portafotos sea interactivo para el teclado ---
+                portafotosDiv.setAttribute('role', 'button');
+                portafotosDiv.setAttribute('tabindex', '0');
+
 
                 // --- NUEVA FUNCIONALIDAD: Añadir retraso escalonado a la animación ---
                 // Cada foto esperará 100ms más que la anterior para empezar su animación.
@@ -72,7 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 img.className = 'portafotos__imagen'; // Nueva clase para la imagen
                 img.loading = 'lazy'; // <-- ¡AQUÍ ESTÁ LA CARGA PEREZOSA!
                 img.src = `Fotos-Dulce/${nombreFoto}`; // Construimos la ruta a la imagen
-                img.alt = `Foto de Dulce: ${nombreFoto}`; // Texto alternativo descriptivo
+                // --- Accesibilidad: Mejorar el texto alternativo ---
+                img.alt = nombreFoto.split('.').slice(0, -1).join('.');
 
                 // 3. Crear el texto (caption)
                 const captionP = document.createElement('p');
@@ -88,7 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // --- NUEVA FUNCIONALIDAD: Añadir evento de clic ---
                 portafotosDiv.addEventListener('click', () => {
+                    ultimoElementoActivo = document.activeElement; // Guardamos el elemento que tenía el foco
                     mostrarFotoEnGrande(index); // Pasamos el índice en lugar de la ruta
+                });
+
+                // --- Accesibilidad: Permitir activar con Enter/Espacio ---
+                portafotosDiv.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        portafotosDiv.click();
+                    }
                 });
         });
 
@@ -126,6 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
             actualizarContenidoLightbox(index);
             lightbox.classList.add('visible');
             document.body.style.overflow = 'hidden'; // Evita el scroll del fondo
+            // --- Accesibilidad: Mover el foco al lightbox (al botón de cerrar) ---
+            btnCerrar.focus();
         }
     }
 
@@ -137,6 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const nombreFoto = listaDeFotosGlobal[indiceActual];
         lightboxImg.src = `Fotos-Dulce/${nombreFoto}`;
         // --- NUEVO: Actualizar el botón de descarga ---
+        // --- Accesibilidad: Mejorar alt de la imagen del lightbox ---
+        lightboxImg.alt = nombreFoto.split('.').slice(0, -1).join('.');
         btnDescargar.href = `Fotos-Dulce/${nombreFoto}`;
         btnDescargar.download = nombreFoto; // Sugiere el nombre de archivo original
         // --- NUEVO: Actualizar el contador ---
@@ -150,6 +168,10 @@ document.addEventListener('DOMContentLoaded', () => {
         lightbox.classList.remove('visible');
         // Al cerrar, reactivamos la vigilancia por si estaba pausada
         if (!pollingIntervalId) iniciarPollingDeFotos();
+        // --- Accesibilidad: Devolver el foco al elemento que abrió el lightbox ---
+        if (ultimoElementoActivo) {
+            ultimoElementoActivo.focus();
+        }
         document.body.style.overflow = 'auto'; // Restaura el scroll
     }
 
@@ -177,6 +199,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Si el lightbox no está visible, no hacemos nada
         if (!lightbox.classList.contains('visible')) return;
 
+        // --- Accesibilidad: Atrapar el foco dentro del lightbox ---
+        if (e.key === 'Tab') {
+            trapFocus(e);
+        }
         if (e.key === 'Escape') {
             cerrarLightbox();
         }
@@ -253,6 +279,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+
+    // --- Accesibilidad: Función para atrapar el foco dentro de un elemento ---
+    function trapFocus(e) {
+        const focusableElements = lightbox.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+
+        // Si se presiona Shift + Tab
+        if (e.shiftKey) {
+            if (document.activeElement === firstFocusable) {
+                lastFocusable.focus(); // Mover el foco al último elemento
+                e.preventDefault();
+            }
+        } else { // Si se presiona Tab
+            if (document.activeElement === lastFocusable) {
+                firstFocusable.focus(); // Mover el foco al primer elemento
+                e.preventDefault();
+            }
+        }
+    }
+
+
+
 
     // --- NUEVA FUNCIONALIDAD: Inicializar la librería de Drag and Drop (SortableJS) ---
     function inicializarDragAndDrop() {

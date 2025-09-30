@@ -52,3 +52,11 @@ h1 {
         transform: translateY(0) rotate(var(--rotate, 0deg));
     }
 }
+
+// --- Estilos de Accesibilidad ---
+// Añadimos un indicador de foco visible para la navegación por teclado.
+:focus-visible {
+    outline: 3px solid $color-titulo;
+    outline-offset: 2px;
+    border-radius: $radio-borde-sm;
+}
