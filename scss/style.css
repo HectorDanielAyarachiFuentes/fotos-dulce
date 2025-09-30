@@ -253,6 +253,12 @@ body:not(.sortable-active) .portafotos:hover .portafotos__imagen {
   }
 }
 
+@keyframes blink {
+  50% {
+    opacity: 0.6;
+    background-color: rgb(202.4351145038, 184.5152671756, 151.0648854962);
+  }
+}
 .portafotos-drag {
   opacity: 0.9;
   transform: translateY(-12px) scale(1.08) rotate(5deg) !important;
@@ -264,6 +270,7 @@ body:not(.sortable-active) .portafotos:hover .portafotos__imagen {
   opacity: 0.4;
   background: rgb(193.8702290076, 173.0305343511, 134.1297709924);
   border-radius: 8px;
+  animation: blink 1.2s infinite ease-in-out;
 }
 .portafotos-ghost * {
   visibility: hidden;

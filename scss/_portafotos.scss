@@ -134,6 +134,14 @@
     }
 }
 
+// --- NUEVO: Keyframes para la animación de parpadeo del fantasma ---
+@keyframes blink {
+    50% {
+        opacity: 0.6;
+        background-color: color.adjust($borde-portafotos, $lightness: -5%);
+    }
+}
+
 // --- Estilos para la funcionalidad de Drag and Drop (SortableJS) ---
 
 // Estilo para el elemento que se está arrastrando
@@ -149,6 +157,7 @@
     opacity: 0.4;
     background: color.adjust($borde-portafotos, $lightness: -10%);
     border-radius: $radio-borde-md;
+    animation: blink 1.2s infinite ease-in-out; // ¡Aquí está la animación de parpadeo!
     // Hacemos que el contenido del fantasma sea invisible
     * { visibility: hidden; }
 }
