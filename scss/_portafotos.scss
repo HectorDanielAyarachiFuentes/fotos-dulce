@@ -139,7 +139,7 @@
 // Estilo para el elemento que se está arrastrando
 .portafotos-drag {
     opacity: 0.9;
-    transform: translateY(-12px) scale(1.08) !important; // Forzamos que se mantenga elevado
+    transform: translateY(-12px) scale(1.08) rotate(5deg) !important; // Forzamos que se mantenga elevado y lo rotamos
     box-shadow: 0 25px 40px rgba(0,0,0,0.5); // Sombra más pronunciada al arrastrar
     z-index: 9999; // Nos aseguramos de que esté por encima de todo
 }
