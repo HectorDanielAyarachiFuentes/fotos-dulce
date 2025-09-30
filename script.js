@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const estante = document.getElementById('estante-fotos');
     let pollingIntervalId = null; // Para controlar el intervalo de actualización automática
 
+    let fotosOriginalesDelJson = []; // <-- NUEVO: Para guardar el estado original del JSON
     // --- NUEVAS VARIABLES PARA NAVEGACIÓN ---
     let listaDeFotosGlobal = []; // Guardaremos la lista de fotos aquí para accederla globalmente
     let indiceActual = -1;       // Para saber qué foto se está mostrando en el lightbox
@@ -16,20 +17,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // 2. Convertimos la respuesta a un objeto JavaScript
             const data = await respuesta.json();
-            const fotosDesdeJson = data.fotos;
+            fotosOriginalesDelJson = data.fotos; // Guardamos la lista original
 
             // --- NUEVO: Comprobar si hay un orden guardado en localStorage ---
             const ordenGuardado = localStorage.getItem('photoOrder');
             if (ordenGuardado) {
                 const listaGuardada = JSON.parse(ordenGuardado);
                 // Sincronizamos la lista guardada con la del JSON para manejar fotos nuevas o eliminadas
-                const fotosValidas = listaGuardada.filter(foto => fotosDesdeJson.includes(foto));
-                const fotosNuevas = fotosDesdeJson.filter(foto => !fotosValidas.includes(foto));
+                const fotosValidas = listaGuardada.filter(foto => fotosOriginalesDelJson.includes(foto));
+                const fotosNuevas = fotosOriginalesDelJson.filter(foto => !fotosValidas.includes(foto));
                 listaDeFotosGlobal = [...fotosValidas, ...fotosNuevas];
                 console.log('Se ha cargado el orden de fotos guardado.');
             } else {
                 // Si no hay orden guardado, usamos el del archivo JSON
-                listaDeFotosGlobal = fotosDesdeJson;
+                listaDeFotosGlobal = fotosOriginalesDelJson;
             }
 
             // 3. Una vez que tenemos la lista, generamos la galería
@@ -345,10 +346,13 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const respuesta = await fetch('fotos.json');
                 const data = await respuesta.json();
+                const fotosNuevasDelJson = data.fotos;
                 // Comparamos la nueva lista con la antigua (convirtiéndolas a texto)
-                if (JSON.stringify(data.fotos) !== JSON.stringify(listaDeFotosGlobal)) {
+                if (JSON.stringify(fotosNuevasDelJson) !== JSON.stringify(fotosOriginalesDelJson)) {
                     console.log('Se detectaron cambios en fotos.json. Actualizando galería...');
-                    listaDeFotosGlobal = data.fotos;
+                    // Forzamos una recarga completa para aplicar el nuevo orden desde el JSON
+                    // y limpiar cualquier orden guardado que ya no sea válido.
+                    localStorage.removeItem('photoOrder');
                     generarGaleria(listaDeFotosGlobal);
                 }
             } catch (error) {
