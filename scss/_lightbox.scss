@@ -86,6 +86,10 @@
 
     @media (max-width: $breakpoint-tablet) {
         align-items: flex-start;
+        // Permitimos que este contenedor se encoja y cortamos el texto si es muy largo
+        flex-shrink: 1;
+        min-width: 0;
+        overflow: hidden;
     }
 }
 
@@ -97,6 +101,12 @@
     max-width: 80vw;
     text-align: center;
     font-size: 1rem;
+
+    @media (max-width: $breakpoint-tablet) {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 }
 
 // Estilos para el contador de fotos
