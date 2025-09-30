@@ -1,0 +1,64 @@
+// --- Componente: Portafotos ---
+@use 'variables' as *;
+@use 'mixins' as *;
+.portafotos {
+    background-color: $color-blanco;
+    border: 1rem solid $borde-portafotos;
+    box-shadow: 0 5px 15px $color-sombra-suave, inset 0 0 5px $color-sombra-interna;
+    padding: 0.75rem;
+    border-radius: $radio-borde-sm;
+    width: 180px;
+    text-align: center;
+    transition: transform $transicion-rapida, box-shadow $transicion-rapida;
+    cursor: pointer;
+
+    // --- Animación de entrada ---
+    opacity: 0; // Inicialmente oculto
+    transform: translateY(20px); // Posición inicial ligeramente abajo
+    animation: fadeIn 0.6s ease-out forwards; // Aplicamos la animación
+
+    &:hover {
+        // Combinamos el transform original con el nuevo para no perder la rotación
+        transform: translateY(-10px) scale(1.05) rotate(var(--rotate, 0deg));
+        box-shadow: 0 15px 25px $color-sombra-fuerte, inset 0 0 5px $color-sombra-interna;
+        z-index: 10;
+    }
+
+    // Usamos un bucle @each para generar las rotaciones. ¡Mucho más limpio!
+    @each $child, $rotation in $rotaciones-portafotos {
+        &:nth-child(#{$child}) {
+            --rotate: #{$rotation};
+            transform: rotate(var(--rotate));
+        }
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border: 1px solid #eee;
+    }
+
+    .caption {
+        font-size: 0.875rem; // 14px
+        color: $color-caption;
+        margin-top: 0.5rem; // 8px
+        font-style: italic;
+    }
+
+    @media (max-width: $breakpoint-tablet) {
+        // Calculamos el ancho para que quepan 2 por fila, considerando el gap
+        width: calc(50% - 0.5rem);
+        border-width: 0.75rem;
+        padding: 0.5rem;
+
+        // Reseteamos las rotaciones individuales en móvil
+        &:nth-child(n) {
+            transform: none;
+        }
+
+        &:hover {
+            transform: translateY(-5px) scale(1.03); // Efecto hover más sutil
+        }
+    }
+}

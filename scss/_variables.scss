@@ -1,0 +1,26 @@
+// ==========================================================================
+// VARIABLES Y CONFIGURACIÓN
+// ==========================================================================
+$color-fondo: #f0e8d8;
+$color-titulo: #5d4037;
+$color-caption: #555;
+$color-blanco: #fff;
+$color-negro-transparente: rgba(0, 0, 0, 0.85);
+$color-sombra-fuerte: rgba(0, 0, 0, 0.4);
+$color-sombra-suave: rgba(0, 0, 0, 0.3);
+$color-sombra-interna: rgba(0, 0, 0, 0.2);
+$color-sombra-lightbox: rgba(255, 255, 255, 0.2);
+
+$gradiente-madera: linear-gradient(to bottom, #8c5a3e, #6b4a32);
+$borde-estante: #5d4037;
+$borde-portafotos: #d3c4a8;
+
+$fuente-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$radio-borde-sm: 4px;
+$radio-borde-md: 8px;
+$transicion-rapida: 0.3s ease;
+$transicion-media: 0.4s ease;
+$breakpoint-tablet: 768px;
+
+// Mapa para las rotaciones de los portafotos. ¡Más fácil de mantener!
+$rotaciones-portafotos: (1: -2deg, 2: 1deg, 3: -1.5deg, 4: 2.5deg, 5: -1deg);

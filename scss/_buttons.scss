@@ -1,0 +1,54 @@
+// --- Componente: Botones ---
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Clase genérica para los botones de acción (Volver, Descargar)
+.btn-lightbox {
+    display: inline-block; // Para que el <a> se comporte como botón
+    padding: 0.75rem 1.5rem;
+    background-color: $color-blanco;
+    color: #333;
+    border: none;
+    border-radius: $radio-borde-sm;
+    font-size: 1rem;
+    font-family: $fuente-principal;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color $transicion-rapida;
+
+    &:hover {
+        background-color: #ddd;
+    }
+}
+
+// Estilos para los botones de navegación del Lightbox
+.btn-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: $color-sombra-interna;
+    color: $color-blanco;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color $transicion-rapida;
+    @include flex-center;
+    z-index: 1001; // Aseguramos que estén por encima de la imagen
+
+    &:hover {
+        background-color: $color-sombra-suave;
+    }
+
+    &.btn-anterior { left: 1rem; }
+    &.btn-siguiente { right: 1rem; }
+
+    @media (max-width: $breakpoint-tablet) {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}

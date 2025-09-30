@@ -1,0 +1,33 @@
+// --- Componente: Estantería ---
+@use 'variables' as *;
+@use 'mixins' as *;
+.estanteria-fotos {
+    width: 90%;
+    max-width: 1200px;
+    margin-top: -4rem; // Lo acercamos un poco más
+    perspective: 800px;
+
+    @media (max-width: $breakpoint-tablet) {
+        width: 100%;
+        margin-top: 2rem;
+        perspective: none; // Desactivamos el efecto 3D en móvil
+    }
+}
+
+.estante {
+    background: $gradiente-madera;
+    border-radius: $radio-borde-md;
+    padding: 1.25rem;
+    box-shadow: 0 10px 20px $color-sombra-fuerte, 0 2px 6px $color-sombra-suave;
+    @include flex-center($justify: center, $align: flex-end);
+    gap: 2rem;
+    flex-wrap: wrap;
+    transform: rotateX(10deg);
+    border-bottom: 1rem solid $borde-estante;
+
+    @media (max-width: $breakpoint-tablet) {
+        transform: none; // Quitamos la rotación del estante
+        gap: 1rem; // Ajustamos el gap para que quepan 2 fotos
+        border-bottom-width: 0.75rem;
+    }
+}

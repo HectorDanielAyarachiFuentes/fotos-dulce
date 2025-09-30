@@ -1,0 +1,58 @@
+// --- Componente: Lightbox ---
+@use 'variables' as *;
+@use 'mixins' as *;
+.lightbox-overlay {
+    position: fixed;
+    inset: 0; // Equivalente a top, right, bottom, left = 0
+    background-color: $color-negro-transparente;
+    @include flex-center(column);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity $transicion-media, visibility $transicion-media;
+    padding: 1rem;
+
+    &.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    img {
+        max-width: 85vw; // Dejamos espacio para los botones de navegación
+        max-height: 80vh;
+        box-shadow: 0 0 30px $color-sombra-lightbox;
+        border-radius: $radio-borde-sm;
+        transition: opacity $transicion-rapida; // Transición para el efecto de fade
+
+        @media (max-width: $breakpoint-tablet) {
+            max-width: 80vw; // Un poco más de espacio en móviles
+        }
+    }
+}
+
+.lightbox-content {
+    @include flex-center(column);
+}
+
+.lightbox-actions {
+    display: flex;
+    gap: 1rem;
+    // El margen superior ahora lo da el contador
+}
+
+// Estilos para el título de la foto en el Lightbox
+.lightbox-caption {
+    color: $color-blanco;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+    max-width: 80vw;
+    text-align: center;
+}
+
+// Estilos para el contador de fotos
+.lightbox-counter {
+    color: #ccc; // Un color más sutil
+    font-size: 0.9rem;
+    margin-bottom: 1rem; // Espacio antes de los botones de acción
+}
