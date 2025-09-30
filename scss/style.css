@@ -208,6 +208,22 @@ h1 {
   }
 }
 
+.portafotos-drag {
+  opacity: 0.9;
+  transform: translateY(-12px) scale(1.08) !important;
+  box-shadow: 0 25px 40px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.portafotos-ghost {
+  opacity: 0.4;
+  background: rgb(193.8702290076, 173.0305343511, 134.1297709924);
+  border-radius: 8px;
+}
+.portafotos-ghost * {
+  visibility: hidden;
+}
+
 .lightbox-overlay {
   position: fixed;
   inset: 0;

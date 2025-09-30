@@ -118,3 +118,22 @@
         }
     }
 }
+
+// --- Estilos para la funcionalidad de Drag and Drop (SortableJS) ---
+
+// Estilo para el elemento que se está arrastrando
+.portafotos-drag {
+    opacity: 0.9;
+    transform: translateY(-12px) scale(1.08) !important; // Forzamos que se mantenga elevado
+    box-shadow: 0 25px 40px rgba(0,0,0,0.5); // Sombra más pronunciada al arrastrar
+    z-index: 9999; // Nos aseguramos de que esté por encima de todo
+}
+
+// Estilo para el "fantasma" o marcador de posición
+.portafotos-ghost {
+    opacity: 0.4;
+    background: darken($borde-portafotos, 10%);
+    border-radius: $radio-borde-md;
+    // Hacemos que el contenido del fantasma sea invisible
+    * { visibility: hidden; }
+}

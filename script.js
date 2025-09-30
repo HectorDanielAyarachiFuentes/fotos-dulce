@@ -74,6 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         console.log(`Se han cargado ${listaDeFotos.length} fotos dinámicamente desde fotos.json.`);
+
+        // --- NUEVA FUNCIONALIDAD: Habilitar el drag-and-drop en el estante ---
+        inicializarDragAndDrop();
     }
 
     // --- Lógica para el Lightbox (vista en grande) ---
@@ -229,6 +232,25 @@ document.addEventListener('DOMContentLoaded', () => {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
             }
+        }
+    }
+
+    // --- NUEVA FUNCIONALIDAD: Inicializar la librería de Drag and Drop (SortableJS) ---
+    function inicializarDragAndDrop() {
+        const estanteElement = document.getElementById('estante-fotos');
+        if (estanteElement) {
+            new Sortable(estanteElement, {
+                animation: 250, // Velocidad de la animación al mover elementos
+                ghostClass: 'portafotos-ghost', // Clase para el espacio fantasma donde se soltará
+                dragClass: 'portafotos-drag',   // Clase para el elemento que se está arrastrando
+                onStart: function () {
+                    // Pausamos la actualización automática para evitar que la galería se recargue mientras movemos algo
+                    if (pollingIntervalId) {
+                        clearInterval(pollingIntervalId);
+                        pollingIntervalId = null;
+                    }
+                }
+            });
         }
     }
 
