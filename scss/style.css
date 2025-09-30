@@ -14,8 +14,14 @@ body {
   padding: 2.5rem 1.25rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   min-height: 100vh;
+}
+@media (max-width: 768px) {
+  body {
+    padding: 1.5rem 1rem;
+  }
 }
 
 h1 {
@@ -28,12 +34,26 @@ h1 {
   border: 2px solid #d3c4a8;
   display: inline-block;
 }
+@media (max-width: 768px) {
+  h1 {
+    display: block;
+    width: 95%;
+    font-size: 1.5rem;
+  }
+}
 
 .estanteria-fotos {
   width: 90%;
   max-width: 1200px;
   margin-top: -4rem;
   perspective: 800px;
+}
+@media (max-width: 768px) {
+  .estanteria-fotos {
+    width: 100%;
+    margin-top: 2rem;
+    perspective: none;
+  }
 }
 
 .estante {
@@ -42,12 +62,20 @@ h1 {
   padding: 1.25rem;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: flex-end;
   gap: 2rem;
   flex-wrap: wrap;
   transform: rotateX(10deg);
   border-bottom: 1rem solid #5d4037;
+}
+@media (max-width: 768px) {
+  .estante {
+    transform: none;
+    gap: 1rem;
+    border-bottom-width: 0.75rem;
+  }
 }
 
 .portafotos {
@@ -62,8 +90,7 @@ h1 {
   cursor: pointer;
   opacity: 0;
   transform: translateY(20px);
-  -webkit-animation: fadeIn 0.6s ease-out forwards;
-          animation: fadeIn 0.6s ease-out forwards;
+  animation: fadeIn 0.6s ease-out forwards;
 }
 .portafotos:hover {
   transform: translateY(-10px) scale(1.05) rotate(var(--rotate, 0deg));
@@ -102,11 +129,17 @@ h1 {
   margin-top: 0.5rem;
   font-style: italic;
 }
-
-@-webkit-keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0) rotate(var(--rotate, 0deg));
+@media (max-width: 768px) {
+  .portafotos {
+    width: calc(50% - 0.5rem);
+    border-width: 0.75rem;
+    padding: 0.5rem;
+  }
+  .portafotos:nth-child(n) {
+    transform: none;
+  }
+  .portafotos:hover {
+    transform: translateY(-5px) scale(1.03);
   }
 }
 
@@ -121,9 +154,9 @@ h1 {
   inset: 0;
   background-color: rgba(0, 0, 0, 0.85);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
@@ -142,10 +175,16 @@ h1 {
   border-radius: 4px;
   transition: opacity 0.3s ease;
 }
+@media (max-width: 768px) {
+  .lightbox-overlay img {
+    max-width: 80vw;
+  }
+}
 
 .lightbox-content {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
@@ -201,6 +240,7 @@ h1 {
   cursor: pointer;
   transition: background-color 0.3s ease;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   z-index: 1001;
@@ -214,46 +254,10 @@ h1 {
 .btn-nav.btn-siguiente {
   right: 1rem;
 }
-
 @media (max-width: 768px) {
-  body {
-    padding: 1.5rem 1rem;
-  }
-  h1 {
-    display: block;
-    width: 95%;
-    font-size: 1.5rem;
-  }
-  .estanteria-fotos {
-    width: 100%;
-    margin-top: 2rem;
-    perspective: none;
-  }
-  .estante {
-    transform: none;
-    padding: 1rem;
-    gap: 1rem;
-    border-bottom-width: 0.75rem;
-  }
-  .portafotos {
-    width: calc(50% - 0.5rem);
-    border-width: 0.75rem;
-    padding: 0.5rem;
-  }
-  .portafotos:nth-child(n) {
-    --rotate: 0deg;
-    transform: none;
-  }
-  .portafotos:hover {
-    transform: translateY(-5px) scale(1.03);
-  }
-  .lightbox-overlay img {
-    max-width: 80vw;
-  }
   .btn-nav {
     width: 40px;
     height: 40px;
     font-size: 1.2rem;
   }
-}
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

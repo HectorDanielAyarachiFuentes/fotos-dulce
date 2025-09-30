@@ -1,4 +1,6 @@
-// --- Variables Globales de Diseño ---
+// ==========================================================================
+// 1. VARIABLES Y CONFIGURACIÓN
+// ==========================================================================
 $color-fondo: #f0e8d8;
 $color-titulo: #5d4037;
 $color-caption: #555;
@@ -18,9 +20,30 @@ $radio-borde-sm: 4px;
 $radio-borde-md: 8px;
 $transicion-rapida: 0.3s ease;
 $transicion-media: 0.4s ease;
+$breakpoint-tablet: 768px;
 
+// Mapa para las rotaciones de los portafotos. ¡Más fácil de mantener!
+$rotaciones-portafotos: (
+    1: -2deg,
+    2: 1deg,
+    3: -1.5deg,
+    4: 2.5deg,
+    5: -1deg
+);
 
-// --- Estilos Generales y Reseteo Básico ---
+// ==========================================================================
+// 2. MIXINS (Plantillas reutilizables)
+// ==========================================================================
+@mixin flex-center($direction: row, $justify: center, $align: center) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+// ==========================================================================
+// 3. ESTILOS BASE Y GENERALES
+// ==========================================================================
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -35,10 +58,13 @@ body {
     color: $color-caption;
     margin: 0;
     padding: 2.5rem 1.25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    @include flex-center(column);
     min-height: 100vh;
+
+    // Anidamos la media query aquí para tener todo lo de 'body' junto
+    @media (max-width: $breakpoint-tablet) {
+        padding: 1.5rem 1rem;
+    }
 }
 
 h1 {
@@ -50,14 +76,30 @@ h1 {
     text-align: center;
     border: 2px solid $borde-portafotos;
     display: inline-block; // Hacemos que la caja no ocupe todo el ancho
+
+    @media (max-width: $breakpoint-tablet) {
+        display: block; // Ocupa el ancho disponible
+        width: 95%;
+        font-size: 1.5rem;
+    }
 }
 
-// --- Estructura de la Galería ---
+// ==========================================================================
+// 4. COMPONENTES
+// ==========================================================================
+
+// --- Componente: Estantería ---
 .estanteria-fotos {
     width: 90%;
     max-width: 1200px;
     margin-top: -4rem; // Lo acercamos un poco más
     perspective: 800px;
+
+    @media (max-width: $breakpoint-tablet) {
+        width: 100%;
+        margin-top: 2rem;
+        perspective: none; // Desactivamos el efecto 3D en móvil
+    }
 }
 
 .estante {
@@ -65,16 +107,20 @@ h1 {
     border-radius: $radio-borde-md;
     padding: 1.25rem;
     box-shadow: 0 10px 20px $color-sombra-fuerte, 0 2px 6px $color-sombra-suave;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    @include flex-center($justify: center, $align: flex-end);
     gap: 2rem;
     flex-wrap: wrap;
     transform: rotateX(10deg);
     border-bottom: 1rem solid $borde-estante;
+
+    @media (max-width: $breakpoint-tablet) {
+        transform: none; // Quitamos la rotación del estante
+        gap: 1rem; // Ajustamos el gap para que quepan 2 fotos
+        border-bottom-width: 0.75rem;
+    }
 }
 
-// --- Portafotos Individual ---
+// --- Componente: Portafotos ---
 .portafotos {
     background-color: $color-blanco;
     border: 1rem solid $borde-portafotos;
@@ -98,12 +144,13 @@ h1 {
         z-index: 10;
     }
 
-    // Rotación ligera para dar un toque más natural usando variables CSS
-    &:nth-child(1) { --rotate: -2deg; transform: rotate(var(--rotate)); }
-    &:nth-child(2) { --rotate: 1deg; transform: rotate(var(--rotate)); }
-    &:nth-child(3) { --rotate: -1.5deg; transform: rotate(var(--rotate)); }
-    &:nth-child(4) { --rotate: 2.5deg; transform: rotate(var(--rotate)); }
-    &:nth-child(5) { --rotate: -1deg; transform: rotate(var(--rotate)); }
+    // Usamos un bucle @each para generar las rotaciones. ¡Mucho más limpio!
+    @each $child, $rotation in $rotaciones-portafotos {
+        &:nth-child(#{$child}) {
+            --rotate: #{$rotation};
+            transform: rotate(var(--rotate));
+        }
+    }
 
     img {
         width: 100%;
@@ -118,6 +165,22 @@ h1 {
         margin-top: 0.5rem; // 8px
         font-style: italic;
     }
+
+    @media (max-width: $breakpoint-tablet) {
+        // Calculamos el ancho para que quepan 2 por fila, considerando el gap
+        width: calc(50% - 0.5rem);
+        border-width: 0.75rem;
+        padding: 0.5rem;
+
+        // Reseteamos las rotaciones individuales en móvil
+        &:nth-child(n) {
+            transform: none;
+        }
+
+        &:hover {
+            transform: translateY(-5px) scale(1.03); // Efecto hover más sutil
+        }
+    }
 }
 
 // --- Keyframes para la animación de entrada ---
@@ -129,15 +192,12 @@ h1 {
     }
 }
 
-// --- Lightbox (Vista Ampliada) ---
+// --- Componente: Lightbox ---
 .lightbox-overlay {
     position: fixed;
     inset: 0; // Equivalente a top, right, bottom, left = 0
     background-color: $color-negro-transparente;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    @include flex-center(column);
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
@@ -156,22 +216,23 @@ h1 {
         box-shadow: 0 0 30px $color-sombra-lightbox;
         border-radius: $radio-borde-sm;
         transition: opacity $transicion-rapida; // Transición para el efecto de fade
+
+        @media (max-width: $breakpoint-tablet) {
+            max-width: 80vw; // Un poco más de espacio en móviles
+        }
     }
 }
 
-// Nuevo contenedor para la imagen y el botón de volver
 .lightbox-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    @include flex-center(column);
 }
 
-// Contenedor para los botones de acción del lightbox
 .lightbox-actions {
     display: flex;
     gap: 1rem;
     // El margen superior ahora lo da el contador
 }
+
 
 // Clase genérica para los botones de acción (Volver, Descargar)
 .btn-lightbox {
@@ -224,9 +285,7 @@ h1 {
     font-weight: bold;
     cursor: pointer;
     transition: background-color $transicion-rapida;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex-center;
     z-index: 1001; // Aseguramos que estén por encima de la imagen
 
     &:hover {
@@ -235,57 +294,8 @@ h1 {
 
     &.btn-anterior { left: 1rem; }
     &.btn-siguiente { right: 1rem; }
-}
 
-// --- Media Queries para Diseño Responsivo ---
-
-// Para tablets y móviles grandes (hasta 768px)
-@media (max-width: 768px) {
-    body {
-        padding: 1.5rem 1rem;
-    }
-
-    h1 {
-        display: block; // Ocupa el ancho disponible
-        width: 95%;
-        font-size: 1.5rem;
-    }
-
-    .estanteria-fotos {
-        width: 100%;
-        margin-top: 2rem;
-        perspective: none; // Desactivamos el efecto 3D en móvil
-    }
-
-    .estante {
-        transform: none; // Quitamos la rotación del estante
-        padding: 1rem;
-        gap: 1rem;
-        border-bottom-width: 0.75rem;
-    }
-
-    .portafotos {
-        // Calculamos el ancho para que quepan 2 por fila, considerando el gap
-        width: calc(50% - 0.5rem);
-        border-width: 0.75rem;
-        padding: 0.5rem;
-
-        // Reseteamos las rotaciones individuales en móvil
-        &:nth-child(n) {
-            --rotate: 0deg;
-            transform: none;
-        }
-
-        &:hover {
-            transform: translateY(-5px) scale(1.03); // Efecto hover más sutil
-        }
-    }
-
-    .lightbox-overlay img {
-        max-width: 80vw; // Un poco más de espacio en móviles
-    }
-
-    .btn-nav {
+    @media (max-width: $breakpoint-tablet) {
         width: 40px;
         height: 40px;
         font-size: 1.2rem;
