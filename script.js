@@ -46,19 +46,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 portafotosDiv.style.animationDelay = `${index * 100}ms`;
 
                 // 2. Crear la imagen
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'portafotos__imagen-container';
+
                 const img = document.createElement('img');
+                img.className = 'portafotos__imagen'; // Nueva clase para la imagen
                 img.loading = 'lazy'; // <-- ¡AQUÍ ESTÁ LA CARGA PEREZOSA!
                 img.src = `Fotos-Dulce/${nombreFoto}`; // Construimos la ruta a la imagen
                 img.alt = `Foto de Dulce: ${nombreFoto}`; // Texto alternativo descriptivo
 
                 // 3. Crear el texto (caption)
                 const captionP = document.createElement('p');
-                captionP.className = 'caption';
+                captionP.className = 'portafotos__caption'; // Nueva clase para el caption
                 // Quitamos la extensión (.jpg, .png) para un título más limpio
                 captionP.textContent = nombreFoto.split('.').slice(0, -1).join('.');
 
                 // 4. Juntar todo y añadirlo al estante
-                portafotosDiv.appendChild(img);
+                imgContainer.appendChild(img);
+                portafotosDiv.appendChild(imgContainer);
                 portafotosDiv.appendChild(captionP);
                 estante.appendChild(portafotosDiv);
 

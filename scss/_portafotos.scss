@@ -1,27 +1,35 @@
 // --- Componente: Portafotos ---
 @use 'variables' as *;
 @use 'mixins' as *;
+
 .portafotos {
-    background-color: $color-blanco;
-    border: 1rem solid $borde-portafotos;
-    box-shadow: 0 5px 15px $color-sombra-suave, inset 0 0 5px $color-sombra-interna;
+    // 1. Rediseño del marco: ahora es de "madera" con un gradiente
+    background: linear-gradient(145deg, lighten($borde-portafotos, 5%), darken($borde-portafotos, 8%));
+    box-shadow: 0 8px 16px $color-sombra-suave, 0 4px 8px rgba(0,0,0,0.1), inset 0 0 10px rgba(0,0,0,0.3);
     padding: 0.75rem;
-    border-radius: $radio-borde-sm;
+    border-radius: $radio-borde-md; // Bordes más suaves
     width: 180px;
     text-align: center;
-    transition: transform $transicion-rapida, box-shadow $transicion-rapida;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
     cursor: pointer;
+    transform-style: preserve-3d; // Habilita el espacio 3D para los hijos
 
     // --- Animación de entrada ---
     opacity: 0; // Inicialmente oculto
-    transform: translateY(20px); // Posición inicial ligeramente abajo
+    // La rotación inicial se combina con la animación
+    transform: translateY(20px) rotate(var(--rotate, 0deg));
     animation: fadeIn 0.6s ease-out forwards; // Aplicamos la animación
 
     &:hover {
-        // Combinamos el transform original con el nuevo para no perder la rotación
-        transform: translateY(-10px) scale(1.05) rotate(var(--rotate, 0deg));
-        box-shadow: 0 15px 25px $color-sombra-fuerte, inset 0 0 5px $color-sombra-interna;
+        // 2. ¡Efecto 3D! El marco se levanta y rota ligeramente en el eje Y
+        transform: translateY(-12px) scale(1.08) rotateY(10deg) rotate(var(--rotate, 0deg));
+        box-shadow: 0 20px 30px $color-sombra-fuerte, 0 8px 12px rgba(0,0,0,0.2), inset 0 0 10px rgba(0,0,0,0.3);
         z-index: 10;
+
+        // La imagen dentro del marco se agranda, creando un efecto parallax
+        .portafotos__imagen {
+            transform: scale(1.05);
+        }
     }
 
     // Usamos un bucle @each para generar las rotaciones. ¡Mucho más limpio!
@@ -32,18 +40,42 @@
         }
     }
 
-    img {
+    // Contenedor de la imagen para el efecto de cristal
+    &__imagen-container {
+        position: relative;
+        overflow: hidden; // Oculta el zoom de la imagen
+        border-radius: 2px; // Bordes internos suaves
+        box-shadow: inset 0 0 15px rgba(0,0,0,0.4); // Sombra interna para dar profundidad
+
+        // 3. Efecto de cristal sobre la imagen
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%);
+            pointer-events: none; // Permite hacer clic a través del cristal
+        }
+    }
+
+    &__imagen {
         width: 100%;
         height: auto;
         display: block;
-        border: 1px solid #eee;
+        transition: transform 0.4s ease;
     }
 
-    .caption {
+    &__caption {
         font-size: 0.875rem; // 14px
-        color: $color-caption;
+        color: $color-titulo;
         margin-top: 0.5rem; // 8px
         font-style: italic;
+        background-color: rgba(255,255,255,0.7);
+        padding: 2px 6px;
+        border-radius: 2px;
+        display: inline-block; // Para que el fondo se ajuste al texto
     }
 
     @media (max-width: $breakpoint-tablet) {
@@ -54,7 +86,7 @@
 
         // Reseteamos las rotaciones individuales en móvil
         &:nth-child(n) {
-            transform: none;
+            transform: translateY(0); // Mantenemos el translateY de la animación
         }
 
         &:hover {
