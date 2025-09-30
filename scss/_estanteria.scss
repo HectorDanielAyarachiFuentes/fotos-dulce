@@ -3,9 +3,10 @@
 @use 'mixins' as *;
 .estanteria-fotos {
     width: 90%;
-    max-width: 1200px;
+    max-width: 1300px; // Un poco más ancha para dar más presencia
     margin-top: -4rem; // Lo acercamos un poco más
-    perspective: 800px;
+    perspective: 1000px; // Aumentamos la perspectiva para un efecto 3D más pronunciado
+    transition: transform 0.5s ease;
 
     @media (max-width: $breakpoint-tablet) {
         width: 100%;
@@ -15,15 +16,35 @@
 }
 
 .estante {
-    background: $gradiente-madera;
+    position: relative; // Necesario para el borde 3D con pseudo-elementos
+    // 1. Textura de madera mejorada: gradiente + ruido sutil para el grano
+    background-color: #7c513a;
+    background-image: 
+        linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(0,0,0,0.2)),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%235d4037' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     border-radius: $radio-borde-md;
     padding: 1.25rem;
-    box-shadow: 0 10px 20px $color-sombra-fuerte, 0 2px 6px $color-sombra-suave;
+    // 2. Sombra más realista y profunda
+    box-shadow: 0 15px 25px rgba(0,0,0,0.5), 0 5px 10px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
     @include flex-center($justify: center, $align: flex-end);
     gap: 2rem;
     flex-wrap: wrap;
     transform: rotateX(10deg);
-    border-bottom: 1rem solid $borde-estante;
+    border-bottom: 1rem solid darken($borde-estante, 5%); // La parte de abajo es más oscura
+
+    // 3. ¡Borde frontal 3D! Creamos la cara frontal de la balda
+    &::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1rem; // Debe coincidir con el border-bottom
+        background: linear-gradient(to top, darken($borde-estante, 8%), $borde-estante);
+        border-bottom-left-radius: $radio-borde-md;
+        border-bottom-right-radius: $radio-borde-md;
+        transform: translateZ(-1px); // Lo empujamos un poco hacia atrás
+    }
 
     @media (max-width: $breakpoint-tablet) {
         transform: none; // Quitamos la rotación del estante
