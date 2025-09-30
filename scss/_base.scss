@@ -60,3 +60,40 @@ h1 {
     outline-offset: 2px;
     border-radius: $radio-borde-sm;
 }
+
+// --- Estilos para Tooltips ---
+[data-tooltip] {
+    position: relative;
+
+    // El tooltip en sí
+    &::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 110%; // Posicionado arriba del elemento
+        left: 50%;
+        transform: translateX(-50%);
+        
+        background-color: darken($color-titulo, 10%);
+        color: $color-blanco;
+        font-family: $fuente-principal;
+        font-size: 0.8rem;
+        font-weight: 500;
+        white-space: nowrap; // Evita que el texto se parta en varias líneas
+        padding: 0.4rem 0.8rem;
+        border-radius: $radio-borde-sm;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+
+        // Oculto por defecto
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none; // No interfiere con el ratón
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    // Se muestra al hacer hover o al enfocar con el teclado
+    &:hover::after,
+    &:focus-visible::after {
+        opacity: 1;
+        visibility: visible;
+    }
+}

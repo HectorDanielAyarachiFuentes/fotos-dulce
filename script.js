@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // --- Accesibilidad: Hacer que el portafotos sea interactivo para el teclado ---
                 portafotosDiv.setAttribute('role', 'button');
                 portafotosDiv.setAttribute('tabindex', '0');
+                portafotosDiv.setAttribute('data-tooltip', 'Ver en grande');
 
 
                 // --- NUEVA FUNCIONALIDAD: Añadir retraso escalonado a la animación ---
@@ -434,6 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
             botonReset.id = 'btn-reset-order';
             botonReset.textContent = 'Restablecer Orden';
             botonReset.className = 'btn-lightbox'; // Reutilizamos el estilo de los botones
+            botonReset.setAttribute('data-tooltip', 'Vuelve al orden original del álbum');
             botonReset.style.marginTop = '2rem';
             document.body.insertBefore(botonReset, document.querySelector('script[src*="sortable"]'));
 

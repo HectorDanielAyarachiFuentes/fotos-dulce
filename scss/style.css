@@ -54,6 +54,34 @@ h1 {
   border-radius: 4px;
 }
 
+[data-tooltip] {
+  position: relative;
+}
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(60.9527027027, 41.9459459459, 36.0472972973);
+  color: #fff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+[data-tooltip]:hover::after, [data-tooltip]:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+}
+
 .estanteria-fotos {
   width: 90%;
   max-width: 1300px;
