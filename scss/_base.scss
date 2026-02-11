@@ -26,7 +26,7 @@ body {
 
     // Anidamos la media query aquí para tener todo lo de 'body' junto
     @media (max-width: $breakpoint-tablet) {
-        padding: 5rem 1rem 1.5rem; // Más espacio arriba para evitar solapamiento con theme toggle
+        padding: 1.5rem 1rem; // Padding normal, sin espacio extra para botón
     }
 }
 
