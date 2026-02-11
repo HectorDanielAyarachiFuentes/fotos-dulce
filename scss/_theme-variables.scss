@@ -1,0 +1,80 @@
+// ==========================================================================
+// THEME VARIABLES - Sistema de temas con CSS Custom Properties
+// ==========================================================================
+
+// --- TEMA CLARO (por defecto) ---
+:root,
+[data-theme="light"] {
+    // Colores de fondo
+    --color-fondo: #f5ebe0;
+    --color-blanco: #ffffff;
+    --color-fondo-portafotos: #fefefe;
+    
+    // Colores de texto
+    --color-titulo: #5d4037;
+    --color-caption: #6d4c41;
+    
+    // Bordes y sombras
+    --borde-portafotos: #d7ccc8;
+    --color-sombra-suave: rgba(93, 64, 55, 0.15);
+    --color-sombra-hover: rgba(93, 64, 55, 0.25);
+    --color-sombra-intensa: rgba(93, 64, 55, 0.35);
+    
+    // Lightbox
+    --lightbox-overlay: rgba(0, 0, 0, 0.92);
+    --lightbox-texto: #ffffff;
+    
+    // Botones
+    --btn-bg: #7c513a;
+    --btn-bg-hover: #5d4037;
+    --btn-text: #ffffff;
+    --btn-secondary-bg: rgba(255, 255, 255, 0.15);
+    --btn-secondary-hover: rgba(255, 255, 255, 0.25);
+}
+
+// --- TEMA OSCURO ---
+[data-theme="dark"] {
+    // Colores de fondo
+    --color-fondo: #1a1a1a;
+    --color-blanco: #2d2d2d;
+    --color-fondo-portafotos: #2a2a2a;
+    
+    // Colores de texto
+    --color-titulo: #d4a574;
+    --color-caption: #c9b299;
+    
+    // Bordes y sombras
+    --borde-portafotos: #3d3d3d;
+    --color-sombra-suave: rgba(0, 0, 0, 0.4);
+    --color-sombra-hover: rgba(0, 0, 0, 0.6);
+    --color-sombra-intensa: rgba(0, 0, 0, 0.8);
+    
+    // Lightbox
+    --lightbox-overlay: rgba(0, 0, 0, 0.95);
+    --lightbox-texto: #e0e0e0;
+    
+    // Botones
+    --btn-bg: #d4a574;
+    --btn-bg-hover: #c9935a;
+    --btn-text: #1a1a1a;
+    --btn-secondary-bg: rgba(212, 165, 116, 0.15);
+    --btn-secondary-hover: rgba(212, 165, 116, 0.25);
+}
+
+// --- TRANSICIONES SUAVES PARA CAMBIO DE TEMA ---
+* {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+// Excepciones: elementos que no deben tener transición de color
+img,
+.portafotos__imagen,
+[class*="btn-"],
+button {
+    transition: transform 0.3s ease, 
+                opacity 0.3s ease,
+                box-shadow 0.3s ease;
+}

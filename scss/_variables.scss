@@ -1,19 +1,33 @@
 // ==========================================================================
 // VARIABLES Y CONFIGURACIÓN
 // ==========================================================================
-$color-fondo: #f0e8d8;
-$color-titulo: #5d4037;
-$color-caption: #555;
-$color-blanco: #fff;
+
+// --- COLORES ESTÁTICOS para funciones de Sass (color.adjust, etc.) ---
+// Estos son los valores base que Sass necesita para compilar
+$color-titulo-static: #5d4037;
+$color-caption-static: #6d4c41;
+$borde-portafotos-static: #d3c4a8;
+$borde-estante-static: #5d4037;
+
+// --- COLORES: Ahora usan CSS Custom Properties para soporte de temas ---
+// Estos valores son compatibles con el sistema de temas en _theme-variables.scss
+$color-fondo: var(--color-fondo);
+$color-titulo: var(--color-titulo);
+$color-caption: var(--color-caption);
+$color-blanco: var(--color-blanco);
+$color-sombra-suave: var(--color-sombra-suave);
+$color-sombra-hover: var(--color-sombra-hover);
+$color-sombra-intensa: var(--color-sombra-intensa);
+
+// Variables específicas que no cambian con el tema
 $color-negro-transparente: rgba(0, 0, 0, 0.85);
 $color-sombra-fuerte: rgba(0, 0, 0, 0.4);
-$color-sombra-suave: rgba(0, 0, 0, 0.3);
 $color-sombra-interna: rgba(0, 0, 0, 0.2);
 $color-sombra-lightbox: rgba(255, 255, 255, 0.2);
 
 $gradiente-madera: linear-gradient(to bottom, #8c5a3e, #6b4a32);
 $borde-estante: #5d4037;
-$borde-portafotos: #d3c4a8;
+$borde-portafotos: var(--borde-portafotos);
 
 $fuente-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 $radio-borde-sm: 4px;
@@ -23,4 +37,10 @@ $transicion-media: 0.4s ease;
 $breakpoint-tablet: 768px;
 
 // Mapa para las rotaciones de los portafotos. ¡Más fácil de mantener!
-$rotaciones-portafotos: (1: -2deg, 2: 1deg, 3: -1.5deg, 4: 2.5deg, 5: -1deg);
+$rotaciones-portafotos: (
+    1: -2deg,
+    2: 1deg,
+    3: -1.5deg,
+    4: 2.5deg,
+    5: -1deg
+);

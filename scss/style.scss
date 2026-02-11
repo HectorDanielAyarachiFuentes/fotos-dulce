@@ -4,7 +4,10 @@
 // No debería contener ninguna regla de estilo directamente.
 // ==========================================================================
 
-// 1. Configuración y utilidades (siempre primero)
+// 1. Sistema de temas (debe ir primero para definir CSS custom properties)
+@use 'theme-variables';
+
+// 2. Configuración y utilidades
 @use 'variables';
 @use 'mixins';
 
@@ -12,6 +15,7 @@
 @use 'base';
 
 // 3. Componentes (bloques de UI reutilizables)
+@use 'theme-toggle';
 @use 'estanteria';
 @use 'portafotos';
 @use 'lightbox';

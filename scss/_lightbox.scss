@@ -1,10 +1,11 @@
 // --- Componente: Lightbox ---
 @use 'variables' as *;
 @use 'mixins' as *;
+
 .lightbox-overlay {
     position: fixed;
     inset: 0; // Equivalente a top, right, bottom, left = 0
-    background-color: $color-negro-transparente;
+    background-color: var(--lightbox-overlay);
     @include flex-center(column);
     z-index: 1000;
     opacity: 0;
@@ -95,7 +96,7 @@
 
 // Estilos para el título de la foto en el Lightbox
 .lightbox-caption {
-    color: $color-blanco;
+    color: var(--lightbox-texto);
     margin: 0;
     font-weight: 600;
     max-width: 80vw;

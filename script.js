@@ -1,3 +1,17 @@
+// ==========================================================================
+// SISTEMA DE TEMAS - Inicialización temprana
+// ==========================================================================
+// Cargamos el tema guardado ANTES de que se renderice la página para evitar el "flash"
+(function () {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+})();
+
+// ==========================================================================
+// LÓGICA PRINCIPAL DE LA APLICACIÓN
+// ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
     const estante = document.getElementById('estante-fotos');
     let pollingIntervalId = null; // Para controlar el intervalo de actualización automática
@@ -57,58 +71,58 @@ document.addEventListener('DOMContentLoaded', () => {
     function generarGaleria(listaDeFotos) {
         // Limpiamos el estante por si acaso
         estante.innerHTML = '';
-        
+
         // El resto del código es el mismo que ya tenías
         listaDeFotos.forEach((fotoData, index) => {
             // Recorremos la lista y creamos un portafotos por cada imagen
-                // 1. Crear el contenedor del portafotos
-                const portafotosDiv = document.createElement('div');
-                portafotosDiv.className = 'portafotos';
-                // --- Accesibilidad: Hacer que el portafotos sea interactivo para el teclado ---
-                portafotosDiv.setAttribute('role', 'button');
-                portafotosDiv.setAttribute('tabindex', '0');
-                portafotosDiv.setAttribute('data-tooltip', 'Ver en grande');
+            // 1. Crear el contenedor del portafotos
+            const portafotosDiv = document.createElement('div');
+            portafotosDiv.className = 'portafotos';
+            // --- Accesibilidad: Hacer que el portafotos sea interactivo para el teclado ---
+            portafotosDiv.setAttribute('role', 'button');
+            portafotosDiv.setAttribute('tabindex', '0');
+            portafotosDiv.setAttribute('data-tooltip', 'Ver en grande');
 
 
-                // --- NUEVA FUNCIONALIDAD: Añadir retraso escalonado a la animación ---
-                // Cada foto esperará 100ms más que la anterior para empezar su animación.
-                portafotosDiv.style.animationDelay = `${index * 100}ms`;
+            // --- NUEVA FUNCIONALIDAD: Añadir retraso escalonado a la animación ---
+            // Cada foto esperará 100ms más que la anterior para empezar su animación.
+            portafotosDiv.style.animationDelay = `${index * 100}ms`;
 
-                // 2. Crear la imagen
-                const imgContainer = document.createElement('div');
-                imgContainer.className = 'portafotos__imagen-container';
+            // 2. Crear la imagen
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'portafotos__imagen-container';
 
-                const img = document.createElement('img');
-                img.className = 'portafotos__imagen'; // Nueva clase para la imagen
-                img.loading = 'lazy'; // <-- ¡AQUÍ ESTÁ LA CARGA PEREZOSA!
-                img.src = `Fotos-Dulce/${fotoData.archivo}`; // Construimos la ruta a la imagen
-                // --- Accesibilidad: Mejorar el texto alternativo ---
-                img.alt = fotoData.descripcion;
+            const img = document.createElement('img');
+            img.className = 'portafotos__imagen'; // Nueva clase para la imagen
+            img.loading = 'lazy'; // <-- ¡AQUÍ ESTÁ LA CARGA PEREZOSA!
+            img.src = `Fotos-Dulce/${fotoData.archivo}`; // Construimos la ruta a la imagen
+            // --- Accesibilidad: Mejorar el texto alternativo ---
+            img.alt = fotoData.descripcion;
 
-                // 3. Crear el texto (caption)
-                const captionP = document.createElement('p');
-                captionP.className = 'portafotos__caption'; // Nueva clase para el caption
-                // Quitamos la extensión (.jpg, .png) para un título más limpio
-                captionP.textContent = fotoData.descripcion;
+            // 3. Crear el texto (caption)
+            const captionP = document.createElement('p');
+            captionP.className = 'portafotos__caption'; // Nueva clase para el caption
+            // Quitamos la extensión (.jpg, .png) para un título más limpio
+            captionP.textContent = fotoData.descripcion;
 
-                // 4. Juntar todo y añadirlo al estante
-                imgContainer.appendChild(img);
-                portafotosDiv.appendChild(imgContainer);
-                portafotosDiv.appendChild(captionP);
-                estante.appendChild(portafotosDiv);
+            // 4. Juntar todo y añadirlo al estante
+            imgContainer.appendChild(img);
+            portafotosDiv.appendChild(imgContainer);
+            portafotosDiv.appendChild(captionP);
+            estante.appendChild(portafotosDiv);
 
-                // --- NUEVA FUNCIONALIDAD: Añadir evento de clic ---
-                portafotosDiv.addEventListener('click', () => {
-                    ultimoElementoActivo = document.activeElement; // Guardamos el elemento que tenía el foco
-                    mostrarFotoEnGrande(index); // Pasamos el índice en lugar de la ruta
-                });
+            // --- NUEVA FUNCIONALIDAD: Añadir evento de clic ---
+            portafotosDiv.addEventListener('click', () => {
+                ultimoElementoActivo = document.activeElement; // Guardamos el elemento que tenía el foco
+                mostrarFotoEnGrande(index); // Pasamos el índice en lugar de la ruta
+            });
 
-                // --- Accesibilidad: Permitir activar con Enter/Espacio ---
-                portafotosDiv.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        portafotosDiv.click();
-                    }
-                });
+            // --- Accesibilidad: Permitir activar con Enter/Espacio ---
+            portafotosDiv.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    portafotosDiv.click();
+                }
+            });
         });
 
         console.log(`Se han cargado ${listaDeFotos.length} fotos dinámicamente desde fotos.json.`);
@@ -520,7 +534,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ==========================================================================
+    // FUNCIONALIDAD DE CAMBIO DE TEMA
+    // ==========================================================================
+    function initThemeToggle() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (!themeToggle) return;
+
+        // Evento de clic en el botón
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // También permitir cambiar con teclado
+        themeToggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleTheme();
+            }
+        });
+    }
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        // Aplicar el nuevo tema
+        document.documentElement.setAttribute('data-theme', newTheme);
+
+        // Guardar en localStorage
+        localStorage.setItem('theme', newTheme);
+
+        console.log(`Tema cambiado a: ${newTheme}`);
+    }
+
     // Iniciar todo el proceso
+    initThemeToggle(); // Inicializar el toggle de tema
     cargarYMostrarFotos();
     animarTitulo(); // Llamamos a la función para animar el título
 });
