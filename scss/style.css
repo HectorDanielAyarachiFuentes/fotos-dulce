@@ -72,7 +72,7 @@ body {
 }
 @media (max-width: 768px) {
   body {
-    padding: 1.5rem 1rem;
+    padding: 5rem 1rem 1.5rem;
   }
 }
 
@@ -90,7 +90,8 @@ h1 {
   h1 {
     display: block;
     width: 95%;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    padding: 0.75rem 0.875rem;
   }
 }
 h1.animated-title {
@@ -192,14 +193,14 @@ h1.animated-title span {
 }
 @media (max-width: 768px) {
   .theme-toggle {
-    top: 1rem;
-    right: 1rem;
-    width: 3rem;
-    height: 3rem;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 3.25rem;
+    height: 3.25rem;
   }
   .theme-toggle svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.4rem;
+    height: 1.4rem;
   }
 }
 
@@ -232,9 +233,9 @@ h1.animated-title span {
   .search-filter-container {
     width: 95%;
     flex-direction: column;
-    gap: 0.375rem;
-    margin: 0.5rem auto 1.5rem;
-    opacity: 0.75;
+    gap: 0.75rem;
+    margin: 1rem auto 2rem;
+    opacity: 0.9;
   }
 }
 
@@ -247,7 +248,6 @@ h1.animated-title span {
 @media (max-width: 768px) {
   .search-box {
     max-width: 100%;
-    transform: scale(0.9);
   }
 }
 .search-box input[type=search] {
@@ -265,8 +265,8 @@ h1.animated-title span {
 }
 @media (max-width: 768px) {
   .search-box input[type=search] {
-    padding: 0.375rem 2rem 0.375rem 2rem;
-    font-size: 0.6875rem;
+    padding: 0.625rem 2.5rem;
+    font-size: 0.875rem;
   }
 }
 .search-box input[type=search]::placeholder {
@@ -340,9 +340,8 @@ h1.animated-title span {
 }
 @media (max-width: 768px) {
   .filter-buttons {
-    gap: 0.25rem;
+    gap: 0.5rem;
     width: 100%;
-    transform: scale(0.85);
   }
 }
 .filter-buttons button {
@@ -368,10 +367,10 @@ h1.animated-title span {
 }
 @media (max-width: 768px) {
   .filter-buttons button {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.625rem;
-    gap: 0.1875rem;
-    border-width: 1px;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.9375rem;
+    gap: 0.375rem;
+    border-width: 2px;
   }
 }
 .filter-buttons button::before {
@@ -400,8 +399,8 @@ h1.animated-title span {
 }
 @media (max-width: 768px) {
   .filter-buttons button .count {
-    font-size: 0.5rem;
-    padding: 0.0625rem 0.1875rem;
+    font-size: 0.6875rem;
+    padding: 0.125rem 0.375rem;
   }
 }
 .filter-buttons button:hover {

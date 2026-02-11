@@ -26,9 +26,9 @@
     @media (max-width: $breakpoint-tablet) {
         width: 95%; // Más ancho en móvil
         flex-direction: column;
-        gap: 0.375rem; // MUY poco espacio
-        margin: 0.5rem auto 1.5rem; // Margen mínimo
-        opacity: 0.75; // Aún más sutil en móvil
+        gap: 0.75rem; // Espacio adecuado
+        margin: 1rem auto 2rem; // Mejor margen
+        opacity: 0.9; // Más visible en móvil
     }
 }
 
@@ -41,7 +41,7 @@
 
     @media (max-width: $breakpoint-tablet) {
         max-width: 100%;
-        transform: scale(0.9); // 10% más pequeño en móvil
+        // Sin escala - tamaño normal para mejor UX
     }
 
     input[type="search"] {
@@ -58,8 +58,8 @@
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); // Sombra MUY sutil
 
         @media (max-width: $breakpoint-tablet) {
-            padding: 0.375rem 2rem 0.375rem 2rem; // Aún más compacto
-            font-size: 0.6875rem; // Más pequeño
+            padding: 0.625rem 2.5rem; // Mejor tamaño para touch
+            font-size: 0.875rem; // Más legible
         }
 
         &::placeholder {
@@ -145,9 +145,9 @@
     padding: 0;
 
     @media (max-width: $breakpoint-tablet) {
-        gap: 0.25rem; // Espacio mínimo
+        gap: 0.5rem; // Espacio adecuado
         width: 100%;
-        transform: scale(0.85); // 15% más pequeño
+        // Sin escala - tamaño normal para mejor UX
     }
 
     button {
@@ -172,10 +172,10 @@
         isolation: isolate;
 
         @media (max-width: $breakpoint-tablet) {
-            padding: 0.25rem 0.5rem; // MUCHO más compacto
-            font-size: 0.625rem; // Muy pequeño
-            gap: 0.1875rem;
-            border-width: 1px; // Borde más fino
+            padding: 0.5rem 0.875rem; // Mejor tamaño para touch
+            font-size: 0.9375rem; // Aún más legible (15px)
+            gap: 0.375rem;
+            border-width: 2px; // Borde normal
         }
 
         // Efecto de brillo sutil - DEBE tener pointer-events: none
@@ -206,8 +206,8 @@
             transition: all 0.3s ease;
 
             @media (max-width: $breakpoint-tablet) {
-                font-size: 0.5rem; // Minúsculo en móvil
-                padding: 0.0625rem 0.1875rem;
+                font-size: 0.6875rem; // Más legible
+                padding: 0.125rem 0.375rem;
             }
         }
 

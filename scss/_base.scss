@@ -26,7 +26,7 @@ body {
 
     // Anidamos la media query aquí para tener todo lo de 'body' junto
     @media (max-width: $breakpoint-tablet) {
-        padding: 1.5rem 1rem;
+        padding: 5rem 1rem 1.5rem; // Más espacio arriba para evitar solapamiento con theme toggle
     }
 }
 
@@ -43,7 +43,8 @@ h1 {
     @media (max-width: $breakpoint-tablet) {
         display: block; // Ocupa el ancho disponible
         width: 95%;
-        font-size: 1.5rem;
+        font-size: 1.4rem; // Tamaño óptimo para que quepa "Mis Recuerdos con Dulce"
+        padding: 0.75rem 0.875rem; // Padding balanceado
     }
 
     // Estilos para el título animado
