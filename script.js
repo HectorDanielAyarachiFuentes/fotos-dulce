@@ -22,6 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let indiceActual = -1;       // Para saber qué foto se está mostrando en el lightbox
     let ultimoElementoActivo = null; // Para devolver el foco al cerrar el lightbox
 
+    // --- NUEVAS VARIABLES PARA BÚSQUEDA Y FILTROS ---
+    let currentCategory = 'todas'; // Categoría actualmente seleccionada
+    let currentSearchQuery = '';   // Texto de búsqueda actual
+    let allPhotos = [];            // Todas las fotos cargadas con sus datos completos
+
     // --- NUEVA FUNCIONALIDAD: Cargar fotos desde un JSON externo ---
     async function cargarYMostrarFotos() {
         try {
@@ -82,6 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
             portafotosDiv.setAttribute('role', 'button');
             portafotosDiv.setAttribute('tabindex', '0');
             portafotosDiv.setAttribute('data-tooltip', 'Ver en grande');
+
+            // --- NUEVO: Guardar datos de la foto en el elemento para filtrado ---
+            portafotosDiv.dataset.descripcion = fotoData.descripcion.toLowerCase();
+            if (fotoData.categorias) {
+                portafotosDiv.dataset.categorias = fotoData.categorias.join(',');
+            }
 
 
             // --- NUEVA FUNCIONALIDAD: Añadir retraso escalonado a la animación ---
@@ -566,8 +577,159 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(`Tema cambiado a: ${newTheme}`);
     }
 
+    // ==========================================================================
+    // BÚSQUEDA Y FILTROS
+    // ==========================================================================
+
+    function initSearchAndFilter() {
+        const searchInput = document.getElementById('search-input');
+        const clearButton = document.getElementById('clear-search');
+        const filterButtons = document.querySelectorAll('#filter-buttons button');
+
+        if (!searchInput || !clearButton || filterButtons.length === 0) {
+            console.error('No se encontraron los elementos de búsqueda y filtros');
+            return;
+        }
+
+        // Actualizar contadores iniciales
+        updateFilterCounts();
+
+        // Event listener para la búsqueda
+        searchInput.addEventListener('input', (e) => {
+            currentSearchQuery = e.target.value.toLowerCase().trim();
+
+            // Mostrar/ocultar botón de limpiar
+            if (currentSearchQuery) {
+                clearButton.classList.add('visible');
+            } else {
+                clearButton.classList.remove('visible');
+            }
+
+            applyFilters();
+        });
+
+        // Event listener para limpiar búsqueda
+        clearButton.addEventListener('click', () => {
+            searchInput.value = '';
+            currentSearchQuery = '';
+            clearButton.classList.remove('visible');
+            searchInput.focus();
+            applyFilters();
+        });
+
+        // Event listeners para los filtros de categoría
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.dataset.category;
+
+                // Actualizar estado activo
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                currentCategory = category;
+                applyFilters();
+            });
+        });
+
+        console.log('Búsqueda y filtros inicializados correctamente');
+    }
+
+    function applyFilters() {
+        const allPhotos = estante.querySelectorAll('.portafotos');
+        let visibleCount = 0;
+
+        allPhotos.forEach(photo => {
+            const descripcion = photo.dataset.descripcion || '';
+            const categorias = photo.dataset.categorias ? photo.dataset.categorias.split(',') : [];
+
+            const matchesSearch = !currentSearchQuery || descripcion.includes(currentSearchQuery);
+            const matchesCategory = currentCategory === 'todas' || categorias.includes(currentCategory);
+
+            const shouldShow = matchesSearch && matchesCategory;
+
+            if (shouldShow) {
+                visibleCount++;
+                showPhoto(photo);
+            } else {
+                hidePhoto(photo);
+            }
+        });
+
+        // Mostrar mensaje de "sin resultados" si no hay fotos visibles
+        const noResults = document.getElementById('no-results');
+        if (noResults) {
+            if (visibleCount === 0) {
+                noResults.classList.add('visible');
+            } else {
+                noResults.classList.remove('visible');
+            }
+        }
+
+        console.log(`Filtros aplicados: ${visibleCount} fotos visibles de ${allPhotos.length}`);
+    }
+
+    function showPhoto(element) {
+        if (element.classList.contains('hidden')) {
+            element.classList.remove('hidden', 'filtering-out');
+            element.classList.add('filtering-in');
+
+            // Remover clase de animación después de completar
+            setTimeout(() => {
+                element.classList.remove('filtering-in');
+            }, 500);
+        }
+    }
+
+    function hidePhoto(element) {
+        if (!element.classList.contains('hidden')) {
+            element.classList.add('filtering-out');
+
+            setTimeout(() => {
+                element.classList.remove('filtering-out');
+                element.classList.add('hidden');
+            }, 350);
+        }
+    }
+
+    function updateFilterCounts() {
+        const allPhotos = estante.querySelectorAll('.portafotos');
+        const counts = {
+            todas: allPhotos.length,
+            dulce: 0,
+            hector: 0,
+            juntos: 0,
+            artisticas: 0,
+            luna: 0
+        };
+
+        allPhotos.forEach(photo => {
+            const categorias = photo.dataset.categorias ? photo.dataset.categorias.split(',') : [];
+            categorias.forEach(cat => {
+                if (counts.hasOwnProperty(cat)) {
+                    counts[cat]++;
+                }
+            });
+        });
+
+        // Actualizar los contadores en los botones
+        Object.keys(counts).forEach(category => {
+            const button = document.querySelector(`button[data-category="${category}"]`);
+            if (button) {
+                const countSpan = button.querySelector('.count');
+                if (countSpan) {
+                    countSpan.textContent = `(${counts[category]})`;
+                }
+            }
+        });
+
+        console.log('Contadores actualizados:', counts);
+    }
+
     // Iniciar todo el proceso
     initThemeToggle(); // Inicializar el toggle de tema
-    cargarYMostrarFotos();
+    cargarYMostrarFotos().then(() => {
+        // Inicializar búsqueda y filtros después de cargar las fotos
+        initSearchAndFilter();
+    });
     animarTitulo(); // Llamamos a la función para animar el título
 });

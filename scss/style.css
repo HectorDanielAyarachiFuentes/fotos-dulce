@@ -212,6 +212,279 @@ h1.animated-title span {
   transform: rotate(-180deg) scale(0);
 }
 
+.search-filter-container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 1.5rem auto 4rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+@media (max-width: 768px) {
+  .search-filter-container {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1rem auto 2.5rem;
+  }
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+@media (max-width: 768px) {
+  .search-box {
+    max-width: 100%;
+  }
+}
+.search-box input[type=search] {
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+  border: none;
+  border-radius: 50px;
+  background: var(--color-blanco);
+  color: var(--color-titulo);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px var(--color-sombra-suave), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.search-box input[type=search]::placeholder {
+  color: var(--color-caption);
+  opacity: 0.5;
+  font-weight: 400;
+}
+.search-box input[type=search]:focus {
+  outline: none;
+  box-shadow: 0 4px 12px var(--color-sombra-hover), 0 0 0 2px rgba(93, 64, 55, 0.1);
+  transform: translateY(-1px);
+}
+.search-box input[type=search]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+.search-box .search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.875rem;
+  height: 0.875rem;
+  fill: none;
+  stroke: var(--color-caption);
+  pointer-events: none;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+.search-box input[type=search]:focus ~ .search-icon {
+  opacity: 0.8;
+  stroke: var(--color-titulo);
+}
+.search-box .clear-search {
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-caption);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: none;
+  color: var(--color-blanco);
+  font-size: 1rem;
+  line-height: 1;
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+.search-box .clear-search:hover {
+  background: var(--color-titulo);
+  transform: translateY(-50%) scale(1.1);
+}
+.search-box .clear-search:active {
+  transform: translateY(-50%) scale(0.95);
+}
+.search-box .clear-search.visible {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4375rem;
+  padding: 0;
+}
+.filter-buttons button {
+  position: relative;
+  padding: 0.4375rem 0.875rem;
+  border: 2px solid transparent;
+  border-radius: 50px;
+  background: var(--color-blanco);
+  color: var(--color-titulo);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  box-shadow: 0 1px 4px var(--color-sombra-suave), 0 1px 2px rgba(0, 0, 0, 0.05);
+  user-select: none;
+  -webkit-user-select: none;
+  isolation: isolate;
+}
+.filter-buttons button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+  pointer-events: none !important;
+  z-index: -1;
+}
+.filter-buttons button:hover::before {
+  left: 100%;
+}
+.filter-buttons button .count {
+  font-size: 0.625rem;
+  opacity: 0.65;
+  font-weight: 600;
+  padding: 0.0625rem 0.3125rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.filter-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px var(--color-sombra-hover), 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-titulo);
+}
+.filter-buttons button:hover .count {
+  background: rgba(0, 0, 0, 0.08);
+}
+.filter-buttons button.active {
+  background: linear-gradient(135deg, var(--color-titulo) 0%, rgb(60.9527027027, 41.9459459459, 36.0472972973) 100%);
+  color: var(--color-blanco);
+  border-color: var(--color-titulo);
+  box-shadow: 0 4px 12px var(--color-sombra-intensa), 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+.filter-buttons button.active .count {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0.95;
+}
+.filter-buttons button:active {
+  transform: translateY(0);
+}
+@media (max-width: 768px) {
+  .filter-buttons {
+    gap: 0.375rem;
+  }
+  .filter-buttons button {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.6875rem;
+  }
+  .filter-buttons button .count {
+    font-size: 0.5625rem;
+    padding: 0.0625rem 0.25rem;
+  }
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--color-caption);
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+.no-results.visible {
+  display: block;
+}
+.no-results .no-results-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.3;
+  animation: pulse 2s ease-in-out infinite;
+}
+.no-results h3 {
+  color: var(--color-titulo);
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.no-results p {
+  margin: 0;
+  font-size: 0.9375rem;
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.4;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1) rotate(var(--rotate, 0deg));
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.85) rotate(var(--rotate, 0deg));
+  }
+}
+@keyframes fadeInPhoto {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9) rotate(var(--rotate, 0deg));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--rotate, 0deg));
+  }
+}
+.portafotos.filtering-out {
+  animation: fadeOut 0.35s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+.portafotos.filtering-in {
+  animation: fadeInPhoto 0.5s cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+.portafotos.hidden {
+  display: none;
+}
+
 .estanteria-fotos {
   width: 90%;
   max-width: 1300px;
