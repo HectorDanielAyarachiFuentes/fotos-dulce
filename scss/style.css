@@ -234,7 +234,7 @@ h1.animated-title span {
     width: 95%;
     flex-direction: column;
     gap: 0.75rem;
-    margin: 0.75rem auto 1.25rem;
+    margin: 0.75rem auto 0.75rem;
     opacity: 0.9;
   }
 }
