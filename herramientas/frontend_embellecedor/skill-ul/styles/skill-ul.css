@@ -1,0 +1,266 @@
+/* ==========================================================================
+   SKILL-UL — Interactive Lists, Skill Bars, Badges & Spring Physics Engine
+   Focus: Stylized <ul> lists, fluid animated progress bars, dynamic tags,
+          floating badges with light-glare sweep, and radar/skills matrix.
+   ========================================================================== */
+
+:root {
+  --skill-cyan: #06b6d4;
+  --skill-purple: #8b5cf6;
+  --skill-indigo: #6366f1;
+  --skill-emerald: #10b981;
+  --skill-rose: #f43f5e;
+  --skill-bg-track: rgba(255, 255, 255, 0.08);
+
+  /* Spring Physics Easing approximation */
+  --skill-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --skill-ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   1. Stylized Lists (UL / OL)
+   -------------------------------------------------------------------------- */
+.skill-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skill-ul-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  transition: transform 0.25s var(--skill-ease-spring),
+              border-color 0.25s var(--skill-ease-smooth),
+              background-color 0.25s var(--skill-ease-smooth);
+}
+
+.skill-ul-item:hover {
+  transform: translateX(6px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
+.skill-ul-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.skill-ul-bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--skill-cyan);
+  box-shadow: 0 0 10px var(--skill-cyan);
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. Fluid Animated Progress Bars
+   -------------------------------------------------------------------------- */
+.skill-bar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.skill-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skill-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.skill-bar-percent {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--skill-cyan);
+}
+
+.skill-bar-track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background-color: var(--skill-bg-track);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.skill-bar-fill {
+  height: 100%;
+  width: 0%; /* Animado por JS */
+  background: linear-gradient(90deg, var(--skill-cyan), var(--skill-purple));
+  border-radius: 9999px;
+  position: relative;
+  transition: width 1.2s var(--skill-ease-smooth);
+}
+
+.skill-bar-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  animation: skillShimmer 2.4s infinite;
+}
+
+@keyframes skillShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* --------------------------------------------------------------------------
+   3. Interactive Badges con Brillo (Shine Sweep) & Floating
+   -------------------------------------------------------------------------- */
+.skill-badge-shine {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(18, 20, 30, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.3s var(--skill-ease-spring),
+              border-color 0.3s var(--skill-ease-smooth),
+              box-shadow 0.3s var(--skill-ease-smooth);
+}
+
+.skill-badge-shine::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  transition: all 0.65s var(--skill-ease-smooth);
+  pointer-events: none;
+}
+
+.skill-badge-shine:hover {
+  transform: translateY(-3px) scale(1.04);
+  border-color: var(--skill-cyan);
+  box-shadow: 0 8px 20px -4px rgba(6, 182, 212, 0.35);
+}
+
+.skill-badge-shine:hover::before {
+  left: 140%;
+}
+
+.skill-badge-floating {
+  animation: skillFloat 3.5s ease-in-out infinite;
+}
+
+@keyframes skillFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* --------------------------------------------------------------------------
+   4. Collapsible List con Spring Physics
+   -------------------------------------------------------------------------- */
+.skill-collapsible {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(18, 20, 30, 0.6);
+  overflow: hidden;
+  transition: border-color 0.25s ease;
+}
+
+.skill-collapsible:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.skill-collapsible-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+}
+
+.skill-collapsible-chevron {
+  transition: transform 0.35s var(--skill-ease-spring);
+}
+
+.skill-collapsible.is-open .skill-collapsible-chevron {
+  transform: rotate(180deg);
+}
+
+.skill-collapsible-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s var(--skill-ease-spring);
+}
+
+.skill-collapsible.is-open .skill-collapsible-content {
+  grid-template-rows: 1fr;
+}
+
+.skill-collapsible-inner {
+  overflow: hidden;
+  padding: 0 20px;
+  transition: padding 0.35s ease;
+}
+
+.skill-collapsible.is-open .skill-collapsible-inner {
+  padding: 0 20px 16px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Radar & Skills Matrix Container
+   -------------------------------------------------------------------------- */
+.skill-radar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(12, 14, 22, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+}

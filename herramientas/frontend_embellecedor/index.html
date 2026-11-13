@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend Embellecedor — Master Suite (UI Pro Max + Impeccable + Skill-UL)</title>
+  
+  <!-- Estilos de los 3 Módulos de Embellecimiento -->
+  <link rel="stylesheet" href="./ui-pro-max/styles/ui-pro-max.css">
+  <link rel="stylesheet" href="./impecable/styles/impeccable.css">
+  <link rel="stylesheet" href="./impecable/styles/buttons.css">
+  <link rel="stylesheet" href="./skill-ul/styles/skill-ul.css">
+
+  <style>
+    body {
+      margin: 0;
+      background-color: var(--pro-bg-deep);
+      color: var(--imp-text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .master-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--imp-space-8) var(--imp-space-4) var(--imp-space-20);
+      position: relative;
+      z-index: 10;
+    }
+
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--imp-space-3) var(--imp-space-4);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: var(--imp-space-3);
+      align-items: center;
+    }
+
+    .hero-section {
+      text-align: center;
+      padding: var(--imp-space-12) 0 var(--imp-space-8);
+    }
+
+    .hero-title {
+      font-size: var(--imp-font-2xl);
+      font-weight: 800;
+      letter-spacing: var(--imp-tracking-tighter);
+      line-height: var(--imp-leading-tight);
+      margin: var(--imp-space-4) 0;
+      background: linear-gradient(180deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-description {
+      font-size: var(--imp-font-md);
+      color: var(--imp-text-secondary);
+      max-width: 760px;
+      margin: 0 auto var(--imp-space-6);
+      line-height: var(--imp-leading-normal);
+    }
+
+    .pill-cluster {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--imp-space-2);
+      margin-bottom: var(--imp-space-10);
+    }
+
+    .module-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: var(--imp-space-6);
+      margin-bottom: var(--imp-space-12);
+    }
+
+    .section-title {
+      font-size: var(--imp-font-xl);
+      font-weight: 700;
+      letter-spacing: var(--imp-tracking-tight);
+      margin-bottom: var(--imp-space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--imp-space-2);
+    }
+
+    .showcase-tab-bar {
+      display: flex;
+      gap: var(--imp-space-2);
+      margin-bottom: var(--imp-space-4);
+      border-bottom: 1px solid var(--imp-border-subtle);
+      padding-bottom: var(--imp-space-2);
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--imp-text-secondary);
+      font-size: var(--imp-font-sm);
+      font-weight: 600;
+      padding: var(--imp-space-2) var(--imp-space-3);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all var(--imp-duration-fast) var(--imp-ease-out);
+    }
+
+    .tab-btn.is-active, .tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Accent Palette Switcher */
+    .accent-switcher {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--imp-border-subtle);
+    }
+
+    .accent-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform var(--imp-duration-fast) var(--imp-ease-out),
+                  border-color var(--imp-duration-fast) var(--imp-ease-out);
+    }
+
+    .accent-dot:hover {
+      transform: scale(1.2);
+    }
+
+    .accent-dot.is-active {
+      border-color: #ffffff;
+      transform: scale(1.15);
+    }
+
+    /* Vibe Coding Cockpit Cards */
+    .cockpit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--imp-space-6);
+      margin-bottom: var(--imp-space-10);
+    }
+
+    .cockpit-card {
+      position: relative;
+      background: var(--pro-bg-card);
+      border: 1px solid var(--pro-border-subtle);
+      border-radius: 16px;
+      padding: var(--imp-space-5);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: border-color var(--imp-duration-fast) var(--imp-ease-out),
+                  box-shadow var(--imp-duration-fast) var(--imp-ease-out);
+    }
+
+    .cockpit-card:hover {
+      border-color: var(--pro-border-active);
+      box-shadow: 0 12px 35px -10px rgba(0, 0, 0, 0.7);
+    }
+
+    .cockpit-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--imp-space-3);
+    }
+
+    .cockpit-icon-title {
+      display: flex;
+      align-items: center;
+      gap: var(--imp-space-3);
+    }
+
+    .cockpit-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .cockpit-command-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.78rem;
+      color: var(--pro-accent-cyan);
+      cursor: pointer;
+      user-select: all;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .cockpit-command-chip:hover {
+      background: rgba(0, 240, 255, 0.1);
+      border-color: var(--pro-accent-cyan);
+    }
+
+    .cockpit-principle-list {
+      list-style: none;
+      padding: 0;
+      margin: var(--imp-space-3) 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--imp-space-2);
+      font-size: var(--imp-font-xs);
+      color: var(--imp-text-secondary);
+    }
+
+    .cockpit-principle-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.4;
+    }
+
+    .footer {
+      border-top: 1px solid var(--pro-border-subtle);
+      padding: var(--imp-space-8) var(--imp-space-4);
+      text-align: center;
+      color: var(--imp-text-tertiary);
+      font-size: var(--imp-font-xs);
+    }
+  </style>
+</head>
+
+<body class="pro-theme-dark pro-mesh-background">
+
+  <!-- 1. HEADER TRANSLÚCIDO GLASSMORPHISM (ui-pro-max) -->
+  <header class="pro-header-glass">
+    <div class="nav-bar">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #00f0ff, #8b5cf6); box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);"></div>
+        <span style="font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em;">Frontend Embellecedor</span>
+      </div>
+
+      <nav class="nav-links">
+        <!-- Palette Switcher Dinámico -->
+        <div class="accent-switcher" data-tooltip="Cambiar color de acento del sistema">
+          <span style="font-size: 0.7rem; color: var(--imp-text-tertiary); margin-right: 4px; font-weight: 600;">ACENTO</span>
+          <div class="accent-dot is-active" data-accent="cyan" style="background: #00f0ff;" title="Cyan Neón"></div>
+          <div class="accent-dot" data-accent="emerald" style="background: #10b981;" title="Emerald Vibe"></div>
+          <div class="accent-dot" data-accent="purple" style="background: #8b5cf6;" title="Cyber Purple"></div>
+          <div class="accent-dot" data-accent="amber" style="background: #f59e0b;" title="Amber Gold"></div>
+        </div>
+
+        <a href="./ui-pro-max/demo.html" class="imp-btn imp-btn-ghost imp-btn-sm" data-tooltip="Abrir demo aislada de UI Pro Max">
+          UI Pro Max
+        </a>
+        <a href="./impecable/demo.html" class="imp-btn imp-btn-ghost imp-btn-sm" data-tooltip="Abrir demo aislada de Impeccable">
+          Impeccable
+        </a>
+        <a href="./skill-ul/demo.html" class="imp-btn imp-btn-ghost imp-btn-sm" data-tooltip="Abrir demo aislada de Skill-UL">
+          Skill-UL
+        </a>
+        <span class="pro-badge glow-cyan">
+          <span class="pro-pulse-dot"></span>
+          Master Engine
+        </span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="master-container">
+
+    <!-- HERO SECTION SINTÉTICA -->
+    <section class="hero-section">
+      <span class="pro-badge glow-purple" style="margin-bottom: var(--imp-space-3);">
+        <span class="pro-pulse-dot"></span> Tríada Visual de Alta Gama
+      </span>
+      <h1 class="hero-title">
+        La Fusión Definitiva de Estética Web
+      </h1>
+      <p class="hero-description">
+        <strong>UI Pro Max</strong> estructura el contraste y los bordes cinéticos. 
+        <strong>Impeccable</strong> sincroniza el espaciado matemático 8pt y la física de estados. 
+        <strong>Skill-UL</strong> potencia las listas dinámicas, progress bars y widgets de habilidades.
+      </p>
+
+      <!-- Badges Flotantes con Destello (skill-ul) -->
+      <div class="pill-cluster">
+        <span class="skill-badge-shine skill-badge-floating">
+          <span style="color: #00f0ff;">❖</span> UI Pro Max (Dark Obsidian & Beams)
+        </span>
+        <span class="skill-badge-shine skill-badge-floating" style="animation-delay: 0.6s;">
+          <span style="color: #3b82f6;">⚖</span> Impeccable (Pixel-Perfect & 8pt Grid)
+        </span>
+        <span class="skill-badge-shine skill-badge-floating" style="animation-delay: 1.2s;">
+          <span style="color: #10b981;">⚡</span> Skill-UL (Interactive Lists & Radar)
+        </span>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: var(--imp-space-3);">
+        <button class="imp-btn imp-btn-primary imp-btn-lg" data-tooltip="Probar componentes combinados">
+          Explorar Galería
+        </button>
+        <button class="imp-btn imp-btn-secondary imp-btn-lg" data-tooltip="Ver especificación de tokens">
+          Documentación
+        </button>
+      </div>
+    </section>
+
+    <!-- TRÍADA DE MÓDULOS (Tarjetas Spotlight + Beams) -->
+    <div class="module-card-grid">
+
+      <!-- Módulo 1: UI-PRO-MAX (Beam Card) -->
+      <div class="pro-beam-card">
+        <div class="pro-beam-content">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--imp-space-3);">
+            <span class="pro-badge glow-cyan">Pilar 1</span>
+            <span style="font-size: 0.8rem; color: var(--imp-text-tertiary);">ui-pro-max/</span>
+          </div>
+          <h2 style="font-size: var(--imp-font-lg); margin: 0 0 var(--imp-space-2); color: #fff;">
+            Contenedores & Bordes Cinéticos
+          </h2>
+          <p style="color: var(--imp-text-secondary); font-size: var(--imp-font-sm); margin-bottom: var(--imp-space-4); line-height: var(--imp-leading-normal);">
+            Borde beam con haz de luz continuo rotatorio a 60fps, fondos obsidian de alta densidad y headers translúcidos con desenfoque adaptativo.
+          </p>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="pro-stat-value" style="font-size: 1.5rem;">60 FPS</span>
+            <a href="./ui-pro-max/demo.html" class="imp-btn imp-btn-ghost imp-btn-sm">Abrir Módulo &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Módulo 2: IMPECCABLE (Spotlight Card) -->
+      <div class="pro-spotlight-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--imp-space-3);">
+          <span class="pro-badge glow-purple">Pilar 2</span>
+          <span style="font-size: 0.8rem; color: var(--imp-text-tertiary);">impecable/</span>
+        </div>
+        <h2 style="font-size: var(--imp-font-lg); margin: 0 0 var(--imp-space-2); color: #fff;">
+          Precisión y Rigor Matemático
+        </h2>
+        <p style="color: var(--imp-text-secondary); font-size: var(--imp-font-sm); margin-bottom: var(--imp-space-4); line-height: var(--imp-leading-normal);">
+          Grid de 4pt/8pt estricto, escala modular con clamp() inteligente, contraste WCAG AAA verificado (ratios &gt;7:1) y transiciones cubic-bezier sin tosquedad.
+        </p>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span class="pro-stat-value" style="font-size: 1.5rem;">AAA</span>
+          <a href="./impecable/demo.html" class="imp-btn imp-btn-ghost imp-btn-sm">Abrir Módulo &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Módulo 3: SKILL-UL (Spotlight Card) -->
+      <div class="pro-spotlight-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--imp-space-3);">
+          <span class="pro-badge glow-emerald">Pilar 3</span>
+          <span style="font-size: 0.8rem; color: var(--imp-text-tertiary);">skill-ul/</span>
+        </div>
+        <h2 style="font-size: var(--imp-font-lg); margin: 0 0 var(--imp-space-2); color: #fff;">
+          Listas Dinámicas & Habilidades
+        </h2>
+        <p style="color: var(--imp-text-secondary); font-size: var(--imp-font-sm); margin-bottom: var(--imp-space-4); line-height: var(--imp-leading-normal);">
+          Barras de progreso con brillo shimmer continuo, listas colapsables con resortes spring, badges interactivos con reflejo y radar interactivo en Canvas.
+        </p>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span class="pro-stat-value" style="font-size: 1.5rem;">Spring</span>
+          <a href="./skill-ul/demo.html" class="imp-btn imp-btn-ghost imp-btn-sm">Abrir Módulo &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECCIÓN INTERACTIVA SINTETIZADA: RADAR & BARRAS & LISTAS -->
+    <div class="pro-spotlight-card" style="margin-bottom: var(--imp-space-8);">
+      <div class="section-title">
+        <span style="color: #00f0ff;">◈</span>
+        Síntesis en Acción: Dashboard de Habilidades de Alta Gama
+      </div>
+      <p style="color: var(--imp-text-secondary); margin-bottom: var(--imp-space-6); font-size: var(--imp-font-sm);">
+        Observe cómo convergen los tres sistemas en un único panel de control interactivo:
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--imp-space-6);">
+        <!-- Barras de Progreso Animadas de skill-ul -->
+        <div>
+          <h3 style="font-size: var(--imp-font-md); margin-top: 0; color: #fff;">Matriz de Competencias Visuales</h3>
+          <div class="skill-bar-group">
+            <div class="skill-bar-wrapper">
+              <div class="skill-bar-header">
+                <span>Contraste & Geometría (UI Pro Max)</span>
+                <span class="skill-bar-percent">0%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" data-value="98"></div>
+              </div>
+            </div>
+
+            <div class="skill-bar-wrapper">
+              <div class="skill-bar-header">
+                <span>Precisión y Espaciado 8pt (Impeccable)</span>
+                <span class="skill-bar-percent">0%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" data-value="94"></div>
+              </div>
+            </div>
+
+            <div class="skill-bar-wrapper">
+              <div class="skill-bar-header">
+                <span>Microanimaciones & Resortes (Skill-UL)</span>
+                <span class="skill-bar-percent">0%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" data-value="91"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Acordeón con Spring Physics -->
+          <div class="skill-collapsible is-open" style="margin-top: var(--imp-space-5);">
+            <button class="skill-collapsible-trigger">
+              <span>Especificación de Directivas</span>
+              <span class="skill-collapsible-chevron">▾</span>
+            </button>
+            <div class="skill-collapsible-content">
+              <div class="skill-collapsible-inner">
+                <ul class="skill-ul">
+                  <li class="skill-ul-item">
+                    <div class="skill-ul-item-left">
+                      <span class="skill-ul-bullet"></span>
+                      <span>Contenedor & Cards: <code>ui-pro-max</code></span>
+                    </div>
+                    <span class="pro-badge glow-cyan" style="font-size: 0.7rem;">Activo</span>
+                  </li>
+                  <li class="skill-ul-item">
+                    <div class="skill-ul-item-left">
+                      <span class="skill-ul-bullet" style="background: #3b82f6; box-shadow: 0 0 8px #3b82f6;"></span>
+                      <span>Acabado, Botones & Ratios: <code>impecable</code></span>
+                    </div>
+                    <span class="pro-badge glow-purple" style="font-size: 0.7rem;">Activo</span>
+                  </li>
+                  <li class="skill-ul-item">
+                    <div class="skill-ul-item-left">
+                      <span class="skill-ul-bullet" style="background: #10b981; box-shadow: 0 0 8px #10b981;"></span>
+                      <span>Stacks, Tags & Listas: <code>skill-ul</code></span>
+                    </div>
+                    <span class="pro-badge glow-emerald" style="font-size: 0.7rem;">Activo</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Radar Canvas de skill-ul -->
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <h3 style="font-size: var(--imp-font-md); margin-top: 0; color: #fff; align-self: flex-start;">Firma Visual de Calidad</h3>
+          <div class="skill-radar-container" style="width: 100%; box-sizing: border-box;">
+            <canvas id="masterRadar" width="300" height="300" style="max-width: 100%;"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN VIBE CODING COCKPIT: PILA DE AGENTES & SKILLS -->
+    <div style="margin-bottom: var(--imp-space-12);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--imp-space-4); flex-wrap: wrap; gap: var(--imp-space-2);">
+        <div>
+          <span class="pro-badge glow-cyan" style="margin-bottom: var(--imp-space-2);"><span class="pro-pulse-dot"></span> Vibe Coding Stack</span>
+          <h2 style="font-size: var(--imp-font-xl); margin: var(--imp-space-1) 0 0; color: #fff; letter-spacing: -0.02em;">
+            Cerebro de Ingeniería & Reglas de Desarrollo
+          </h2>
+        </div>
+        <span style="font-size: var(--imp-font-xs); color: var(--imp-text-tertiary);">4 Pilares Activos en Vibecoding-Dulce</span>
+      </div>
+
+      <div class="cockpit-grid">
+        <!-- Tarjeta 1: Karpathy Skills -->
+        <div class="cockpit-card">
+          <div class="cockpit-header">
+            <div class="cockpit-icon-title">
+              <div class="cockpit-icon-box" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
+                🧠
+              </div>
+              <div>
+                <h3 style="margin: 0; font-size: var(--imp-font-md); color: #fff;">Karpathy Guidelines</h3>
+                <span style="font-size: 0.72rem; color: var(--imp-text-tertiary);">karpathy-skills/</span>
+              </div>
+            </div>
+            <span class="pro-badge glow-emerald" style="font-size: 0.68rem;">1st Principles</span>
+          </div>
+          <p style="font-size: var(--imp-font-xs); color: var(--imp-text-secondary); margin: 0 0 var(--imp-space-3); line-height: 1.5;">
+            Construcción incremental desde primeros principios. Validar formas de datos antes de entrenar o componer. Cero magia opaca.
+          </p>
+          <div style="margin-bottom: var(--imp-space-3);">
+            <span class="cockpit-command-chip" data-copy="Paso a paso: valida inputs, shapes y tipos antes de agregar abstracciones." data-tooltip="Copiar directiva">
+              📋 <span>Validar paso a paso</span>
+            </span>
+          </div>
+          <ul class="cockpit-principle-list">
+            <li><span style="color: #10b981;">✓</span> Pipeline reproducible con pruebas unitarias mínimas.</li>
+            <li><span style="color: #10b981;">✓</span> Evitar sobre-arquitectura en fases iniciales.</li>
+          </ul>
+        </div>
+
+        <!-- Tarjeta 2: Ponytail Engine -->
+        <div class="cockpit-card">
+          <div class="cockpit-header">
+            <div class="cockpit-icon-title">
+              <div class="cockpit-icon-box" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3);">
+                ✂️
+              </div>
+              <div>
+                <h3 style="margin: 0; font-size: var(--imp-font-md); color: #fff;">Ponytail Engine</h3>
+                <span style="font-size: 0.72rem; color: var(--imp-text-tertiary);">ponytail/ (v5 Senior Dev)</span>
+              </div>
+            </div>
+            <span class="pro-badge glow-amber" style="font-size: 0.68rem;">Anti-Bloat</span>
+          </div>
+          <p style="font-size: var(--imp-font-xs); color: var(--imp-text-secondary); margin: 0 0 var(--imp-space-3); line-height: 1.5;">
+            La escalera de 7 peldaños: reusar lo existente, usar la plataforma nativa, podar 50 líneas por 1 línea exacta que funciona.
+          </p>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: var(--imp-space-3);">
+            <span class="cockpit-command-chip" data-copy="/ponytail-review" data-tooltip="Copiar comando">
+              ⚡ <span>/ponytail-review</span>
+            </span>
+            <span class="cockpit-command-chip" data-copy="/ponytail-audit" data-tooltip="Copiar comando">
+              🔍 <span>/ponytail-audit</span>
+            </span>
+          </div>
+          <ul class="cockpit-principle-list">
+            <li><span style="color: #f59e0b;">✓</span> -53% de código inútil, 98% tests en lógica crítica.</li>
+            <li><span style="color: #f59e0b;">✓</span> Cero dependencias npm si el navegador ya lo resuelve.</li>
+          </ul>
+        </div>
+
+        <!-- Tarjeta 3: Agent-Skills & GitNexus -->
+        <div class="cockpit-card">
+          <div class="cockpit-header">
+            <div class="cockpit-icon-title">
+              <div class="cockpit-icon-box" style="background: rgba(0, 240, 255, 0.15); color: #00f0ff; border: 1px solid rgba(0, 240, 255, 0.3);">
+                🛡️
+              </div>
+              <div>
+                <h3 style="margin: 0; font-size: var(--imp-font-md); color: #fff;">Agent-Skills & GitNexus</h3>
+                <span style="font-size: 0.72rem; color: var(--imp-text-tertiary);">agent-skills/ + gitnexus</span>
+              </div>
+            </div>
+            <span class="pro-badge glow-cyan" style="font-size: 0.68rem;">Blast Radius</span>
+          </div>
+          <p style="font-size: var(--imp-font-xs); color: var(--imp-text-secondary); margin: 0 0 var(--imp-space-3); line-height: 1.5;">
+            Workflows profesionales de Addy Osmani + grafo de llamadas GitNexus. Pre-auditoría obligatoria de radio de impacto antes de editar.
+          </p>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: var(--imp-space-3);">
+            <span class="cockpit-command-chip" data-copy="/spec" data-tooltip="Copiar comando">
+              📝 <span>/spec</span>
+            </span>
+            <span class="cockpit-command-chip" data-copy="/plan" data-tooltip="Copiar comando">
+              🗺️ <span>/plan</span>
+            </span>
+            <span class="cockpit-command-chip" data-copy="/test" data-tooltip="Copiar comando">
+              🧪 <span>/test</span>
+            </span>
+          </div>
+          <ul class="cockpit-principle-list">
+            <li><span style="color: #00f0ff;">✓</span> Protección de zona prohibida (ECC Core .env / .git).</li>
+            <li><span style="color: #00f0ff;">✓</span> Mapeo de upstream / downstream con grafo AST.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    Frontend Embellecedor &copy; 2026 — Vibecoding-Dulce Suite de Excelencia Visual
+  </footer>
+
+  <!-- Scripts Modulares -->
+  <script type="module" src="./ui-pro-max/components/spotlight-card.js"></script>
+  <script type="module" src="./ui-pro-max/components/translucent-header.js"></script>
+  <script type="module" src="./impecable/components/tooltip.js"></script>
+  <script type="module">
+    import { initSkillBars } from './skill-ul/components/skill-bars.js';
+    import { createSkillRadar } from './skill-ul/components/skill-radar.js';
+    import { initCollapsibleLists } from './skill-ul/components/collapsible-list.js';
+
+    initSkillBars();
+    initCollapsibleLists();
+
+    createSkillRadar('masterRadar', [
+      { name: 'Contraste Pro', value: 96 },
+      { name: 'Borde Beam', value: 92 },
+      { name: 'Grilla 8pt', value: 95 },
+      { name: 'Micro-Estados', value: 90 },
+      { name: 'Spring Motion', value: 93 }
+    ]);
+
+    // Dinámica de Selector de Color de Acento
+    const accentColors = {
+      cyan: {
+        primary: '#00f0ff',
+        glow: 'rgba(0, 240, 255, 0.4)',
+        beam: 'linear-gradient(90deg, transparent, #00f0ff, transparent)'
+      },
+      emerald: {
+        primary: '#10b981',
+        glow: 'rgba(16, 185, 129, 0.4)',
+        beam: 'linear-gradient(90deg, transparent, #10b981, transparent)'
+      },
+      purple: {
+        primary: '#8b5cf6',
+        glow: 'rgba(139, 92, 246, 0.4)',
+        beam: 'linear-gradient(90deg, transparent, #8b5cf6, transparent)'
+      },
+      amber: {
+        primary: '#f59e0b',
+        glow: 'rgba(245, 158, 11, 0.4)',
+        beam: 'linear-gradient(90deg, transparent, #f59e0b, transparent)'
+      }
+    };
+
+    document.querySelectorAll('.accent-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        document.querySelectorAll('.accent-dot').forEach(d => d.classList.remove('is-active'));
+        dot.classList.add('is-active');
+        const key = dot.getAttribute('data-accent');
+        const palette = accentColors[key];
+        if (palette) {
+          document.documentElement.style.setProperty('--pro-accent-cyan', palette.primary);
+          document.documentElement.style.setProperty('--pro-border-glow', palette.glow);
+        }
+      });
+    });
+
+    // Copiado rápido de comandos y directivas de los chips
+    document.querySelectorAll('.cockpit-command-chip').forEach(chip => {
+      chip.addEventListener('click', async () => {
+        const text = chip.getAttribute('data-copy');
+        if (text) {
+          await navigator.clipboard.writeText(text);
+          const originalText = chip.innerHTML;
+          chip.innerHTML = `<span>✓ Copiado</span>`;
+          chip.style.borderColor = '#10b981';
+          chip.style.color = '#10b981';
+          setTimeout(() => {
+            chip.innerHTML = originalText;
+            chip.style.borderColor = '';
+            chip.style.color = '';
+          }, 1500);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

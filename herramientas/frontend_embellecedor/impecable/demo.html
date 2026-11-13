@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMPECCABLE UI — Design System de Precisión Geométrica</title>
+  <link rel="stylesheet" href="./styles/impeccable.css">
+  <link rel="stylesheet" href="./styles/buttons.css">
+  <style>
+    body {
+      margin: 0;
+      padding: var(--imp-space-8) var(--imp-space-4);
+      background-color: var(--imp-surface-bg);
+      color: var(--imp-text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+    }
+    .demo-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .card {
+      background: var(--imp-surface-card);
+      border: 1px solid var(--imp-border-subtle);
+      border-radius: 8px;
+      padding: var(--imp-space-6);
+      margin-bottom: var(--imp-space-6);
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--imp-space-4);
+    }
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--imp-space-3);
+    }
+    .scale-bar {
+      height: 6px;
+      background: var(--imp-color-primary);
+      border-radius: 3px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-container">
+    <div style="margin-bottom: var(--imp-space-8);">
+      <span style="color: var(--imp-color-primary); font-size: var(--imp-font-xs); font-weight: 700; text-transform: uppercase; letter-spacing: var(--imp-tracking-wide);">
+        SISTEMA DE DISEÑO PIXEL-PERFECT
+      </span>
+      <h1 style="font-size: var(--imp-font-2xl); font-weight: 800; letter-spacing: var(--imp-tracking-tighter); margin: var(--imp-space-2) 0 var(--imp-space-3);">
+        Impeccable UI Kit
+      </h1>
+      <p style="color: var(--imp-text-secondary); font-size: var(--imp-font-base); line-height: var(--imp-leading-normal); margin: 0;">
+        Espaciado matemático de rejilla 4pt/8pt, tipografía modular balanceada, paletas con ratio de contraste verificado WCAG AAA y micro-estados pulidos.
+      </p>
+    </div>
+
+    <!-- Botones y Estados -->
+    <div class="card">
+      <h2 style="font-size: var(--imp-font-lg); margin: 0 0 var(--imp-space-4);">1. Estados de Interacción Pulidos</h2>
+      <div class="flex-row" style="margin-bottom: var(--imp-space-4);">
+        <button class="imp-btn imp-btn-primary" data-tooltip="Botón Primario WCAG AAA">
+          Primario Activo
+        </button>
+        <button class="imp-btn imp-btn-secondary" data-tooltip="Secundario con Borde Sutil">
+          Secundario
+        </button>
+        <button class="imp-btn imp-btn-ghost" data-tooltip="Ghost con Hover Fluido">
+          Ghost
+        </button>
+        <button class="imp-btn imp-btn-primary" disabled>
+          Deshabilitado
+        </button>
+      </div>
+      <p style="color: var(--imp-text-tertiary); font-size: var(--imp-font-xs); margin: 0;">
+        Curva cúbica: <code>cubic-bezier(0.16, 1, 0.3, 1)</code> | Micro-scale en active: <code>scale(0.985)</code> | Tooltips con evasión de bordes.
+      </p>
+    </div>
+
+    <!-- Inputs Matemáticos -->
+    <div class="card">
+      <h2 style="font-size: var(--imp-font-lg); margin: 0 0 var(--imp-space-4);">2. Formularios de Precisión</h2>
+      <div class="grid-2">
+        <div>
+          <label class="imp-label" for="inp-email">Correo Electrónico</label>
+          <input id="inp-email" type="email" class="imp-input" placeholder="usuario@dominio.com">
+        </div>
+        <div>
+          <label class="imp-label" for="inp-code">Token de Acceso</label>
+          <input id="inp-code" type="text" class="imp-input" placeholder="imp_sec_9921">
+        </div>
+      </div>
+    </div>
+
+    <!-- Verificación de Contraste -->
+    <div class="card">
+      <h2 style="font-size: var(--imp-font-lg); margin: 0 0 var(--imp-space-4);">3. Contraste Verificado WCAG 2.1</h2>
+      <div class="grid-2">
+        <div style="background: var(--imp-surface-overlay); padding: var(--imp-space-4); border-radius: 6px; border: 1px solid var(--imp-border-subtle);">
+          <div style="color: var(--imp-text-primary); font-weight: 700;">Texto Primario (16.2:1)</div>
+          <div style="color: var(--imp-text-secondary); font-size: var(--imp-font-sm);">Texto Secundario (7.8:1 - AAA)</div>
+          <div style="color: var(--imp-color-success); font-size: var(--imp-font-sm); margin-top: 8px;">✔ Certificado para legibilidad máxima</div>
+        </div>
+        <div style="background: var(--imp-surface-overlay); padding: var(--imp-space-4); border-radius: 6px; border: 1px solid var(--imp-border-subtle);">
+          <div style="color: var(--imp-color-primary); font-weight: 700;">Acento Primario (#3b82f6)</div>
+          <div style="color: var(--imp-text-tertiary); font-size: var(--imp-font-sm);">Contraste UI de componentes: 5.2:1</div>
+          <div style="color: var(--imp-color-success); font-size: var(--imp-font-sm); margin-top: 8px;">✔ Sin tosquedad ni pérdida de claridad</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./components/tooltip.js"></script>
+</body>
+</html>

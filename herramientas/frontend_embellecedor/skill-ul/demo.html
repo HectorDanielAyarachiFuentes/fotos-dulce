@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SKILL-UL — Listas Interactivas y Componentes de Microhabilidades</title>
+  <link rel="stylesheet" href="./styles/skill-ul.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px 80px;
+      background-color: #0b0d14;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .panel {
+      background: rgba(18, 20, 32, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 24px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #94a3b8;
+      margin-bottom: 32px;
+    }
+    .badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div>
+      <span style="color: #06b6d4; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">
+        Componentes de Listas y Habilidades Visuales
+      </span>
+      <h1>Skill-UL Component Suite</h1>
+      <p class="subtitle">
+        Listas estilizadas &lt;ul&gt;, barras de progreso fluidas, badges flotantes con destello y widget de radar interactivo.
+      </p>
+    </div>
+
+    <!-- Sección de Badges con Brillo -->
+    <div class="panel" style="margin-bottom: 24px;">
+      <h3 style="margin-top: 0;">1. Badges Flotantes con Destello (Shine Sweep)</h3>
+      <p style="color: #94a3b8; font-size: 0.88rem;">Pasa el cursor por encima para ver el haz de luz oblicuo y la física de resorte.</p>
+      <div class="badges-row">
+        <span class="skill-badge-shine skill-badge-floating">
+          <span style="color: #06b6d4;">✦</span> React 19
+        </span>
+        <span class="skill-badge-shine skill-badge-floating" style="animation-delay: 0.5s;">
+          <span style="color: #8b5cf6;">★</span> TypeScript 5.8
+        </span>
+        <span class="skill-badge-shine skill-badge-floating" style="animation-delay: 1s;">
+          <span style="color: #10b981;">▲</span> Node.js / Bun
+        </span>
+        <span class="skill-badge-shine skill-badge-floating" style="animation-delay: 1.5s;">
+          <span style="color: #f43f5e;">⚡</span> Next.js SSR
+        </span>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Barras de Progreso Animadas -->
+      <div class="panel">
+        <h3 style="margin-top: 0;">2. Barras de Progreso Fluidas</h3>
+        <div class="skill-bar-group">
+          <div class="skill-bar-wrapper">
+            <div class="skill-bar-header">
+              <span>Frontend Architecture</span>
+              <span class="skill-bar-percent">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-value="95"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-wrapper">
+            <div class="skill-bar-header">
+              <span>Micro-Interacciones & CSS GPU</span>
+              <span class="skill-bar-percent">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-value="90"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-wrapper">
+            <div class="skill-bar-header">
+              <span>Accesibilidad & WCAG</span>
+              <span class="skill-bar-percent">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-value="85"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Radar de Habilidades -->
+      <div class="panel">
+        <h3 style="margin-top: 0;">3. Widget de Radar de Habilidades</h3>
+        <div class="skill-radar-container">
+          <canvas id="techRadar" width="280" height="280" style="max-width: 100%;"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista Colapsable con Resortes -->
+    <div class="panel">
+      <h3 style="margin-top: 0;">4. Lista Interactiva &lt;ul&gt; y Acordeón con Resorte</h3>
+      <div class="skill-collapsible is-open" style="margin-bottom: 16px;">
+        <button class="skill-collapsible-trigger">
+          <span>Árbol de Habilidades Principales</span>
+          <span class="skill-collapsible-chevron">▾</span>
+        </button>
+        <div class="skill-collapsible-content">
+          <div class="skill-collapsible-inner">
+            <ul class="skill-ul">
+              <li class="skill-ul-item">
+                <div class="skill-ul-item-left">
+                  <span class="skill-ul-bullet"></span>
+                  <strong>Sistemas de Diseño Basados en Tokens</strong>
+                </div>
+                <span style="color: #06b6d4; font-size: 0.85rem; font-weight: 600;">Avanzado</span>
+              </li>
+              <li class="skill-ul-item">
+                <div class="skill-ul-item-left">
+                  <span class="skill-ul-bullet" style="background: #8b5cf6; box-shadow: 0 0 10px #8b5cf6;"></span>
+                  <strong>Shaders CSS & Canvas GPU Rendering</strong>
+                </div>
+                <span style="color: #8b5cf6; font-size: 0.85rem; font-weight: 600;">Especialista</span>
+              </li>
+              <li class="skill-ul-item">
+                <div class="skill-ul-item-left">
+                  <span class="skill-ul-bullet" style="background: #10b981; box-shadow: 0 0 10px #10b981;"></span>
+                  <strong>Optimización Core Web Vitals (LCP, CLS, INP)</strong>
+                </div>
+                <span style="color: #10b981; font-size: 0.85rem; font-weight: 600;">100 / 100</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initSkillBars } from './components/skill-bars.js';
+    import { createSkillRadar } from './components/skill-radar.js';
+    import { initCollapsibleLists } from './components/collapsible-list.js';
+
+    initSkillBars();
+    initCollapsibleLists();
+
+    createSkillRadar('techRadar', [
+      { name: 'UI Pro', value: 95 },
+      { name: 'Motion', value: 90 },
+      { name: 'A11y', value: 85 },
+      { name: 'Tokens', value: 92 },
+      { name: 'Perf', value: 88 }
+    ]);
+  </script>
+</body>
+</html>

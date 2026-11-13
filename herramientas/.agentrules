@@ -1,0 +1,46 @@
+# Agent Directives & Operational Rules (Router Universal de Skills)
+
+> **REGLA DE ORO DE LECTURA EFICIENTE (Anti-Token Bloat):**
+> **PROHIBIDO leer o escanear todos los archivos del espacio de trabajo de una sola vez.**
+> Esta suite está organizada modularmente como un índice temático. Cuando recibas una tarea, **identifica qué necesitas y ve ÚNICAMENTE al directorio especializado correspondiente**.
+
+---
+
+## 🧭 Índice de Enrutamiento: "Si necesitas X, ve a Y"
+
+| ¿Qué vas a hacer? | Carpeta Destino | Qué encontrarás / Qué usar |
+| :--- | :--- | :--- |
+| **Crear / Estilizar Frontend o Web** | `frontend_embellecedor/` | • `ui-pro-max/`: fondos Obsidian `#050508`, bordes beam cinéticos y cards spotlight.<br>• `impecable/`: grilla 8pt, escala modular, contraste AAA y micro-estados.<br>• `skill-ul/`: listas `<ul>` interactivas, barras con shimmer y widget de radar.<br>• Mira `frontend_embellecedor/index.html` para la integración viva. |
+| **Limpiar código / Reducir complejidad / Evitar bloat** | `ponytail/` | • Reglas anti-bloat y escalera de 7 peldaños (reusar antes de codear).<br>• Consulta `ponytail/AGENTS.md` o `ponytail/skills/ponytail/SKILL.md`.<br>• Comandos sugeridos: `/ponytail-review`, `/ponytail-audit`. |
+| **Workflow de ingeniería / Spec / Plan / TDD / Review** | `agent-skills/` | • 25 habilidades de Addy Osmani (`agent-skills/skills/`).<br>• Especificación atómica: `skills/spec-driven-development/`.<br>• Planificación por tareas: `skills/planning-and-task-breakdown/`.<br>• Pruebas rigurosas: `skills/test-driven-development/`. |
+| **Lógica desde primeros principios / Modelos / Debugging** | `karpathy-skills/` | • `karpathy-skills/skills/karpathy-guidelines/SKILL.md`.<br>• Validar formas (shapes), tipos y datos paso a paso antes de añadir capas.<br>• Consulta ejemplos en `karpathy-skills/EXAMPLES.md`. |
+| **Mapear dependencias / Análisis de impacto** | `.gitnexus/` & MCP GitNexus | • Usa `gitnexus_impact` y `gitnexus_context` para mapear el radio de impacto (*blast radius*) de una función antes de tocarla. |
+
+---
+
+## 1. Convenciones de Nomenclatura (Buenas Prácticas)
+- **Cero espacios en rutas:** Usar siempre nombres en minúscula con guion bajo (`frontend_embellecedor/`) o guion medio (`agent-skills/`) para evitar saltos de escape en terminales (`\ `) y facilitar la navegación a cualquier agente o script.
+- **Acceso atómico:** No cargar carpetas completas en contexto si solo se necesita un archivo o componente específico.
+
+---
+
+## 2. Safety & Hard Boundaries (Zona Prohibida - ECC Core)
+- **Archivos protegidos:** Prohibido modificar o exponer `.env*`, `.git/`, tokens, credenciales y archivos de despliegue.
+- **Inmutabilidad:** No alterar firmas de funciones existentes ni refactorizar código sin autorización explícita previa.
+- **Operaciones terminal:** Prohibido ejecutar comandos destructivos (`rm -rf`, `git reset --hard`, `git push --force`).
+- **Edición atómica:** Realizar cambios quirúrgicos únicamente en las líneas necesarias; no reescribir archivos completos innecesariamente.
+
+---
+
+## 3. Protocolo de Auditoría con GitNexus (Obligatorio)
+Antes de proponer o aplicar cualquier cambio de código:
+1. **Pre-Auditoría:** Invocar `gitnexus_impact` o `gitnexus_context` para mapear el radio de impacto (*blast radius*) de las funciones a tocar.
+2. **Reporte:** Informar al usuario los archivos dependientes y el nivel de riesgo (Bajo / Medio / Alto).
+3. **Ejecución:** Aplicar los cambios autorizados.
+4. **Post-Auditoría:** Ejecutar `gitnexus_detect_changes` para certificar que no se introdujeron regresiones.
+
+---
+
+## 4. OmniRoute Strategy (Optimización de Modelos y Costos)
+- **Modelo Ligero (Fast / Haiku / Flash):** Aplicar para formateo, documentación (JSDoc), linting, commits y diffs rápidos.
+- **Modelo Avanzado (Deep / Sonnet / Opus):** Aplicar para análisis arquitectónico, resolución de bugs lógicos y auditoría de dependencias.
