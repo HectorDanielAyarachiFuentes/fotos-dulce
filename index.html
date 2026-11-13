@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="herramientas/frontend_embellecedor/impecable/styles/impeccable.css">
     <link rel="stylesheet" href="herramientas/frontend_embellecedor/impecable/styles/buttons.css">
     <link rel="stylesheet" href="herramientas/frontend_embellecedor/skill-ul/styles/skill-ul.css">
-    <link rel="stylesheet" href="album-editorial.css">
+    <!-- Estilos compilados de SCSS -->
+    <link rel="stylesheet" href="scss/style.css">
 
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐕</text></svg>">
@@ -158,7 +159,13 @@
         </div>
 
         <div class="album-lightbox-bottom">
-            <span style="font-size:0.85rem; color:rgba(255,255,255,0.6);">Navega con flechas del teclado ← →</span>
+            <div class="album-lightbox-hint">
+                <span>Navegar con</span>
+                <kbd class="album-kbd-badge">←</kbd>
+                <kbd class="album-kbd-badge">→</kbd>
+                <span>o</span>
+                <kbd class="album-kbd-badge">Esc</kbd>
+            </div>
             <div style="display:flex; gap:0.75rem;">
                 <a href="#" class="album-action-pill imp-btn imp-btn-primary" id="lightbox-download" download></a>
             </div>
