@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Recorremos la lista y creamos un portafotos por cada imagen
             // 1. Crear el contenedor del portafotos
             const portafotosDiv = document.createElement('div');
-            portafotosDiv.className = 'portafotos';
+            portafotosDiv.className = 'portafotos pro-spotlight-card';
             // --- Accesibilidad: Hacer que el portafotos sea interactivo para el teclado ---
             portafotosDiv.setAttribute('role', 'button');
             portafotosDiv.setAttribute('tabindex', '0');
@@ -140,6 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- NUEVA FUNCIONALIDAD: Habilitar el drag-and-drop en el estante ---
         inicializarDragAndDrop();
+
+        // Inicializar spotlight cards de UI-PRO-MAX
+        if (window.initSpotlightCards) {
+            window.initSpotlightCards('.pro-spotlight-card');
+        }
     }
 
     // --- Lógica para el Lightbox (vista en grande) ---
@@ -730,6 +735,9 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarYMostrarFotos().then(() => {
         // Inicializar búsqueda y filtros después de cargar las fotos
         initSearchAndFilter();
+        // Inicializar tooltips y spotlight
+        if (window.initTooltips) window.initTooltips('[data-tooltip]');
+        if (window.initSpotlightCards) window.initSpotlightCards('.pro-spotlight-card');
     });
     animarTitulo(); // Llamamos a la función para animar el título
 });

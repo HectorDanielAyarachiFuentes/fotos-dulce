@@ -1,126 +1,168 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería de Fotos de Dulce</title>
-    <link rel="stylesheet" href="scss/style.css">
-    <!-- Favicon SVG en línea -->
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+    <title>Dulce — Álbum Fotográfico & Memorias</title>
+
+    <!-- Google Fonts: Playfair Display + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+
+    <!-- Suite Frontend Embellecedor -->
+    <link rel="stylesheet" href="herramientas/frontend_embellecedor/ui-pro-max/styles/ui-pro-max.css">
+    <link rel="stylesheet" href="herramientas/frontend_embellecedor/impecable/styles/impeccable.css">
+    <link rel="stylesheet" href="herramientas/frontend_embellecedor/impecable/styles/buttons.css">
+    <link rel="stylesheet" href="herramientas/frontend_embellecedor/skill-ul/styles/skill-ul.css">
+    <link rel="stylesheet" href="album-editorial.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐕</text></svg>">
 </head>
 
 <body>
+    <!-- Efecto de Luz Ambiental Viva -->
+    <div class="ambient-glow"></div>
+    <!-- Canvas de Partículas Flotantes Suaves -->
+    <canvas id="particles-canvas"></canvas>
 
+    <!-- Navegación Superior -->
+    <header class="album-navbar">
+        <a href="#" class="album-brand">
+            <span class="album-brand-heart"></span>
+            <span>Dulce & Hector</span>
+        </a>
 
-    <h1 class="animated-title">Mis Recuerdos con Dulce</h1>
-
-    <!-- Controles de búsqueda y filtros -->
-    <div class="search-filter-container">
-        <div class="search-box">
-            <input type="search" id="search-input" placeholder="Buscar fotos..." autocomplete="off"
-                aria-label="Buscar fotos">
-            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.35-4.35" />
-            </svg>
-            <button class="clear-search" id="clear-search" aria-label="Limpiar búsqueda">×</button>
-
-            <!-- Botón de cambio de tema integrado -->
-            <button class="theme-toggle-inline" id="theme-toggle" aria-label="Cambiar tema" data-tooltip="Cambiar tema">
-                <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                </svg>
-                <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="5" />
-                    <line x1="12" y1="1" x2="12" y2="3" />
-                    <line x1="12" y1="21" x2="12" y2="23" />
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                    <line x1="1" y1="12" x2="3" y2="12" />
-                    <line x1="21" y1="12" x2="23" y2="12" />
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                </svg>
-            </button>
-        </div>
-
-        <div class="filter-buttons" id="filter-buttons">
-            <button data-category="todas" class="active" aria-label="Mostrar todas las fotos">
-                🎭 Todas <span class="count">(28)</span>
-            </button>
-            <button data-category="dulce" aria-label="Filtrar fotos de Dulce">
-                🐕 Dulce <span class="count">(0)</span>
-            </button>
-            <button data-category="hector" aria-label="Filtrar fotos de Hector">
-                👤 Hector <span class="count">(0)</span>
-            </button>
-            <button data-category="juntos" aria-label="Filtrar fotos juntos">
-                💑 Juntos <span class="count">(0)</span>
-            </button>
-            <button data-category="artisticas" aria-label="Filtrar fotos artísticas">
-                🎨 Artísticas <span class="count">(0)</span>
-            </button>
-            <button data-category="luna" aria-label="Filtrar fotos de Luna">
-                🌙 Luna <span class="count">(0)</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="estanteria-fotos">
-        <div class="estante" id="estante-fotos">
-            <!-- Los portafotos se generarán aquí dinámicamente -->
-        </div>
-    </div>
-
-    <!-- Mensaje cuando no hay resultados -->
-    <div class="no-results" id="no-results">
-        <div class="no-results-icon">🔍</div>
-        <h3>No se encontraron fotos</h3>
-        <p>Intenta con otra búsqueda o cambia el filtro</p>
-    </div>
-
-    <!-- Contenedor para la vista de foto en grande (oculto por defecto) -->
-    <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
-        <!-- Botones de navegación -->
-        <button class="btn-nav btn-anterior" id="btn-anterior" aria-label="Foto anterior"
-            data-tooltip="Anterior (←)">&lt;</button>
-        <div class="lightbox-content">
-            <img src="" alt="Foto ampliada" id="lightbox-img">
-        </div>
-        <button class="btn-nav btn-siguiente" id="btn-siguiente" aria-label="Foto siguiente"
-            data-tooltip="Siguiente (→)">&gt;</button>
-
-        <!-- Barra inferior de acciones (optimizada para móvil) -->
-        <div class="lightbox-bottom-bar">
-            <div class="lightbox-info">
-                <p class="lightbox-caption" id="lightbox-caption"></p>
-                <div class="lightbox-counter" id="lightbox-counter"></div>
-            </div>
-            <div class="lightbox-actions">
-                <button class="btn-lightbox btn-icon" id="btn-compartir" aria-label="Compartir"
-                    data-tooltip="Compartir"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        fill="currentColor" width="24" height="24">
-                        <path
-                            d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z">
-                        </path>
-                    </svg></button>
-                <a href="#" class="btn-lightbox btn-lightbox--primary btn-icon" id="btn-descargar" download
-                    aria-label="Descargar" data-tooltip="Descargar"><svg xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path>
-                    </svg></a>
-                <button class="btn-lightbox" id="btn-cerrar-lightbox" data-tooltip="Cerrar (Esc)">Volver</button>
+        <div class="album-nav-center">
+            <div class="album-search-wrapper">
+                <span class="album-search-icon-wrap"></span>
+                <input type="search" id="album-search" class="album-search-input" placeholder="Buscar entre las memorias..." autocomplete="off">
+                <button class="album-clear-btn" id="clear-search-btn" aria-label="Limpiar búsqueda">×</button>
             </div>
         </div>
+
+        <div class="album-nav-actions">
+            <button class="album-action-pill" id="album-btn-random" data-tooltip="Recuerdo sorpresa">
+                <span>Sorpresa</span>
+            </button>
+            <button class="album-action-pill" id="theme-toggle-btn" data-tooltip="Cambiar iluminación">
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Sección Hero Editorial -->
+        <section class="album-hero">
+            <div class="album-hero-content">
+                <span class="album-hero-badge">
+                    ✦ Edición Especial de Recuerdos
+                </span>
+                <h1 class="album-hero-title">El Álbum de Nuestra Historia</h1>
+                <p class="album-hero-desc">
+                    Una colección viva de momentos inolvidables, travesuras, disfraces y paseos. Explora cada retrato, guarda tus favoritos o navega en alta resolución.
+                </p>
+
+                <div class="album-stats-row">
+                    <div class="album-stat-card">
+                        <div class="album-stat-value" id="total-photos-count">28</div>
+                        <div class="album-stat-label">Retratos</div>
+                    </div>
+                    <div class="album-stat-card">
+                        <div class="album-stat-value">Infinitas</div>
+                        <div class="album-stat-label">Aventuras</div>
+                    </div>
+                    <div class="album-stat-card">
+                        <div class="album-stat-value">100%</div>
+                        <div class="album-stat-label">Amor Puro</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Polaroids Apiladas Interactivas (Auto-contenidas) -->
+            <div class="album-hero-stack">
+                <div class="hero-polaroid hero-polaroid-1" id="hero-p1">
+                    <img src="assets/images/Dulce-caminando.jpg" alt="Dulce">
+                </div>
+                <div class="hero-polaroid hero-polaroid-2" id="hero-p2">
+                    <img src="assets/images/Dulce-Hector.jpg" alt="Dulce y Hector">
+                </div>
+                <div class="hero-polaroid hero-polaroid-3" id="hero-p3">
+                    <img src="assets/images/Dulce-corazones.jpg" alt="Amor flotante">
+                </div>
+            </div>
+        </section>
+
+        <!-- Barra de Categorías / Filtros Vectoriales -->
+        <section class="album-categories-bar">
+            <div class="album-filter-pills" id="album-filters">
+                <button class="album-filter-btn active skill-badge-shine" data-category="todas">
+                    <span class="label-text">Todas</span> <span class="count">(28)</span>
+                </button>
+                <button class="album-filter-btn skill-badge-shine" data-category="favoritos">
+                    <span class="label-text">Favoritos</span> <span class="count">(0)</span>
+                </button>
+                <button class="album-filter-btn skill-badge-shine" data-category="dulce">
+                    <span class="label-text">Dulce</span> <span class="count">(0)</span>
+                </button>
+                <button class="album-filter-btn skill-badge-shine" data-category="juntos">
+                    <span class="label-text">Juntos</span> <span class="count">(0)</span>
+                </button>
+                <button class="album-filter-btn skill-badge-shine" data-category="artisticas">
+                    <span class="label-text">Creativas</span> <span class="count">(0)</span>
+                </button>
+                <button class="album-filter-btn skill-badge-shine" data-category="hector">
+                    <span class="label-text">Hector</span> <span class="count">(0)</span>
+                </button>
+                <button class="album-filter-btn skill-badge-shine" data-category="luna">
+                    <span class="label-text">Luna</span> <span class="count">(0)</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Galería de Tarjetas Masonry con Scroll Reveal -->
+        <section class="album-grid-container">
+            <div class="album-masonry" id="album-grid">
+                <!-- Inyectado por GalleryGrid -->
+            </div>
+
+            <!-- Estado Vacío -->
+            <div id="album-empty" style="display:none; text-align:center; padding: 4rem 1rem;">
+                <div style="font-size:3rem; margin-bottom:1rem;">🔍</div>
+                <h3 style="font-family:var(--font-serif); font-size:1.6rem; margin:0 0 0.5rem;">No se encontraron retratos</h3>
+                <p style="color:var(--album-text-muted);">Prueba ajustando el término de búsqueda o seleccionando otra categoría.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Lightbox Editorial de Pantalla Completa -->
+    <div class="album-lightbox" id="album-lightbox" role="dialog" aria-modal="true">
+        <div class="album-lightbox-top">
+            <div>
+                <h2 class="album-lightbox-title" id="lightbox-title">Recuerdo</h2>
+                <div class="album-lightbox-counter" id="lightbox-counter">1 de 28</div>
+            </div>
+            <button class="album-action-pill imp-btn" id="lightbox-close"></button>
+        </div>
+
+        <div class="album-lightbox-main">
+            <button class="album-lightbox-nav album-lightbox-prev" id="lightbox-prev" aria-label="Foto anterior"></button>
+            <img src="" alt="Ampliación" id="lightbox-img" class="album-lightbox-image">
+            <button class="album-lightbox-nav album-lightbox-next" id="lightbox-next" aria-label="Foto siguiente"></button>
+        </div>
+
+        <div class="album-lightbox-bottom">
+            <span style="font-size:0.85rem; color:rgba(255,255,255,0.6);">Navega con flechas del teclado ← →</span>
+            <div style="display:flex; gap:0.75rem;">
+                <a href="#" class="album-action-pill imp-btn imp-btn-primary" id="lightbox-download" download></a>
+            </div>
+        </div>
     </div>
 
-    <!-- Librerías de terceros -->
+    <!-- Librería Confetti y App Modular -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-    <script type="module" src="script.js"></script>
+    <script type="module" src="js/app.js"></script>
 </body>
 
 </html>

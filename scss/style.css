@@ -413,7 +413,7 @@ h1.animated-title span {
   background: rgba(0, 0, 0, 0.08);
 }
 .filter-buttons button.active {
-  background: linear-gradient(135deg, var(--color-titulo) 0%, rgb(60.9527027027, 41.9459459459, 36.0472972973) 100%);
+  background: linear-gradient(135deg, var(--color-titulo) 0%, rgb(23.9030206677%, 16.449390567%, 14.1361950185%) 100%);
   color: var(--color-blanco);
   border-color: var(--color-titulo);
   box-shadow: 0 4px 12px var(--color-sombra-intensa), 0 2px 6px rgba(0, 0, 0, 0.15);
@@ -548,7 +548,7 @@ h1.animated-title span {
   gap: 2rem;
   flex-wrap: wrap;
   transform: rotateX(10deg);
-  border-bottom: 1rem solid rgb(76.9763513514, 52.972972973, 45.5236486486);
+  border-bottom: 1rem solid rgb(30.1868044515%, 20.7737148914%, 17.8524112348%);
 }
 .estante::before {
   content: "";
@@ -557,7 +557,7 @@ h1.animated-title span {
   left: 0;
   right: 0;
   height: 1rem;
-  background: linear-gradient(to top, rgb(67.3621621622, 46.3567567568, 39.8378378378), #5d4037);
+  background: linear-gradient(to top, rgb(26.4165341812%, 18.1791202968%, 15.622681505%), #5d4037);
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   transform: translateZ(-1px);
@@ -571,7 +571,7 @@ h1.animated-title span {
 }
 
 .portafotos {
-  background: linear-gradient(145deg, rgb(219.5648854962, 207.4847328244, 184.9351145038), rgb(197.2961832061, 177.6244274809, 140.9038167939));
+  background: linear-gradient(145deg, rgb(86.1038766652%, 81.3665618919%, 72.5235743152%), rgb(77.3710522377%, 69.6566382278%, 55.2563987427%));
   box-shadow: 0 8px 16px var(--color-sombra-suave), 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.3);
   padding: 0.75rem;
   border-radius: 8px;
@@ -647,8 +647,8 @@ body:not(.sortable-active) .portafotos:hover .portafotos__imagen {
 }
 .portafotos__caption {
   position: relative;
-  background: linear-gradient(145deg, rgb(236.6946564885, 230.4541984733, 218.8053435115), rgb(185.3053435115, 161.5458015267, 117.1946564885));
-  color: rgb(44.9290540541, 30.9189189189, 26.5709459459);
+  background: linear-gradient(145deg, rgb(92.8214339171%, 90.3741954797%, 85.8060170633%), rgb(72.6687621614%, 63.3512947164%, 45.958688819%));
+  color: rgb(17.6192368839%, 12.1250662427%, 10.4199788023%);
   font-family: "Times New Roman", Times, serif;
   font-size: 0.75rem;
   font-style: normal;
@@ -666,7 +666,7 @@ body:not(.sortable-active) .portafotos:hover .portafotos__imagen {
   transform: translateY(-50%);
   width: 4px;
   height: 4px;
-  background-color: rgb(28.9054054054, 19.8918918919, 17.0945945946);
+  background-color: rgb(11.3354531002%, 7.8007419184%, 6.7037625861%);
   border-radius: 50%;
   box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.3);
 }
@@ -705,7 +705,7 @@ body:not(.sortable-active) .portafotos:hover .portafotos__imagen {
 @keyframes blink {
   50% {
     opacity: 0.6;
-    background-color: rgb(202.4351145038, 184.5152671756, 151.0648854962);
+    background-color: rgb(79.3863194133%, 72.3589283041%, 59.2411315671%);
   }
 }
 .portafotos-drag {
@@ -717,7 +717,7 @@ body:not(.sortable-active) .portafotos:hover .portafotos__imagen {
 
 .portafotos-ghost {
   opacity: 0.4;
-  background: rgb(193.8702290076, 173.0305343511, 134.1297709924);
+  background: rgb(76.0275407873%, 67.8551115103%, 52.5999101931%);
   border-radius: 8px;
   animation: blink 1.2s infinite ease-in-out;
 }
@@ -879,11 +879,11 @@ body:not(.sortable-active) .portafotos:hover .portafotos__imagen {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 .btn-lightbox--primary {
-  background: linear-gradient(to bottom, rgb(219.5648854962, 207.4847328244, 184.9351145038), rgb(202.4351145038, 184.5152671756, 151.0648854962));
+  background: linear-gradient(to bottom, rgb(86.1038766652%, 81.3665618919%, 72.5235743152%), rgb(79.3863194133%, 72.3589283041%, 59.2411315671%));
   color: var(--color-titulo);
 }
 .btn-lightbox--primary:hover {
-  background: linear-gradient(to bottom, rgb(224.7038167939, 214.3755725191, 195.0961832061), rgb(207.5740458015, 191.4061068702, 161.2259541985));
+  background: linear-gradient(to bottom, rgb(88.1191438407%, 84.0688519683%, 76.5083071396%), rgb(81.4015865888%, 75.0612183805%, 63.2258643916%));
 }
 .btn-lightbox.btn-icon {
   padding: 0.6rem;
