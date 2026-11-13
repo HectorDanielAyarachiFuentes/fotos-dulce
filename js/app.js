@@ -66,6 +66,9 @@ class DulceAlbumApp {
         if (clearBtn) clearBtn.innerHTML = icons.close;
 
         // Botones navbar
+        const musicIconWrap = document.querySelector('.music-icon-wrap');
+        if (musicIconWrap) musicIconWrap.innerHTML = icons.music;
+
         const randomBtn = document.getElementById('album-btn-random');
         if (randomBtn) randomBtn.innerHTML = `${icons.sparkles} <span>Sorpresa</span>`;
 
@@ -174,6 +177,33 @@ class DulceAlbumApp {
                     clearBtn.classList.remove('visible');
                     this.filtrarYRederizar();
                     searchInput.focus();
+                }
+            });
+        }
+
+        // Música ambiental de recuerdos
+        const musicBtn = document.getElementById('music-toggle-btn');
+        const audio = document.getElementById('album-audio');
+        let playingMusic = false;
+
+        if (musicBtn && audio) {
+            musicBtn.addEventListener('click', () => {
+                const iconWrap = musicBtn.querySelector('.music-icon-wrap');
+                const label = musicBtn.querySelector('.music-label');
+
+                if (!playingMusic) {
+                    audio.play().then(() => {
+                        playingMusic = true;
+                        musicBtn.classList.add('active');
+                        if (iconWrap) iconWrap.innerHTML = icons.volume2;
+                        if (label) label.textContent = 'Sonando';
+                    }).catch(e => console.log('Audio error:', e));
+                } else {
+                    audio.pause();
+                    playingMusic = false;
+                    musicBtn.classList.remove('active');
+                    if (iconWrap) iconWrap.innerHTML = icons.music;
+                    if (label) label.textContent = 'Música';
                 }
             });
         }
