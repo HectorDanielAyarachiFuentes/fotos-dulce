@@ -30,6 +30,130 @@
   --album-border-gold: rgba(217, 119, 6, 0.35);
 }
 
+/* Tooltip nativo de ultra-precisión */
+.imp-tooltip {
+  position: fixed !important;
+  background-color: rgba(15, 17, 26, 0.92) !important;
+  color: #ffffff !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.76rem !important;
+  font-weight: 600 !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  transition: opacity 0.15s ease !important;
+  z-index: 99999 !important;
+  line-height: 1.3 !important;
+}
+
+[data-theme="light"] .imp-tooltip {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  color: #1c1917 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.08) !important;
+}
+
+.imp-tooltip::after {
+  display: none !important; /* Elimina flechas estáticas desalineadas */
+}
+
+/* Contraste en modo claro para la barra y botones */
+[data-theme="light"] .album-navbar {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .album-search-input {
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--album-text-main);
+}
+
+[data-theme="light"] .album-action-pill {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--album-text-main);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .album-action-pill:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .album-action-pill.active {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--album-gold);
+  color: #b45309;
+}
+
+[data-theme="light"] .album-filter-btn {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--album-text-muted);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .album-filter-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--album-text-main);
+}
+
+[data-theme="light"] .album-filter-btn.active {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: #ffffff;
+  border-color: #f59e0b;
+}
+
+[data-theme="light"] .hero-polaroid {
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .album-card {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .album-card-badge {
+  background: rgba(255, 255, 255, 0.85);
+  color: #1c1917;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Lightbox UX & Contraste Profesional */
+.album-lightbox-top .album-action-pill {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.album-lightbox-top .album-action-pill:hover {
+  background: rgba(255, 255, 255, 0.22) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.album-lightbox-bottom .imp-btn-primary {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  color: #ffffff !important;
+  border: none !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4) !important;
+}
+
+.album-lightbox-bottom .imp-btn-primary:hover {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5) !important;
+}
+
+.album-lightbox-nav {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.album-lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.28) !important;
+  transform: translateY(-50%) scale(1.12) !important;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
